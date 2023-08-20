@@ -3,27 +3,30 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "theme": "cat ./_config.theme.yml > ./themes/purer/_config.yml ",
-    "build": "npm run theme && hexo generate",
-    "clean": "npm run theme && hexo clean",
-    "deploy": "npm run theme && hexo deploy",
-    "server": "npm run theme && hexo server"
+    "build": "hexo generate",
+    "clean": "hexo clean",
+    "deploy": "hexo clean && hexo deploy",
+    "server": "hexo server"
   },
   "hexo": {
     "version": "6.3.0"
   },
   "dependencies": {
     "hexo": "^6.3.0",
+    "hexo-browsersync": "^0.3.0",
     "hexo-deployer-git": "^4.0.0",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
     "hexo-generator-index": "^3.0.0",
+    "hexo-generator-json-content": "^4.2.3",
+    "hexo-generator-searchdb": "^1.4.1",
     "hexo-generator-tag": "^2.0.0",
+    "hexo-optimize": "^3.3.0",
     "hexo-renderer-ejs": "^2.0.0",
     "hexo-renderer-marked": "^6.0.0",
     "hexo-renderer-stylus": "^3.0.0",
     "hexo-server": "^3.0.0",
-    "hexo-theme-landscape": "^1.0.0",
+    "hexo-theme-next": "^8.18.0",
     "hexo-wordcount": "^6.0.1"
   }
 }

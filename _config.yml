@@ -7,13 +7,13 @@ title: Hexo
 subtitle: ''
 description: ''
 keywords:
-author: John Doe
+author: Felix Zhao
 language: zh-CN
 timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://zhaofelix.github.io/qingmao.github.io
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -23,7 +23,7 @@ pretty_urls:
 # Directory
 source_dir: source
 public_dir: public
-tag_dir: tags
+tag_dir: tags0
 archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
@@ -97,11 +97,20 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: purer
+theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/ZhaoFelix/qingmao.github.io.git
+  repo: https://github.com/ZhaoFelix/swift-blogs.git
   branch: master
   # message: [message]
+
+tag_generator:
+  enable_index_page: false
+
+search:
+  path: search.xml
+  field: post
+  content: true
+  format: html
