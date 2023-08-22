@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Swift 中的常量和变量</title>
+    <url>/swift-blogs/2023/08/22/Swift-%E4%B8%AD%E7%9A%84%E5%B8%B8%E9%87%8F%E5%92%8C%E5%8F%98%E9%87%8F/</url>
+    <content><![CDATA[<h1 id="常量-变量"><a href="#常量-变量" class="headerlink" title="常量 &amp; 变量"></a>常量 &amp; 变量</h1><p>常量一旦被设置就不能被更改，使用关键字<strong>let</strong> 。变量被设置之后是可以被修改的，使用关键字<strong>var</strong>。</p>
+<h2 id="声明常量和变量"><a href="#声明常量和变量" class="headerlink" title="声明常量和变量"></a>声明常量和变量</h2><p>常量和变量之后在被声明后才能使用，声明方式如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">let</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码的意思是：</p>
+<p>“声明一个名为num，数据类型为<strong>Int</strong>，值为8的变量。然后声明一个名为x，数据类型为<strong>Int</strong>，值为10的常量。”</p>
+<p>你可以在一行中声明多个常量或变量，使用逗号隔开：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>,y:<span class="type">Int</span> <span class="operator">=</span> <span class="number">12</span>,z:<span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="类型标注"><a href="#类型标注" class="headerlink" title="类型标注"></a>类型标注</h2><p>在上面常量与变量的声明中，我们标识的常量和变量数据类型均为<strong>Int</strong>类型。这意味着变量num和常量x在进行赋值时只能赋<strong>Int</strong>类型的数值。</p>
+<p>上面的错误显示的是把一个字符串类型的10赋值给了一个指定类型为<strong>Int</strong>的常量，这在Swift中是不被允许的。</p>
+<p>你可以在一行中定义多个相同类型的常量或者变量，只需要在结尾加上数据类型即可：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x,y,z:<span class="type">Int</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="类型安全与类型推断"><a href="#类型安全与类型推断" class="headerlink" title="类型安全与类型推断"></a>类型安全与类型推断</h2><p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚地知道代码可以处理的值的类型。如果你的一部分代码期望获得<strong>String</strong>类型的值，你就不能错误的传给它一个<strong>Int</strong>类型的值。</p>
+<p>因为Swift是类型安全的语言，所以Swift在编译的过程中会进行类型检查，任何不匹配的类型都会被标记为错误。</p>
+<p>类型检查可以帮助我们在对一个已经声明好的常量或者变量进行赋值时，能够准备无误的赋一个指定类型的数据。但是，类型检查并不意味着我们每次声明时都需要明确指定数据类型，我们可以通过Swift中的类型判断来完成数据类型的指定。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> y <span class="operator">=</span> <span class="number">10.0</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中，我们并没有给变量指定数据类型。Swift在编译的过程中通过类型判断推断x为<strong>Int</strong>类型，y为<strong>Double</strong>类型。</p>
+<h2 id="常量与变量的命名"><a href="#常量与变量的命名" class="headerlink" title="常量与变量的命名"></a>常量与变量的命名</h2><p>常量和变量的命名几乎可以使用任何的字符，包括Unicode字符：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 你好 <span class="operator">=</span> <span class="string">&quot;你好&quot;</span></span><br><span class="line"><span class="keyword">var</span> 😃 <span class="operator">=</span>  <span class="string">&quot;😃&quot;</span></span><br><span class="line"><span class="keyword">var</span> `let` <span class="operator">=</span> <span class="string">&quot;let&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，在使用Swift中关键字进行命名是需要添加反引号（&#96;）。</p>
+<p>虽然Swift在命名上可以使用很多字符，但是为了开发的方便与后期维护建议开发者在命名时尽量遵循一些标准化的命名规范，例如驼峰式命名法。</p>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Foundation</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift 介绍</title>
     <url>/swift-blogs/2023/08/22/Swift-%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<h1 id="Swift-编程语言介绍"><a href="#Swift-编程语言介绍" class="headerlink" title="Swift 编程语言介绍"></a>Swift 编程语言介绍</h1><p>Swift 是一种强大且直观的编程语言，由 Apple Inc. 开发，用于 iOS, macOS, watchOS 和 tvOS 的应用开发。Swift 结合了 C 和 Objective-C 的优点，并且支持函数式编程，面向对象编程和泛型编程。它的目标是提供一种安全、高效、灵活和现代化的编程语言，可以让开发者创造出更快、更稳定、更易用的应用程序。</p>
@@ -14,6 +50,9 @@
 <h3 id="Playgrounds"><a href="#Playgrounds" class="headerlink" title="Playgrounds"></a>Playgrounds</h3><p>Xcode 集成了一个强大的交互式编程环境——Playgrounds。你可以在 Playgrounds 中尝试 Swift 的各种特性，而无需创建完整的项目。</p>
 <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Swift 是一种强大、直观且安全的编程语言，它专注于提供最好的用户体验和性能。无论你是初学者还是有经验的开发者，Swift 都能帮助你更有效地编写代码。</p>
 ]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
       <tags>
         <tag>Swift</tag>
         <tag>Apple</tag>
@@ -34,6 +73,9 @@
 <p>这个示例展示了一个简单的页面，包含一个标题和一个按钮。当用户点击按钮时，控制台会输出 “Button tapped!”。你可以根据自己的需求修改这个示例，或者尝试创建更复杂的界面。</p>
 <p>总之，SwiftUI 是一种功能强大、易于使用的 UI 开发框架，它可以帮助你更高效地构建出美观且响应式的应用程序。如果你已经熟悉 Swift 语言，那么学习 SwiftUI 将会是一件非常愉快的事情。</p>
 ]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
       <tags>
         <tag>Swift</tag>
         <tag>Apple</tag>
