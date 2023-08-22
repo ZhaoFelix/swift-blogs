@@ -12,6 +12,8 @@
 <p>你可以在一行中声明多个常量或变量，使用逗号隔开：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>,y:<span class="type">Int</span> <span class="operator">=</span> <span class="number">12</span>,z:<span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
 
+<span id="more"></span>
+
 <h2 id="类型标注"><a href="#类型标注" class="headerlink" title="类型标注"></a>类型标注</h2><p>在上面常量与变量的声明中，我们标识的常量和变量数据类型均为<strong>Int</strong>类型。这意味着变量num和常量x在进行赋值时只能赋<strong>Int</strong>类型的数值。</p>
 <p>上面的错误显示的是把一个字符串类型的10赋值给了一个指定类型为<strong>Int</strong>的常量，这在Swift中是不被允许的。</p>
 <p>你可以在一行中定义多个相同类型的常量或者变量，只需要在结尾加上数据类型即可：</p>
@@ -40,6 +42,8 @@
     <title>Swift 介绍</title>
     <url>/swift-blogs/2023/08/22/Swift-%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<h1 id="Swift-编程语言介绍"><a href="#Swift-编程语言介绍" class="headerlink" title="Swift 编程语言介绍"></a>Swift 编程语言介绍</h1><p>Swift 是一种强大且直观的编程语言，由 Apple Inc. 开发，用于 iOS, macOS, watchOS 和 tvOS 的应用开发。Swift 结合了 C 和 Objective-C 的优点，并且支持函数式编程，面向对象编程和泛型编程。它的目标是提供一种安全、高效、灵活和现代化的编程语言，可以让开发者创造出更快、更稳定、更易用的应用程序。</p>
+<span id="more"></span>
+
 <h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>Swift 强调类型安全和内存管理。它不允许隐式转换到不安全的类型，这可以防止许多常见的编程错误。此外，Swift 使用自动引用计数（ARC）来管理内存，减少了内存泄露的可能性。</p>
 <h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>Swift 旨在提供高性能的应用程序。它的编译器进行了优化，以提高运行速度和减少能源消耗。Swift 的语法糖也有助于编写简洁且高效的代码。</p>
 <h3 id="易用性"><a href="#易用性" class="headerlink" title="易用性"></a>易用性</h3><p>Swift 的语法清晰简洁，易于学习和使用。它的设计哲学是“简单就是美”，使得 Swift 代码既美观又易读。</p>
@@ -63,6 +67,8 @@
     <url>/swift-blogs/2023/08/22/SwiftUI-%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<h1 id="SwiftUI-简介"><a href="#SwiftUI-简介" class="headerlink" title="SwiftUI 简介"></a>SwiftUI 简介</h1><p>SwiftUI 是 Apple 在 2019 年 WWDC 推出的一种现代化的 UI 开发框架，它是 iOS 13 和 macOS Catalina 的一部分。SwiftUI 可以让用户更容易地创建美观且响应式的用户界面，并且与 Core Data、Realm 等数据存储解决方案集成得非常好。此外，SwiftUI 还在不断更新和完善，以满足开发者的需求。</p>
 <h2 id="SwiftUI-的特点"><a href="#SwiftUI-的特点" class="headerlink" title="SwiftUI 的特点"></a>SwiftUI 的特点</h2><h3 id="声明式编程"><a href="#声明式编程" class="headerlink" title="声明式编程"></a>声明式编程</h3><p>SwiftUI 采用了声明式编程的方式，与传统的命令式编程相比，这种方式让代码更加简洁易读。你只需要描述应用程序的界面应该如何显示，而不需要详细指定每一个视图的属性和方法。</p>
+<span id="more"></span>
+
 <h3 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h3><p>SwiftUI 提供了强大的响应式布局能力，可以轻松地创建出适应不同设备和屏幕尺寸的应用程序。它支持线性布局、网格布局和灵活的布局组合，让你可以轻松地构建出复杂的界面。</p>
 <h3 id="内置动画和过渡"><a href="#内置动画和过渡" class="headerlink" title="内置动画和过渡"></a>内置动画和过渡</h3><p>SwiftUI 提供了丰富的内置动画和过渡效果，可以让你轻松地为应用程序添加生动的交互效果。这些动画和过渡效果与硬件加速相结合，可以让你的应用程序看起来更加流畅和自然。</p>
 <h3 id="与-Core-Data-和-Realm-集成"><a href="#与-Core-Data-和-Realm-集成" class="headerlink" title="与 Core Data 和 Realm 集成"></a>与 Core Data 和 Realm 集成</h3><p>SwiftUI 可以很容易地与 Core Data 和 Realm 等数据存储解决方案集成。你可以在应用程序中方便地访问和操作数据，而无需手动处理繁琐的数据库操作。</p>
