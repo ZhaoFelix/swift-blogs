@@ -63,6 +63,126 @@
       </tags>
   </entry>
   <entry>
+    <title>Swift 中的数据类型</title>
+    <url>/swift-blogs/2023/08/24/Swift-%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
+    <content><![CDATA[<h4 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h4><p>整数是没有小数部分的数字。整数可以是有符号的或者无符号。Swift提供来8，16，32和64位编码的有符号和无符号整数，例如UInt8表示8位无符号的整数，Int32表示32有符号整数。</p>
+<span id="more"></span>
+
+<h5 id="Int"><a href="#Int" class="headerlink" title="Int"></a>Int</h5><p>Swift 提供了一个特殊的整数类型<strong>Int</strong>，长度与当前平台的原生字长相同：</p>
+<ul>
+<li>在32位平台上，Int和Int32长度相同。</li>
+<li>在64位平台上，Int和Int64长度相同。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> age:<span class="type">Int</span> <span class="operator">=</span> <span class="number">27</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>除非你需要特定长度的整数，一般来说使用Int就够了。这可以提高代码一致性和可复用性。即使是在32位平台上，Int可以存储的整数范围也可以达到-2,147,483,648~2,147,483,647，大多数时候这已经足够大了。</p>
+<h5 id="UInt"><a href="#UInt" class="headerlink" title="UInt"></a>UInt</h5><p>Swift 也提供了一个特殊的无符号类型<strong>UInt</strong>，长度与当前平台的原生字长相同：</p>
+<ul>
+<li>在32位平台上，<strong>UInt</strong>和<strong>UInt32</strong>长度相同。</li>
+<li>在64位平台上，<strong>UInt</strong>和<strong>UInt64</strong>长度相同。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> age:<span class="type">UInt</span> <span class="operator">=</span> <span class="number">29</span></span><br></pre></td></tr></table></figure>
+
+<p>如果此时重新赋一个<span style="color:red"><strong>负值</strong></span>， Xcode 将会报错。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">age <span class="operator">=</span> <span class="operator">-</span><span class="number">27</span></span><br></pre></td></tr></table></figure>
+
+<p>错误信息如下：<span style='color:red'>“<strong>Negative integer ‘-27’ overflows when stored into unsigned type ‘UInt’</strong>“</span>。</p>
+<blockquote>
+<p><strong>注意</strong><br>只在的确需要存储一个和当前平台原生字长度相同的无符号整数的时候才使用 UInt 。其他情况下，推荐使用 Int ，即使已经知道存储的值都是非负的。如同类型安全和类型推断中描述的那样，统一使用 Int 会提高代码的兼容性，同时可以避免不同数字类型之间的转换问题，也符合整数的类型推断。</p>
+</blockquote>
+<h4 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h4><p>浮点数是有小数的数字，例如3.1425926。浮点类型相比整数类型来说能表示更大的范围的值，可以存储比Int更大或者更小的数字。Swift提供来两种有符号的浮点数类型：</p>
+<ul>
+<li><strong>Double</strong>代表63位的浮点数</li>
+<li><strong>Float</strong>代表32位的浮点数</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong><br>Double有至少15位数字的精度，而Float的精度只有6位。</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> floatPI: <span class="type">Float</span> <span class="operator">=</span> <span class="number">3.1415926535897932384626433832795028841971693993751058209</span></span><br><span class="line"><span class="keyword">var</span> doublePI: <span class="type">Double</span> <span class="operator">=</span> <span class="number">3.1415926535897932384626433832795028841971693993751058209</span></span><br></pre></td></tr></table></figure>
+
+<p>显示结果如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="number">3.141593</span></span><br><span class="line"><span class="number">3.141592653589793</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="布尔值"><a href="#布尔值" class="headerlink" title="布尔值"></a>布尔值</h4><p>Swift有一个基础布尔量类型，就是Bool，布尔量被作为逻辑值来引用，因为它的值只能是真或者假。Swift布尔量提供量两个常量值，<strong>true</strong>和<strong>false</strong>。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> isLocked: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">true</span> </span><br><span class="line">isLocked <span class="operator">=</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>字符串是一系列字符，例如”Hello world”。字符串类型用String表示。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> name:<span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;Felix&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>多行字符串：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> multiLineString <span class="operator">=</span> <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Hello,</span></span><br><span class="line"><span class="string">My name is Felix.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><p>字符指的是单个字母。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> c:<span class="type">Character</span> <span class="operator">=</span> <span class="string">&quot;a&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="可选类型"><a href="#可选类型" class="headerlink" title="可选类型"></a>可选类型</h4><p>可选类型用来处理值可能确实的情况，可选类型表示有值或没有值。</p>
+<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小（字节）</th>
+<th>区间值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Int8</td>
+<td>1字节</td>
+<td>-128到127</td>
+</tr>
+<tr>
+<td>UInt8</td>
+<td>1字节</td>
+<td>0到255</td>
+</tr>
+<tr>
+<td>Int32</td>
+<td>4字节</td>
+<td>-2147483648 到 2147483647</td>
+</tr>
+<tr>
+<td>UInt32</td>
+<td>4字节</td>
+<td>0 到 4294967295</td>
+</tr>
+<tr>
+<td>Int64</td>
+<td>8字节</td>
+<td>-9223372036854775808 到 9223372036854775807</td>
+</tr>
+<tr>
+<td>UInt64</td>
+<td>8字节</td>
+<td>0 到 18446744073709551615</td>
+</tr>
+<tr>
+<td>Float</td>
+<td>4字节</td>
+<td>1.2E-38 到 3.4E+38 (~6 digits)</td>
+</tr>
+<tr>
+<td>Double</td>
+<td>8字节</td>
+<td>2.3E-308 到 1.7E+308 (~15 digits)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>整数类型可以使用<strong>Int.max</strong>和<strong>Int.min</strong>获取Int的最大值和最小值。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Foundation</tag>
+        <tag>Swift</tag>
+        <tag>Xcode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI 介绍</title>
     <url>/swift-blogs/2023/08/22/SwiftUI-%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<h1 id="SwiftUI-简介"><a href="#SwiftUI-简介" class="headerlink" title="SwiftUI 简介"></a>SwiftUI 简介</h1><p>SwiftUI 是 Apple 在 2019 年 WWDC 推出的一种现代化的 UI 开发框架，它是 iOS 13 和 macOS Catalina 的一部分。SwiftUI 可以让用户更容易地创建美观且响应式的用户界面，并且与 Core Data、Realm 等数据存储解决方案集成得非常好。此外，SwiftUI 还在不断更新和完善，以满足开发者的需求。</p>
