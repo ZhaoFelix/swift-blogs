@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Swift 博文
 subtitle: ''
 description: ''
 keywords:
-author: Felix Zhao
+author: 异思维
 language: zh-CN
 timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://zhaofelix.github.io/qingmao.github.io
+url: https://zhaofelix.github.io/swift-blogs
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -78,7 +78,7 @@ meta_generator: true
 ## Hexo uses Moment.js to parse and display date
 ## You can customize the date format as defined in
 ## http://momentjs.com/docs/#/displaying/format/
-date_format: YYYY-MM-DD
+date_format: YYYY-MM-DD HH:mm:ss
 time_format: HH:mm:ss
 ## updated_option supports 'mtime', 'date', 'empty'
 updated_option: 'mtime'
@@ -114,3 +114,43 @@ search:
   field: post
   content: true
   format: html
+
+filter_optimize:
+  enable: true
+  versioning: false
+  css:
+    minify: true
+    excludes:
+    delivery:
+      - '@frontawesome/frontawesome-free'
+      - 'fonts.googleapis.com'
+    inlines:
+      - css/main.css
+  js:
+    minify: true
+    excludes:
+    remove_comments: true
+  html:
+    minify: true
+    excludes:
+  priority: 12
+
+sitemap:
+  path:
+    - sitemap.xml
+    - sitemap.txt
+  template: ./sitemap_template.xml
+  template_txt: ./sitemap_template.txt
+  rel: false
+  tags: true
+  categories: true
+
+symbols_count_time:
+  symbols: true # 文章内是否显示
+  time: true
+  total_symbols: true
+  total_time: true
+  exclude_codeblock: true
+  awl: 2
+  wpm: 250
+  suffix: 'mins.'
