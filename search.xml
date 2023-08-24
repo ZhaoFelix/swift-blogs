@@ -39,30 +39,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Swift 介绍</title>
-    <url>/swift-blogs/2023/08/22/Swift-%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<h1 id="Swift-编程语言介绍"><a href="#Swift-编程语言介绍" class="headerlink" title="Swift 编程语言介绍"></a>Swift 编程语言介绍</h1><p>Swift 是一种强大且直观的编程语言，由 Apple Inc. 开发，用于 iOS, macOS, watchOS 和 tvOS 的应用开发。Swift 结合了 C 和 Objective-C 的优点，并且支持函数式编程，面向对象编程和泛型编程。它的目标是提供一种安全、高效、灵活和现代化的编程语言，可以让开发者创造出更快、更稳定、更易用的应用程序。</p>
-<span id="more"></span>
-
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>Swift 强调类型安全和内存管理。它不允许隐式转换到不安全的类型，这可以防止许多常见的编程错误。此外，Swift 使用自动引用计数（ARC）来管理内存，减少了内存泄露的可能性。</p>
-<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>Swift 旨在提供高性能的应用程序。它的编译器进行了优化，以提高运行速度和减少能源消耗。Swift 的语法糖也有助于编写简洁且高效的代码。</p>
-<h3 id="易用性"><a href="#易用性" class="headerlink" title="易用性"></a>易用性</h3><p>Swift 的语法清晰简洁，易于学习和使用。它的设计哲学是“简单就是美”，使得 Swift 代码既美观又易读。</p>
-<h3 id="开源"><a href="#开源" class="headerlink" title="开源"></a>开源</h3><p>Swift 是开源的，这意味着开发者可以查看和修改其源代码。这使得 Swift 成为一个活跃的社区项目，不断有新的功能和改进加入其中。</p>
-<h2 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h2><h3 id="类型系统"><a href="#类型系统" class="headerlink" title="类型系统"></a>类型系统</h3><p>Swift 是一种静态类型语言，这意味着你在编写代码时必须为每个变量明确指定类型。这可以避免许多类型错误，并使得代码更加易于理解和维护。</p>
-<h3 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h3><p>Swift 完全支持面向对象编程，包括类、结构体、协议、继承和多态等概念。它也支持协议扩展，这使得你可以向现有类添加新的方法或者属性，而无需改变原有的代码。</p>
-<h3 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h3><p>Swift 同时支持函数式编程和面向对象编程。你可以在函数中使用闭包，这为处理异步事件或者创建高阶函数提供了强大的工具。</p>
-<h3 id="Playgrounds"><a href="#Playgrounds" class="headerlink" title="Playgrounds"></a>Playgrounds</h3><p>Xcode 集成了一个强大的交互式编程环境——Playgrounds。你可以在 Playgrounds 中尝试 Swift 的各种特性，而无需创建完整的项目。</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Swift 是一种强大、直观且安全的编程语言，它专注于提供最好的用户体验和性能。无论你是初学者还是有经验的开发者，Swift 都能帮助你更有效地编写代码。</p>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>Apple</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Swift 中的数据类型</title>
     <url>/swift-blogs/2023/08/24/Swift-%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
     <content><![CDATA[<h4 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h4><p>整数是没有小数部分的数字。整数可以是有符号的或者无符号。Swift提供来8，16，32和64位编码的有符号和无符号整数，例如UInt8表示8位无符号的整数，Int32表示32有符号整数。</p>
@@ -180,6 +156,151 @@
         <tag>Foundation</tag>
         <tag>Swift</tag>
         <tag>Xcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 中的运算符</title>
+    <url>/swift-blogs/2023/08/24/Swift-%E4%B8%AD%E7%9A%84%E8%BF%90%E7%AE%97%E7%AC%A6/</url>
+    <content><![CDATA[<h3 id="Swift-中的运算符"><a href="#Swift-中的运算符" class="headerlink" title="Swift 中的运算符"></a>Swift 中的运算符</h3><p>运算符是一个符号，用于告诉编译器执行一个数学或逻辑运算。</p>
+<h4 id="专门用语"><a href="#专门用语" class="headerlink" title="专门用语"></a>专门用语</h4><p>运算符包括一元、二元、三元：</p>
+<ul>
+<li>一元运算符对一个目标进行操作，例如-a。</li>
+<li>二元运算符对两个目标进行操作，例如a+b。</li>
+<li>三元运算符操作三个目标，Swift语言有仅只有一个三元运算符（a ? b : c）。</li>
+</ul>
+<p>Swift提供来以下几种运算符：</p>
+<ul>
+<li>算术运算符</li>
+<li>比较运算符</li>
+<li>逻辑运算符</li>
+<li>位运算符</li>
+<li>赋值运算符</li>
+<li>区间运算符</li>
+<li>其他运算符</li>
+</ul>
+<span id="more"></span>
+
+<h4 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h4><p>Swift提供来四种标准的算术运算符：</p>
+<ul>
+<li>加（+）</li>
+<li>减（-）</li>
+<li>乘（*）</li>
+<li>除（&#x2F;）</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span> <span class="operator">+</span> <span class="number">2</span> <span class="comment">//equals 3</span></span><br><span class="line"><span class="number">5</span> <span class="operator">-</span> <span class="number">3</span> <span class="comment">//equals 2</span></span><br><span class="line"><span class="number">2</span> <span class="operator">*</span> <span class="number">3</span> <span class="comment">//equals 6</span></span><br><span class="line"><span class="number">10</span> <span class="operator">/</span> <span class="number">2</span>  <span class="comment">//equals 5</span></span><br></pre></td></tr></table></figure>
+
+<p>加法运算符同时支持String的拼接：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;Hello ,&quot;</span> <span class="operator">+</span> <span class="string">&quot;World&quot;</span> <span class="comment">//equals &quot;Hello, World&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h5><p>Swift支持所有C的所有标准比较运算符：</p>
+<ul>
+<li>相等 （a &#x3D;&#x3D; b）</li>
+<li>不像等（a !&#x3D; b）</li>
+<li>大于（a &gt; b）</li>
+<li>小于（a &lt; b）</li>
+<li>大于等于（a &gt;&#x3D; b）</li>
+<li>小于等于（a &lt;&#x3D; b）</li>
+</ul>
+<p>每个比较运算符都会返回一个Bool来表示比较的结果是否为真：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span> <span class="operator">==</span> <span class="number">2</span> <span class="comment">//false</span></span><br><span class="line"><span class="number">2</span> <span class="operator">!=</span> <span class="number">3</span> <span class="comment">//true</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&gt;</span> <span class="number">1</span>  <span class="comment">//true</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&lt;</span> <span class="number">1</span> <span class="comment">//false </span></span><br><span class="line"><span class="number">1</span> <span class="operator">&gt;=</span> <span class="number">1</span> <span class="comment">//true</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&lt;=</span> <span class="number">3</span> <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：Swift同时也提供两个等价运算符（&#x3D;&#x3D;&#x3D; 和 !&#x3D;&#x3D; ）,你可以使用它们来判断两个对象的引用是否相同。</p>
+</blockquote>
+<h4 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h4><p>逻辑运算符可以修改或者合并布尔逻辑值true和false。Swift提供 以下三种标准的逻辑运算符：</p>
+<ul>
+<li>逻辑非 （ !a ）：对a的布尔值取反；</li>
+<li>逻辑与 （ a&amp;&amp;b ）：若a和b均为true,则结果为true；若a和b中有一个或两个都为false，则结果为false。</li>
+<li>逻辑或 （ a||b ）：若a和b其中一个为true，则结果为true。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a:<span class="type">Bool</span> <span class="operator">=</span> <span class="literal">true</span> </span><br><span class="line"><span class="keyword">var</span> b:<span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line"><span class="operator">!</span>a  <span class="comment">//false</span></span><br><span class="line">a<span class="operator">&amp;&amp;</span>b <span class="literal">false</span></span><br><span class="line">a<span class="operator">||</span>b <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h4><p>位运算符用来对二位进制位进行操作，Swift提供以下几种位运算符：</p>
+<ul>
+<li>取反（～）</li>
+<li>按位与（&amp;）</li>
+<li>按位或（|）</li>
+<li>按位异或（^）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>q</th>
+<th>p&amp;q</th>
+<th>p</th>
+<th>q</th>
+<th>p^q</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<h4 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h4><p>赋值运算符（a &#x3D; b）可是初始化或者更新a的值为b:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> a <span class="operator">=</span> <span class="number">5</span></span><br><span class="line">a <span class="operator">=</span> b <span class="comment">//此时，a的值为10</span></span><br></pre></td></tr></table></figure>
+
+<p>除了简单的赋值运算符，Swift还提供了组合赋值运算符。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">10</span> </span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> c <span class="operator">=</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">c <span class="operator">+=</span> a <span class="comment">//  c = c+a</span></span><br><span class="line">c <span class="operator">-=</span> a  <span class="comment">// c = c - a</span></span><br><span class="line">c <span class="operator">*=</span> a <span class="comment">// c = c * a</span></span><br><span class="line">c <span class="operator">/=</span> a  <span class="comment">// c = c / a</span></span><br><span class="line">c <span class="operator">%=</span> a  <span class="comment">// c = c % a</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="区间运算符"><a href="#区间运算符" class="headerlink" title="区间运算符"></a>区间运算符</h4><p>Swift包含了两个区间运算符，他们表示一个范围的值的便捷方式。</p>
+<h5 id="闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。"><a href="#闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。" class="headerlink" title="闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。"></a>闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">5</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(i)  <span class="comment">//循环打印出1～5的整数，包括1和5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>关于循环控制流的内容将在后续内容中出现。</p>
+</blockquote>
+<h5 id="半开区间运算符"><a href="#半开区间运算符" class="headerlink" title="半开区间运算符"></a>半开区间运算符</h5><p>半开区间运算符（a..&lt;b）定义了从a到b但不包括b的区间。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">5</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(i)  <span class="comment">//循环打印出1～4的整数,包括4，不包括5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="单侧区间"><a href="#单侧区间" class="headerlink" title="单侧区间"></a>单侧区间</h5><p>单侧区间主要用在数组的遍历。当我们需要遍历数组中的指定索引前或者后的元素时可以使用单侧区间。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//遍历数组items索引2后的所有元素</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items[<span class="number">2</span><span class="operator">...</span>]&#123;</span><br><span class="line">    <span class="built_in">print</span>(item) </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//遍历数组items索引2前的所有元素</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items[<span class="operator">...</span><span class="number">2</span>]&#123;</span><br><span class="line">    <span class="built_in">print</span>(item) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历数组items索引2前的所有元素,不包括索引2的元素</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items[<span class="operator">..&lt;</span><span class="number">2</span>]&#123;</span><br><span class="line">    <span class="built_in">print</span>(item) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="三元运算符"><a href="#三元运算符" class="headerlink" title="三元运算符"></a>三元运算符</h4><p>三元条件运算符是一种有三部分的特殊运算符，它类似于 question ? answer1 : answer2。如果question为真，则会判断answer1并且返回它的值；否则它判断为answer2并且返回它的值。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> question &#123;</span><br><span class="line">    answer1</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    answer2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>运算符</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 介绍</title>
+    <url>/swift-blogs/2023/08/22/Swift-%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h1 id="Swift-编程语言介绍"><a href="#Swift-编程语言介绍" class="headerlink" title="Swift 编程语言介绍"></a>Swift 编程语言介绍</h1><p>Swift 是一种强大且直观的编程语言，由 Apple Inc. 开发，用于 iOS, macOS, watchOS 和 tvOS 的应用开发。Swift 结合了 C 和 Objective-C 的优点，并且支持函数式编程，面向对象编程和泛型编程。它的目标是提供一种安全、高效、灵活和现代化的编程语言，可以让开发者创造出更快、更稳定、更易用的应用程序。</p>
+<span id="more"></span>
+
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>Swift 强调类型安全和内存管理。它不允许隐式转换到不安全的类型，这可以防止许多常见的编程错误。此外，Swift 使用自动引用计数（ARC）来管理内存，减少了内存泄露的可能性。</p>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>Swift 旨在提供高性能的应用程序。它的编译器进行了优化，以提高运行速度和减少能源消耗。Swift 的语法糖也有助于编写简洁且高效的代码。</p>
+<h3 id="易用性"><a href="#易用性" class="headerlink" title="易用性"></a>易用性</h3><p>Swift 的语法清晰简洁，易于学习和使用。它的设计哲学是“简单就是美”，使得 Swift 代码既美观又易读。</p>
+<h3 id="开源"><a href="#开源" class="headerlink" title="开源"></a>开源</h3><p>Swift 是开源的，这意味着开发者可以查看和修改其源代码。这使得 Swift 成为一个活跃的社区项目，不断有新的功能和改进加入其中。</p>
+<h2 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h2><h3 id="类型系统"><a href="#类型系统" class="headerlink" title="类型系统"></a>类型系统</h3><p>Swift 是一种静态类型语言，这意味着你在编写代码时必须为每个变量明确指定类型。这可以避免许多类型错误，并使得代码更加易于理解和维护。</p>
+<h3 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h3><p>Swift 完全支持面向对象编程，包括类、结构体、协议、继承和多态等概念。它也支持协议扩展，这使得你可以向现有类添加新的方法或者属性，而无需改变原有的代码。</p>
+<h3 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h3><p>Swift 同时支持函数式编程和面向对象编程。你可以在函数中使用闭包，这为处理异步事件或者创建高阶函数提供了强大的工具。</p>
+<h3 id="Playgrounds"><a href="#Playgrounds" class="headerlink" title="Playgrounds"></a>Playgrounds</h3><p>Xcode 集成了一个强大的交互式编程环境——Playgrounds。你可以在 Playgrounds 中尝试 Swift 的各种特性，而无需创建完整的项目。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Swift 是一种强大、直观且安全的编程语言，它专注于提供最好的用户体验和性能。无论你是初学者还是有经验的开发者，Swift 都能帮助你更有效地编写代码。</p>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>Apple</tag>
       </tags>
   </entry>
   <entry>
