@@ -107,7 +107,7 @@ menu:
 # Enable / Disable menu icons / item badges.
 menu_settings:
   icons: true
-  badges: false
+  badges: true
 
 # ---------------------------------------------------------------
 # Sidebar Settings
@@ -358,16 +358,16 @@ codeblock:
   # Code Highlight theme
   # All available themes: https://theme-next.js.org/highlight/
   theme:
-    light: default
-    dark: stackoverflow-dark
+    light: github
+    dark: github-dark
   prism:
     light: prism
     dark: prism-dark
   # Add copy button on codeblock
   copy_button:
-    enable: false
+    enable: true
     # Available values: default | flat | mac
-    style:
+    style: flat
   # Fold code block
   fold:
     enable: false
@@ -378,7 +378,7 @@ back2top:
   # Back to top in sidebar.
   sidebar: false
   # Scroll percent label in b2t button.
-  scrollpercent: false
+  scrollpercent: true
 
 # Reading progress bar
 reading_progress:
@@ -386,7 +386,7 @@ reading_progress:
   # Available values: left | right
   start_at: left
   # Available values: top | bottom
-  position: top
+  position: bottom
   reversed: false
   color: '#37c6c0'
   height: 3px
