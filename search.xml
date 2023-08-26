@@ -1,46 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Swift 中的常量和变量</title>
-    <url>/swift-blogs/2023/08/22/Swift-%E4%B8%AD%E7%9A%84%E5%B8%B8%E9%87%8F%E5%92%8C%E5%8F%98%E9%87%8F/</url>
-    <content><![CDATA[<h1 id="常量-变量"><a href="#常量-变量" class="headerlink" title="常量 &amp; 变量"></a>常量 &amp; 变量</h1><p>常量一旦被设置就不能被更改，使用关键字<strong>let</strong> 。变量被设置之后是可以被修改的，使用关键字<strong>var</strong>。</p>
-<h2 id="声明常量和变量"><a href="#声明常量和变量" class="headerlink" title="声明常量和变量"></a>声明常量和变量</h2><p>常量和变量之后在被声明后才能使用，声明方式如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">let</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
-
-<p>这段代码的意思是：</p>
-<p>“声明一个名为num，数据类型为<strong>Int</strong>，值为8的变量。然后声明一个名为x，数据类型为<strong>Int</strong>，值为10的常量。”</p>
-<p>你可以在一行中声明多个常量或变量，使用逗号隔开：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>,y:<span class="type">Int</span> <span class="operator">=</span> <span class="number">12</span>,z:<span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="类型标注"><a href="#类型标注" class="headerlink" title="类型标注"></a>类型标注</h2><p>在上面常量与变量的声明中，我们标识的常量和变量数据类型均为<strong>Int</strong>类型。这意味着变量num和常量x在进行赋值时只能赋<strong>Int</strong>类型的数值。</p>
-<p>上面的错误显示的是把一个字符串类型的10赋值给了一个指定类型为<strong>Int</strong>的常量，这在Swift中是不被允许的。</p>
-<p>你可以在一行中定义多个相同类型的常量或者变量，只需要在结尾加上数据类型即可：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x,y,z:<span class="type">Int</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="类型安全与类型推断"><a href="#类型安全与类型推断" class="headerlink" title="类型安全与类型推断"></a>类型安全与类型推断</h2><p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚地知道代码可以处理的值的类型。如果你的一部分代码期望获得<strong>String</strong>类型的值，你就不能错误的传给它一个<strong>Int</strong>类型的值。</p>
-<p>因为Swift是类型安全的语言，所以Swift在编译的过程中会进行类型检查，任何不匹配的类型都会被标记为错误。</p>
-<p>类型检查可以帮助我们在对一个已经声明好的常量或者变量进行赋值时，能够准备无误的赋一个指定类型的数据。但是，类型检查并不意味着我们每次声明时都需要明确指定数据类型，我们可以通过Swift中的类型判断来完成数据类型的指定。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> y <span class="operator">=</span> <span class="number">10.0</span></span><br></pre></td></tr></table></figure>
-
-<p>上面的代码中，我们并没有给变量指定数据类型。Swift在编译的过程中通过类型判断推断x为<strong>Int</strong>类型，y为<strong>Double</strong>类型。</p>
-<h2 id="常量与变量的命名"><a href="#常量与变量的命名" class="headerlink" title="常量与变量的命名"></a>常量与变量的命名</h2><p>常量和变量的命名几乎可以使用任何的字符，包括Unicode字符：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 你好 <span class="operator">=</span> <span class="string">&quot;你好&quot;</span></span><br><span class="line"><span class="keyword">var</span> 😃 <span class="operator">=</span>  <span class="string">&quot;😃&quot;</span></span><br><span class="line"><span class="keyword">var</span> `let` <span class="operator">=</span> <span class="string">&quot;let&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，在使用Swift中关键字进行命名是需要添加反引号（&#96;）。</p>
-<p>虽然Swift在命名上可以使用很多字符，但是为了开发的方便与后期维护建议开发者在命名时尽量遵循一些标准化的命名规范，例如驼峰式命名法。</p>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Foundation</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Swift 中的数据类型</title>
-    <url>/swift-blogs/2023/08/24/Swift-%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
+    <url>/swift-blogs/posts/6876d7b8.html</url>
     <content><![CDATA[<h4 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h4><p>整数是没有小数部分的数字。整数可以是有符号的或者无符号。Swift提供来8，16，32和64位编码的有符号和无符号整数，例如UInt8表示8位无符号的整数，Int32表示32有符号整数。</p>
 <span id="more"></span>
 
@@ -153,192 +115,52 @@
         <category>Swift 基础语法</category>
       </categories>
       <tags>
-        <tag>Foundation</tag>
         <tag>Swift</tag>
+        <tag>Foundation</tag>
         <tag>Xcode</tag>
       </tags>
   </entry>
   <entry>
-    <title>Swift 中的集合类型</title>
-    <url>/swift-blogs/2023/08/25/Swift-%E4%B8%AD%E7%9A%84%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B/</url>
-    <content><![CDATA[<p>Swift 语言提供 <code>Arrays</code>、<code>Sets</code> 和 <code>Dictionaries</code> 三种基本的集合类型用来存储集合数据。<strong>数组（Arrays）</strong>是有序数据的集。<strong>集合（Sets）</strong>是无序无重复数据的集。<strong>字典（Dictionaries）</strong>是无序的键值对的集。</p>
-<p>Swift 语言中的 <code>Arrays</code>、<code>Sets</code> 和 <code>Dictionaries</code> 中存储的数据值<strong>类型必须明确</strong>。这意味着我们不能把错误的数据类型插入其中。</p>
+    <title>Swift 中的常量和变量</title>
+    <url>/swift-blogs/posts/c6460431.html</url>
+    <content><![CDATA[<h1 id="常量-变量"><a href="#常量-变量" class="headerlink" title="常量 &amp; 变量"></a>常量 &amp; 变量</h1><p>常量一旦被设置就不能被更改，使用关键字<strong>let</strong> 。变量被设置之后是可以被修改的，使用关键字<strong>var</strong>。</p>
+<h2 id="声明常量和变量"><a href="#声明常量和变量" class="headerlink" title="声明常量和变量"></a>声明常量和变量</h2><p>常量和变量之后在被声明后才能使用，声明方式如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">let</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码的意思是：</p>
+<p>“声明一个名为num，数据类型为<strong>Int</strong>，值为8的变量。然后声明一个名为x，数据类型为<strong>Int</strong>，值为10的常量。”</p>
+<p>你可以在一行中声明多个常量或变量，使用逗号隔开：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>,y:<span class="type">Int</span> <span class="operator">=</span> <span class="number">12</span>,z:<span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
 <span id="more"></span>
 
-<h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><p>数组使用有序列表存储同一类型的多个值。相同的值可以多次出现在一个数组的不同位置中，这意味着数组中的元素是可以重复的。</p>
-<h5 id="创建一个空数组"><a href="#创建一个空数组" class="headerlink" title="创建一个空数组"></a>创建一个空数组</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> someInts <span class="operator">=</span> [<span class="type">Int</span>]()</span><br><span class="line"><span class="keyword">var</span> someStr:[<span class="type">String</span>] <span class="operator">=</span> []</span><br></pre></td></tr></table></figure>
+<h2 id="类型标注"><a href="#类型标注" class="headerlink" title="类型标注"></a>类型标注</h2><p>在上面常量与变量的声明中，我们标识的常量和变量数据类型均为<strong>Int</strong>类型。这意味着变量num和常量x在进行赋值时只能赋<strong>Int</strong>类型的数值。</p>
+<p>上面的错误显示的是把一个字符串类型的10赋值给了一个指定类型为<strong>Int</strong>的常量，这在Swift中是不被允许的。</p>
+<p>你可以在一行中定义多个相同类型的常量或者变量，只需要在结尾加上数据类型即可：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x,y,z:<span class="type">Int</span></span><br></pre></td></tr></table></figure>
 
-<h5 id="创建一个带有默认值的数组"><a href="#创建一个带有默认值的数组" class="headerlink" title="创建一个带有默认值的数组"></a>创建一个带有默认值的数组</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> threeDouble <span class="operator">=</span> <span class="type">Array</span>(repeating: <span class="number">0.3</span>, count: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(threeDouble)</span><br></pre></td></tr></table></figure>
+<h2 id="类型安全与类型推断"><a href="#类型安全与类型推断" class="headerlink" title="类型安全与类型推断"></a>类型安全与类型推断</h2><p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚地知道代码可以处理的值的类型。如果你的一部分代码期望获得<strong>String</strong>类型的值，你就不能错误的传给它一个<strong>Int</strong>类型的值。</p>
+<p>因为Swift是类型安全的语言，所以Swift在编译的过程中会进行类型检查，任何不匹配的类型都会被标记为错误。</p>
+<p>类型检查可以帮助我们在对一个已经声明好的常量或者变量进行赋值时，能够准备无误的赋一个指定类型的数据。但是，类型检查并不意味着我们每次声明时都需要明确指定数据类型，我们可以通过Swift中的类型判断来完成数据类型的指定。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> y <span class="operator">=</span> <span class="number">10.0</span></span><br></pre></td></tr></table></figure>
 
-<p>这里我们使用<code>Array</code>默认构造方法创建了一个长度大小为3，初始元素值为0.3的双精度类型的数组。参数说明：</p>
-<ul>
-<li>repeating:初始时元素的值</li>
-<li>count：元素的个数或者数组的长度</li>
-</ul>
-<p>此时，打印数组的显示如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[0.3, 0.3, 0.3]</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，我们并没有给变量指定数据类型。Swift在编译的过程中通过类型判断推断x为<strong>Int</strong>类型，y为<strong>Double</strong>类型。</p>
+<h2 id="常量与变量的命名"><a href="#常量与变量的命名" class="headerlink" title="常量与变量的命名"></a>常量与变量的命名</h2><p>常量和变量的命名几乎可以使用任何的字符，包括Unicode字符：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 你好 <span class="operator">=</span> <span class="string">&quot;你好&quot;</span></span><br><span class="line"><span class="keyword">var</span> 😃 <span class="operator">=</span>  <span class="string">&quot;😃&quot;</span></span><br><span class="line"><span class="keyword">var</span> `let` <span class="operator">=</span> <span class="string">&quot;let&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h5 id="访问数组"><a href="#访问数组" class="headerlink" title="访问数组"></a>访问数组</h5><p>我们可以根据数组的索引来访问数组中的元素，不过需要注意的一点是数组的索引是从0开始的。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nameArr <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>,<span class="string">&quot;Zhao&quot;</span>,<span class="string">&quot;Rudolf&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第一个元素<span class="subst">\(nameArr[<span class="number">0</span>])</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第二个元素<span class="subst">\(nameArr[<span class="number">1</span>])</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第三个元素<span class="subst">\(nameArr[<span class="number">1</span>])</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h5 id="修改数组"><a href="#修改数组" class="headerlink" title="修改数组"></a>修改数组</h5><h6 id="添加数组元素"><a href="#添加数组元素" class="headerlink" title="添加数组元素"></a>添加数组元素</h6><p>我们可以使用<code>append</code>方法或者赋值运算符<code>+=</code>将一个元素添加到数组的末尾。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">nameArr.append(<span class="string">&quot;Wells&quot;</span>)</span><br><span class="line">nameArr <span class="operator">+=</span> [<span class="string">&quot;Wells&quot;</span>]</span><br></pre></td></tr></table></figure>
-
-<p>此时的数组为：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;Felix&quot;</span>, <span class="string">&quot;Zhao&quot;</span>, <span class="string">&quot;Rudolf&quot;</span>, <span class="string">&quot;Wells&quot;</span>, <span class="string">&quot;Wells&quot;</span>]</span><br></pre></td></tr></table></figure>
-
-<h5 id="循环遍历数组"><a href="#循环遍历数组" class="headerlink" title="循环遍历数组"></a>循环遍历数组</h5><p>我们可以使用<code>for-in</code>循环来遍历数组中的每一个元素。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> nameArr &#123;</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果我们同时需要每个元素的值和对应的索引，我们可以使用<code>enumerate()</code>方法来遍历数组。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (index,name) <span class="keyword">in</span> nameArr.enumerated() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;当前索引:<span class="subst">\(index)</span>,当前值：<span class="subst">\(name)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">当前索引:<span class="number">0</span>,当前值：<span class="type">Felix</span></span><br><span class="line">当前索引:<span class="number">1</span>,当前值：<span class="type">Zhao</span></span><br><span class="line">当前索引:<span class="number">2</span>,当前值：<span class="type">Rudolf</span></span><br><span class="line">当前索引:<span class="number">3</span>,当前值：<span class="type">Wells</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="数组合并"><a href="#数组合并" class="headerlink" title="数组合并"></a>数组合并</h5><p>当我们有两个数据类型相同数组需要合并时，可以使用<code>+</code>运算符来合并数组。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nameArr <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>,<span class="string">&quot;Zhao&quot;</span>,<span class="string">&quot;Rudolf&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> newNameArr <span class="operator">=</span> [<span class="string">&quot;Lily&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> newArr <span class="operator">=</span> newNameArr <span class="operator">+</span> nameArr</span><br></pre></td></tr></table></figure>
-
-<p>此时，newArr的元素为：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;Lily&quot;</span>, <span class="string">&quot;Felix&quot;</span>, <span class="string">&quot;Zhao&quot;</span>, <span class="string">&quot;Rudolf&quot;</span>]</span><br></pre></td></tr></table></figure>
-
-<h5 id="数组相关属性"><a href="#数组相关属性" class="headerlink" title="数组相关属性"></a>数组相关属性</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(nameArr.count) </span><br><span class="line"><span class="built_in">print</span>(nameArr.isEmpty) </span><br></pre></td></tr></table></figure>
-
-<p><code>.count</code>用来获取数组元素的个数；<code>.isEmpty</code>判断数组是否为空，返回值为布尔值。</p>
-<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><p>Swift中的字典是一个用来存储无序的相同类型数据的集合。字典中每个值(value)对应一个唯一的键(key)，键被作为值在这个字典里的标识符。字典里的数据是没有具体顺序的，我们只能通过值对应的键来访问到这个数据。另外，字典中的键可以是整型或者字符串类型，但是一个字典里键的类型必须是唯一的。</p>
-<h5 id="创建字典"><a href="#创建字典" class="headerlink" title="创建字典"></a>创建字典</h5><p>Swift中的字典使用<code>Dictionary&lt;Key,Value&gt;</code>的形式定义，其中<code>Key</code>是字典中键的数据类型，<code>Value</code>是字典中值的数据类型。我们使用这样形式来定义一个空的字典：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptyDcit <span class="operator">=</span> <span class="type">Dictionary</span>&lt;<span class="type">String</span>,<span class="type">String</span>&gt;()</span><br></pre></td></tr></table></figure>
-
-<p>Swift中也给我们提供了一种简化的语法来定义字典：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptyDcit <span class="operator">=</span> [<span class="type">String</span>:<span class="type">String</span>]()</span><br></pre></td></tr></table></figure>
-
-<p>两种方式都是定义了一个键和值都为字符串类型的空字典，在实际使用过程中，我们更多的是使用后面简化的定义方法。</p>
-<p>在项目开发中，如果我们只需要定义一个字典，但是不需要对它进行初始化操作的话，我们可以使用下面的这中方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> dic:[<span class="type">String</span>:<span class="type">String</span>]<span class="operator">!</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="字典的访问与修改"><a href="#字典的访问与修改" class="headerlink" title="字典的访问与修改"></a>字典的访问与修改</h5><p>我们可以根据键来修改字典中对应的值，我们也可以使用一些内置的方法来添加、删除元素。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> countryDic:[<span class="type">String</span>:<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;JP&quot;</span>:<span class="string">&quot;日本&quot;</span>,<span class="string">&quot;CN&quot;</span>:<span class="string">&quot;中国&quot;</span>,<span class="string">&quot;UK&quot;</span>:<span class="string">&quot;英国&quot;</span>,<span class="string">&quot;FR&quot;</span>:<span class="string">&quot;法国&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(countryDic[<span class="string">&quot;CN&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(countryDic[<span class="string">&quot;JP&quot;</span>])</span><br></pre></td></tr></table></figure>
-
-<p>在上面的实例代码中，我们定义了一个键为国家英文缩写，值为国家的中文简写。我们分别使用键<code>CN</code>和<code>JP</code>访问字典。</p>
-<p>当我们需要字典中添加一个新的元素时候，可以使用以下方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic[<span class="string">&quot;IN&quot;</span>] <span class="operator">=</span> <span class="string">&quot;印度&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>我们需要修改字典中的某个元素的值，使用以下方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic[<span class="string">&quot;CN&quot;</span>] <span class="operator">=</span> <span class="string">&quot;中华人民共和国&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>我们发现，我们添加新的元素和修改原有元素的值的方法是一样的。这是因为当我们通过键去修改字典的时候，会根据键名先去查询字典中是否包含对应的键名，如果包含的话就修改对应的值，如果不包含就添加新的元素。</p>
-<p>经过上面的添加和修改之后，此时的字典元素如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;UK&quot;</span>: <span class="string">&quot;英国&quot;</span>, <span class="string">&quot;JP&quot;</span>: <span class="string">&quot;日本&quot;</span>, <span class="string">&quot;FR&quot;</span>: <span class="string">&quot;法国&quot;</span>, <span class="string">&quot;CN&quot;</span>: <span class="string">&quot;中华人民共和国&quot;</span>, <span class="string">&quot;IN&quot;</span>: <span class="string">&quot;印度&quot;</span>]</span><br></pre></td></tr></table></figure>
-
-<p>我们经常会遇到根据键名去删除字典中对应的元素，这时，我们可以使用以下方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic.removeValue(forKey: <span class="string">&quot;CN&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>我们经常会使用到的方法还有：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> index <span class="operator">=</span> countryDic.index(countryDic.startIndex, offsetBy: <span class="number">1</span>)</span><br><span class="line">countryDic.remove(at: index)  <span class="comment">//根据指定的索引删除元素</span></span><br><span class="line">countryDic.removeAll() <span class="comment">//清空字典</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="字典的遍历"><a href="#字典的遍历" class="headerlink" title="字典的遍历"></a>字典的遍历</h5><p>在之前的学习中，我们使用了<code>for-in</code>循环来遍历数组，同样的我们也可以使用<code>for-in</code>来遍历字典，不同的是遍历字典返回的是每个元素对应的键和值。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (key,value) <span class="keyword">in</span> countryDic &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;键：<span class="subst">\(key)</span>,值：<span class="subst">\(value)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当然，我们也可以值循环遍历出字典的键或者值。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> countryDic.keys &#123;</span><br><span class="line">    <span class="built_in">print</span>(key)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span>  countryDic.values &#123;</span><br><span class="line">    <span class="built_in">print</span>(value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>另外，在学习数组的时候，我们使用<code>isEmpty</code>属性来判断一个数组是否为空，我们同样可以使用这个方法来判断字典是否为空。</p>
-<h4 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h4><p>Swift 中的集合（Set）是一种无序的、不重复的数据结构，它允许你存储不同类型的元素。集合的主要用途是检查元素是否存在于集合中，因为集合中的<strong>元素是唯一</strong>的，所以当你尝试添加一个已经存在的元素时，集合不会发生变化。</p>
-<h5 id="创建一个集合"><a href="#创建一个集合" class="headerlink" title="创建一个集合"></a>创建一个集合</h5><p>创建集合的常见方法是使用字面量语法或者初始化器（initializer）。下面是一些关于如何创建和使用集合的示例：</p>
-<ol>
-<li>使用字面量语法创建集合：</li>
-</ol>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> numbers <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">Int</span>&gt;() <span class="comment">// 创建一个空的整数集合</span></span><br><span class="line"><span class="keyword">let</span> fruits <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">String</span>&gt;(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>) <span class="comment">// 创建一个包含三个字符串元素的集合</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>使用初始化器创建集合：</li>
-</ol>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptySet: <span class="type">Set</span>&lt;<span class="type">Int</span>&gt; <span class="operator">=</span> [] <span class="comment">// 创建一个空的整数集合</span></span><br><span class="line"><span class="keyword">var</span> fruitsSet <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>]) <span class="comment">// 创建一个包含三个字符串元素的集合</span></span><br><span class="line"><span class="keyword">var</span> mixedSet: <span class="type">Set</span>&lt;<span class="keyword">Any</span>&gt; <span class="operator">=</span> [<span class="number">1</span>, <span class="string">&quot;apple&quot;</span>, <span class="number">3.14</span>] <span class="comment">// 创建一个包含整数和浮点数的混合类型集合</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="集合中元素的访问、修改和删除"><a href="#集合中元素的访问、修改和删除" class="headerlink" title="集合中元素的访问、修改和删除"></a>集合中元素的访问、修改和删除</h5><p>向集合中添加新的元素使用<code>insert</code> 方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">numbers.insert(<span class="number">1</span>) <span class="comment">// 添加一个元素到集合中</span></span><br><span class="line">fruits.insert(<span class="string">&quot;grape&quot;</span>) <span class="comment">// 向集合中添加一个元素，如果元素已经存在，则不会改变集合</span></span><br></pre></td></tr></table></figure>
-
-<p>使用<code>remove</code> 方法移除集合中的元素：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">numbers.remove(<span class="number">1</span>) <span class="comment">// 从集合中移除一个元素，如果元素不存在，则不会改变集合</span></span><br><span class="line">fruits.remove(<span class="string">&quot;banana&quot;</span>) <span class="comment">// 从集合中移除一个元素，如果元素不存在，则不会改变集合</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="集合的遍历"><a href="#集合的遍历" class="headerlink" title="集合的遍历"></a>集合的遍历</h5><p>集合的遍历和数组的遍历类似，使用 <code>for-in</code>循环语句。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> number <span class="keyword">in</span> numbers &#123;</span><br><span class="line">    <span class="built_in">print</span>(number) <span class="comment">// 输出集合中的每个元素</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> fruit <span class="keyword">in</span> fruits &#123;</span><br><span class="line">    <span class="built_in">print</span>(fruit) <span class="comment">// 输出集合中的每个元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="检查元素是否存在于集合中"><a href="#检查元素是否存在于集合中" class="headerlink" title="检查元素是否存在于集合中"></a>检查元素是否存在于集合中</h5><p>判断一个元素是否存在于集合中可以使用<code>contains</code> 方法。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> fruits.contains(<span class="string">&quot;apple&quot;</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;苹果存在于集合中&quot;</span>) <span class="comment">// 如果集合包含指定的元素，则输出相应的信息</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;苹果不存在于集合中&quot;</span>) <span class="comment">// 如果集合不包含指定的元素，则输出相应的信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="获取集合的大小"><a href="#获取集合的大小" class="headerlink" title="获取集合的大小"></a>获取集合的大小</h5><p>获取集合的大小或元素的数量使用<code>count</code> 属性。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> size <span class="operator">=</span> fruits.count <span class="comment">// 获取集合中的元素个数</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="判断两个集合是否相等（即它们包含相同的元素）"><a href="#判断两个集合是否相等（即它们包含相同的元素）" class="headerlink" title="判断两个集合是否相等（即它们包含相同的元素）"></a>判断两个集合是否相等（即它们包含相同的元素）</h5><p>判断两个集合是否相等可以使用<code>==</code> 运算符。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> setA <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>])</span><br><span class="line"><span class="keyword">let</span> setB <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>])</span><br><span class="line"><span class="keyword">let</span> isEqual <span class="operator">=</span> setA <span class="operator">==</span> setB <span class="comment">// 判断两个集合是否相等，如果相等则返回 true，否则返回 false</span></span><br></pre></td></tr></table></figure>
+<p>需要注意的是，在使用Swift中关键字进行命名是需要添加反引号（&#96;）。</p>
+<p>虽然Swift在命名上可以使用很多字符，但是为了开发的方便与后期维护建议开发者在命名时尽量遵循一些标准化的命名规范，例如驼峰式命名法。</p>
 ]]></content>
       <categories>
         <category>Swift 基础语法</category>
       </categories>
       <tags>
         <tag>Foundation</tag>
-        <tag>Swift</tag>
-        <tag>集合类型</tag>
-        <tag>数组</tag>
-        <tag>集合</tag>
-        <tag>字典</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 介绍</title>
-    <url>/swift-blogs/2023/08/22/Swift-%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<h1 id="Swift-编程语言介绍"><a href="#Swift-编程语言介绍" class="headerlink" title="Swift 编程语言介绍"></a>Swift 编程语言介绍</h1><p>Swift 是一种强大且直观的编程语言，由 Apple Inc. 开发，用于 iOS, macOS, watchOS 和 tvOS 的应用开发。Swift 结合了 C 和 Objective-C 的优点，并且支持函数式编程，面向对象编程和泛型编程。它的目标是提供一种安全、高效、灵活和现代化的编程语言，可以让开发者创造出更快、更稳定、更易用的应用程序。</p>
-<span id="more"></span>
-
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>Swift 强调类型安全和内存管理。它不允许隐式转换到不安全的类型，这可以防止许多常见的编程错误。此外，Swift 使用自动引用计数（ARC）来管理内存，减少了内存泄露的可能性。</p>
-<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>Swift 旨在提供高性能的应用程序。它的编译器进行了优化，以提高运行速度和减少能源消耗。Swift 的语法糖也有助于编写简洁且高效的代码。</p>
-<h3 id="易用性"><a href="#易用性" class="headerlink" title="易用性"></a>易用性</h3><p>Swift 的语法清晰简洁，易于学习和使用。它的设计哲学是“简单就是美”，使得 Swift 代码既美观又易读。</p>
-<h3 id="开源"><a href="#开源" class="headerlink" title="开源"></a>开源</h3><p>Swift 是开源的，这意味着开发者可以查看和修改其源代码。这使得 Swift 成为一个活跃的社区项目，不断有新的功能和改进加入其中。</p>
-<h2 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h2><h3 id="类型系统"><a href="#类型系统" class="headerlink" title="类型系统"></a>类型系统</h3><p>Swift 是一种静态类型语言，这意味着你在编写代码时必须为每个变量明确指定类型。这可以避免许多类型错误，并使得代码更加易于理解和维护。</p>
-<h3 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h3><p>Swift 完全支持面向对象编程，包括类、结构体、协议、继承和多态等概念。它也支持协议扩展，这使得你可以向现有类添加新的方法或者属性，而无需改变原有的代码。</p>
-<h3 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h3><p>Swift 同时支持函数式编程和面向对象编程。你可以在函数中使用闭包，这为处理异步事件或者创建高阶函数提供了强大的工具。</p>
-<h3 id="Playgrounds"><a href="#Playgrounds" class="headerlink" title="Playgrounds"></a>Playgrounds</h3><p>Xcode 集成了一个强大的交互式编程环境——Playgrounds。你可以在 Playgrounds 中尝试 Swift 的各种特性，而无需创建完整的项目。</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Swift 是一种强大、直观且安全的编程语言，它专注于提供最好的用户体验和性能。无论你是初学者还是有经验的开发者，Swift 都能帮助你更有效地编写代码。</p>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>Apple</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI 介绍</title>
-    <url>/swift-blogs/2023/08/22/SwiftUI-%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<h1 id="SwiftUI-简介"><a href="#SwiftUI-简介" class="headerlink" title="SwiftUI 简介"></a>SwiftUI 简介</h1><p>SwiftUI 是 Apple 在 2019 年 WWDC 推出的一种现代化的 UI 开发框架，它是 iOS 13 和 macOS Catalina 的一部分。SwiftUI 可以让用户更容易地创建美观且响应式的用户界面，并且与 Core Data、Realm 等数据存储解决方案集成得非常好。此外，SwiftUI 还在不断更新和完善，以满足开发者的需求。</p>
-<h2 id="SwiftUI-的特点"><a href="#SwiftUI-的特点" class="headerlink" title="SwiftUI 的特点"></a>SwiftUI 的特点</h2><h3 id="声明式编程"><a href="#声明式编程" class="headerlink" title="声明式编程"></a>声明式编程</h3><p>SwiftUI 采用了声明式编程的方式，与传统的命令式编程相比，这种方式让代码更加简洁易读。你只需要描述应用程序的界面应该如何显示，而不需要详细指定每一个视图的属性和方法。</p>
-<span id="more"></span>
-
-<h3 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h3><p>SwiftUI 提供了强大的响应式布局能力，可以轻松地创建出适应不同设备和屏幕尺寸的应用程序。它支持线性布局、网格布局和灵活的布局组合，让你可以轻松地构建出复杂的界面。</p>
-<h3 id="内置动画和过渡"><a href="#内置动画和过渡" class="headerlink" title="内置动画和过渡"></a>内置动画和过渡</h3><p>SwiftUI 提供了丰富的内置动画和过渡效果，可以让你轻松地为应用程序添加生动的交互效果。这些动画和过渡效果与硬件加速相结合，可以让你的应用程序看起来更加流畅和自然。</p>
-<h3 id="与-Core-Data-和-Realm-集成"><a href="#与-Core-Data-和-Realm-集成" class="headerlink" title="与 Core Data 和 Realm 集成"></a>与 Core Data 和 Realm 集成</h3><p>SwiftUI 可以很容易地与 Core Data 和 Realm 等数据存储解决方案集成。你可以在应用程序中方便地访问和操作数据，而无需手动处理繁琐的数据库操作。</p>
-<h2 id="开始使用-SwiftUI"><a href="#开始使用-SwiftUI" class="headerlink" title="开始使用 SwiftUI"></a>开始使用 SwiftUI</h2><p>要开始使用 SwiftUI，你需要先安装 Xcode（macOS 10.15 及更高版本自带），然后创建一个新的 iOS 或 macOS 项目。在项目中，你可以直接使用默认的 <code>ContentView</code> 模板来开始编写 SwiftUI 代码。</p>
-<p>下面是一个简单的 SwiftUI 示例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, SwiftUI!&quot;</span>)</span><br><span class="line">                .font(.largeTitle)</span><br><span class="line">                .padding()</span><br><span class="line">            <span class="type">Button</span>(action: &#123;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Button tapped!&quot;</span>)</span><br><span class="line">            &#125;) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Tap me!&quot;</span>)</span><br><span class="line">                    .font(.title)</span><br><span class="line">                    .foregroundColor(.white)</span><br><span class="line">                    .padding()</span><br><span class="line">                    .background(<span class="type">Color</span>.blue)</span><br><span class="line">                    .cornerRadius(<span class="number">10</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个示例展示了一个简单的页面，包含一个标题和一个按钮。当用户点击按钮时，控制台会输出 “Button tapped!”。你可以根据自己的需求修改这个示例，或者尝试创建更复杂的界面。</p>
-<p>总之，SwiftUI 是一种功能强大、易于使用的 UI 开发框架，它可以帮助你更高效地构建出美观且响应式的应用程序。如果你已经熟悉 Swift 语言，那么学习 SwiftUI 将会是一件非常愉快的事情。</p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>Apple</tag>
-        <tag>SwiftUI</tag>
-        <tag>WWDC</tag>
       </tags>
   </entry>
   <entry>
     <title>Swift 中的运算符</title>
-    <url>/swift-blogs/2023/08/24/Swift-%E4%B8%AD%E7%9A%84%E8%BF%90%E7%AE%97%E7%AC%A6/</url>
+    <url>/swift-blogs/posts/c2a3f429.html</url>
     <content><![CDATA[<h3 id="Swift-中的运算符"><a href="#Swift-中的运算符" class="headerlink" title="Swift 中的运算符"></a>Swift 中的运算符</h3><p>运算符是一个符号，用于告诉编译器执行一个数学或逻辑运算。</p>
 <h4 id="专门用语"><a href="#专门用语" class="headerlink" title="专门用语"></a>专门用语</h4><p>运算符包括一元、二元、三元：</p>
 <ul>
@@ -455,6 +277,221 @@
       <tags>
         <tag>Swift</tag>
         <tag>运算符</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 中的集合类型</title>
+    <url>/swift-blogs/posts/5f278529.html</url>
+    <content><![CDATA[<p>Swift 语言提供 <code>Arrays</code>、<code>Sets</code> 和 <code>Dictionaries</code> 三种基本的集合类型用来存储集合数据。<strong>数组（Arrays）</strong>是有序数据的集。<strong>集合（Sets）</strong>是无序无重复数据的集。<strong>字典（Dictionaries）</strong>是无序的键值对的集。</p>
+<p>Swift 语言中的 <code>Arrays</code>、<code>Sets</code> 和 <code>Dictionaries</code> 中存储的数据值<strong>类型必须明确</strong>。这意味着我们不能把错误的数据类型插入其中。</p>
+<span id="more"></span>
+
+<h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><p>数组使用有序列表存储同一类型的多个值。相同的值可以多次出现在一个数组的不同位置中，这意味着数组中的元素是可以重复的。</p>
+<h5 id="创建一个空数组"><a href="#创建一个空数组" class="headerlink" title="创建一个空数组"></a>创建一个空数组</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> someInts <span class="operator">=</span> [<span class="type">Int</span>]()</span><br><span class="line"><span class="keyword">var</span> someStr:[<span class="type">String</span>] <span class="operator">=</span> []</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建一个带有默认值的数组"><a href="#创建一个带有默认值的数组" class="headerlink" title="创建一个带有默认值的数组"></a>创建一个带有默认值的数组</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> threeDouble <span class="operator">=</span> <span class="type">Array</span>(repeating: <span class="number">0.3</span>, count: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(threeDouble)</span><br></pre></td></tr></table></figure>
+
+<p>这里我们使用<code>Array</code>默认构造方法创建了一个长度大小为3，初始元素值为0.3的双精度类型的数组。参数说明：</p>
+<ul>
+<li>repeating:初始时元素的值</li>
+<li>count：元素的个数或者数组的长度</li>
+</ul>
+<p>此时，打印数组的显示如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[0.3, 0.3, 0.3]</span><br></pre></td></tr></table></figure>
+
+<h5 id="访问数组"><a href="#访问数组" class="headerlink" title="访问数组"></a>访问数组</h5><p>我们可以根据数组的索引来访问数组中的元素，不过需要注意的一点是数组的索引是从0开始的。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nameArr <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>,<span class="string">&quot;Zhao&quot;</span>,<span class="string">&quot;Rudolf&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第一个元素<span class="subst">\(nameArr[<span class="number">0</span>])</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第二个元素<span class="subst">\(nameArr[<span class="number">1</span>])</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第三个元素<span class="subst">\(nameArr[<span class="number">1</span>])</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="修改数组"><a href="#修改数组" class="headerlink" title="修改数组"></a>修改数组</h5><h6 id="添加数组元素"><a href="#添加数组元素" class="headerlink" title="添加数组元素"></a>添加数组元素</h6><p>我们可以使用<code>append</code>方法或者赋值运算符<code>+=</code>将一个元素添加到数组的末尾。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">nameArr.append(<span class="string">&quot;Wells&quot;</span>)</span><br><span class="line">nameArr <span class="operator">+=</span> [<span class="string">&quot;Wells&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>此时的数组为：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;Felix&quot;</span>, <span class="string">&quot;Zhao&quot;</span>, <span class="string">&quot;Rudolf&quot;</span>, <span class="string">&quot;Wells&quot;</span>, <span class="string">&quot;Wells&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h5 id="循环遍历数组"><a href="#循环遍历数组" class="headerlink" title="循环遍历数组"></a>循环遍历数组</h5><p>我们可以使用<code>for-in</code>循环来遍历数组中的每一个元素。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> nameArr &#123;</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们同时需要每个元素的值和对应的索引，我们可以使用<code>enumerate()</code>方法来遍历数组。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (index,name) <span class="keyword">in</span> nameArr.enumerated() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;当前索引:<span class="subst">\(index)</span>,当前值：<span class="subst">\(name)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">当前索引:<span class="number">0</span>,当前值：<span class="type">Felix</span></span><br><span class="line">当前索引:<span class="number">1</span>,当前值：<span class="type">Zhao</span></span><br><span class="line">当前索引:<span class="number">2</span>,当前值：<span class="type">Rudolf</span></span><br><span class="line">当前索引:<span class="number">3</span>,当前值：<span class="type">Wells</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="数组合并"><a href="#数组合并" class="headerlink" title="数组合并"></a>数组合并</h5><p>当我们有两个数据类型相同数组需要合并时，可以使用<code>+</code>运算符来合并数组。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nameArr <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>,<span class="string">&quot;Zhao&quot;</span>,<span class="string">&quot;Rudolf&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> newNameArr <span class="operator">=</span> [<span class="string">&quot;Lily&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> newArr <span class="operator">=</span> newNameArr <span class="operator">+</span> nameArr</span><br></pre></td></tr></table></figure>
+
+<p>此时，newArr的元素为：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;Lily&quot;</span>, <span class="string">&quot;Felix&quot;</span>, <span class="string">&quot;Zhao&quot;</span>, <span class="string">&quot;Rudolf&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h5 id="数组相关属性"><a href="#数组相关属性" class="headerlink" title="数组相关属性"></a>数组相关属性</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(nameArr.count) </span><br><span class="line"><span class="built_in">print</span>(nameArr.isEmpty) </span><br></pre></td></tr></table></figure>
+
+<p><code>.count</code>用来获取数组元素的个数；<code>.isEmpty</code>判断数组是否为空，返回值为布尔值。</p>
+<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><p>Swift中的字典是一个用来存储无序的相同类型数据的集合。字典中每个值(value)对应一个唯一的键(key)，键被作为值在这个字典里的标识符。字典里的数据是没有具体顺序的，我们只能通过值对应的键来访问到这个数据。另外，字典中的键可以是整型或者字符串类型，但是一个字典里键的类型必须是唯一的。</p>
+<h5 id="创建字典"><a href="#创建字典" class="headerlink" title="创建字典"></a>创建字典</h5><p>Swift中的字典使用<code>Dictionary&lt;Key,Value&gt;</code>的形式定义，其中<code>Key</code>是字典中键的数据类型，<code>Value</code>是字典中值的数据类型。我们使用这样形式来定义一个空的字典：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptyDcit <span class="operator">=</span> <span class="type">Dictionary</span>&lt;<span class="type">String</span>,<span class="type">String</span>&gt;()</span><br></pre></td></tr></table></figure>
+
+<p>Swift中也给我们提供了一种简化的语法来定义字典：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptyDcit <span class="operator">=</span> [<span class="type">String</span>:<span class="type">String</span>]()</span><br></pre></td></tr></table></figure>
+
+<p>两种方式都是定义了一个键和值都为字符串类型的空字典，在实际使用过程中，我们更多的是使用后面简化的定义方法。</p>
+<p>在项目开发中，如果我们只需要定义一个字典，但是不需要对它进行初始化操作的话，我们可以使用下面的这中方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> dic:[<span class="type">String</span>:<span class="type">String</span>]<span class="operator">!</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="字典的访问与修改"><a href="#字典的访问与修改" class="headerlink" title="字典的访问与修改"></a>字典的访问与修改</h5><p>我们可以根据键来修改字典中对应的值，我们也可以使用一些内置的方法来添加、删除元素。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> countryDic:[<span class="type">String</span>:<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;JP&quot;</span>:<span class="string">&quot;日本&quot;</span>,<span class="string">&quot;CN&quot;</span>:<span class="string">&quot;中国&quot;</span>,<span class="string">&quot;UK&quot;</span>:<span class="string">&quot;英国&quot;</span>,<span class="string">&quot;FR&quot;</span>:<span class="string">&quot;法国&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(countryDic[<span class="string">&quot;CN&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(countryDic[<span class="string">&quot;JP&quot;</span>])</span><br></pre></td></tr></table></figure>
+
+<p>在上面的实例代码中，我们定义了一个键为国家英文缩写，值为国家的中文简写。我们分别使用键<code>CN</code>和<code>JP</code>访问字典。</p>
+<p>当我们需要字典中添加一个新的元素时候，可以使用以下方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic[<span class="string">&quot;IN&quot;</span>] <span class="operator">=</span> <span class="string">&quot;印度&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们需要修改字典中的某个元素的值，使用以下方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic[<span class="string">&quot;CN&quot;</span>] <span class="operator">=</span> <span class="string">&quot;中华人民共和国&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们发现，我们添加新的元素和修改原有元素的值的方法是一样的。这是因为当我们通过键去修改字典的时候，会根据键名先去查询字典中是否包含对应的键名，如果包含的话就修改对应的值，如果不包含就添加新的元素。</p>
+<p>经过上面的添加和修改之后，此时的字典元素如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;UK&quot;</span>: <span class="string">&quot;英国&quot;</span>, <span class="string">&quot;JP&quot;</span>: <span class="string">&quot;日本&quot;</span>, <span class="string">&quot;FR&quot;</span>: <span class="string">&quot;法国&quot;</span>, <span class="string">&quot;CN&quot;</span>: <span class="string">&quot;中华人民共和国&quot;</span>, <span class="string">&quot;IN&quot;</span>: <span class="string">&quot;印度&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>我们经常会遇到根据键名去删除字典中对应的元素，这时，我们可以使用以下方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic.removeValue(forKey: <span class="string">&quot;CN&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我们经常会使用到的方法还有：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> index <span class="operator">=</span> countryDic.index(countryDic.startIndex, offsetBy: <span class="number">1</span>)</span><br><span class="line">countryDic.remove(at: index)  <span class="comment">//根据指定的索引删除元素</span></span><br><span class="line">countryDic.removeAll() <span class="comment">//清空字典</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="字典的遍历"><a href="#字典的遍历" class="headerlink" title="字典的遍历"></a>字典的遍历</h5><p>在之前的学习中，我们使用了<code>for-in</code>循环来遍历数组，同样的我们也可以使用<code>for-in</code>来遍历字典，不同的是遍历字典返回的是每个元素对应的键和值。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (key,value) <span class="keyword">in</span> countryDic &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;键：<span class="subst">\(key)</span>,值：<span class="subst">\(value)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，我们也可以值循环遍历出字典的键或者值。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> countryDic.keys &#123;</span><br><span class="line">    <span class="built_in">print</span>(key)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span>  countryDic.values &#123;</span><br><span class="line">    <span class="built_in">print</span>(value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外，在学习数组的时候，我们使用<code>isEmpty</code>属性来判断一个数组是否为空，我们同样可以使用这个方法来判断字典是否为空。</p>
+<h4 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h4><p>Swift 中的集合（Set）是一种无序的、不重复的数据结构，它允许你存储不同类型的元素。集合的主要用途是检查元素是否存在于集合中，因为集合中的<strong>元素是唯一</strong>的，所以当你尝试添加一个已经存在的元素时，集合不会发生变化。</p>
+<h5 id="创建一个集合"><a href="#创建一个集合" class="headerlink" title="创建一个集合"></a>创建一个集合</h5><p>创建集合的常见方法是使用字面量语法或者初始化器（initializer）。下面是一些关于如何创建和使用集合的示例：</p>
+<ol>
+<li>使用字面量语法创建集合：</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> numbers <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">Int</span>&gt;() <span class="comment">// 创建一个空的整数集合</span></span><br><span class="line"><span class="keyword">let</span> fruits <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">String</span>&gt;(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>) <span class="comment">// 创建一个包含三个字符串元素的集合</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用初始化器创建集合：</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptySet: <span class="type">Set</span>&lt;<span class="type">Int</span>&gt; <span class="operator">=</span> [] <span class="comment">// 创建一个空的整数集合</span></span><br><span class="line"><span class="keyword">var</span> fruitsSet <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>]) <span class="comment">// 创建一个包含三个字符串元素的集合</span></span><br><span class="line"><span class="keyword">var</span> mixedSet: <span class="type">Set</span>&lt;<span class="keyword">Any</span>&gt; <span class="operator">=</span> [<span class="number">1</span>, <span class="string">&quot;apple&quot;</span>, <span class="number">3.14</span>] <span class="comment">// 创建一个包含整数和浮点数的混合类型集合</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="集合中元素的访问、修改和删除"><a href="#集合中元素的访问、修改和删除" class="headerlink" title="集合中元素的访问、修改和删除"></a>集合中元素的访问、修改和删除</h5><p>向集合中添加新的元素使用<code>insert</code> 方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">numbers.insert(<span class="number">1</span>) <span class="comment">// 添加一个元素到集合中</span></span><br><span class="line">fruits.insert(<span class="string">&quot;grape&quot;</span>) <span class="comment">// 向集合中添加一个元素，如果元素已经存在，则不会改变集合</span></span><br></pre></td></tr></table></figure>
+
+<p>使用<code>remove</code> 方法移除集合中的元素：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">numbers.remove(<span class="number">1</span>) <span class="comment">// 从集合中移除一个元素，如果元素不存在，则不会改变集合</span></span><br><span class="line">fruits.remove(<span class="string">&quot;banana&quot;</span>) <span class="comment">// 从集合中移除一个元素，如果元素不存在，则不会改变集合</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="集合的遍历"><a href="#集合的遍历" class="headerlink" title="集合的遍历"></a>集合的遍历</h5><p>集合的遍历和数组的遍历类似，使用 <code>for-in</code>循环语句。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> number <span class="keyword">in</span> numbers &#123;</span><br><span class="line">    <span class="built_in">print</span>(number) <span class="comment">// 输出集合中的每个元素</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> fruit <span class="keyword">in</span> fruits &#123;</span><br><span class="line">    <span class="built_in">print</span>(fruit) <span class="comment">// 输出集合中的每个元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="检查元素是否存在于集合中"><a href="#检查元素是否存在于集合中" class="headerlink" title="检查元素是否存在于集合中"></a>检查元素是否存在于集合中</h5><p>判断一个元素是否存在于集合中可以使用<code>contains</code> 方法。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> fruits.contains(<span class="string">&quot;apple&quot;</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;苹果存在于集合中&quot;</span>) <span class="comment">// 如果集合包含指定的元素，则输出相应的信息</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;苹果不存在于集合中&quot;</span>) <span class="comment">// 如果集合不包含指定的元素，则输出相应的信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="获取集合的大小"><a href="#获取集合的大小" class="headerlink" title="获取集合的大小"></a>获取集合的大小</h5><p>获取集合的大小或元素的数量使用<code>count</code> 属性。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> size <span class="operator">=</span> fruits.count <span class="comment">// 获取集合中的元素个数</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="判断两个集合是否相等（即它们包含相同的元素）"><a href="#判断两个集合是否相等（即它们包含相同的元素）" class="headerlink" title="判断两个集合是否相等（即它们包含相同的元素）"></a>判断两个集合是否相等（即它们包含相同的元素）</h5><p>判断两个集合是否相等可以使用<code>==</code> 运算符。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> setA <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>])</span><br><span class="line"><span class="keyword">let</span> setB <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>])</span><br><span class="line"><span class="keyword">let</span> isEqual <span class="operator">=</span> setA <span class="operator">==</span> setB <span class="comment">// 判断两个集合是否相等，如果相等则返回 true，否则返回 false</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>Foundation</tag>
+        <tag>集合类型</tag>
+        <tag>数组</tag>
+        <tag>集合</tag>
+        <tag>字典</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 介绍</title>
+    <url>/swift-blogs/posts/ea0a67e1.html</url>
+    <content><![CDATA[<h1 id="Swift-编程语言介绍"><a href="#Swift-编程语言介绍" class="headerlink" title="Swift 编程语言介绍"></a>Swift 编程语言介绍</h1><p>Swift 是一种强大且直观的编程语言，由 Apple Inc. 开发，用于 iOS, macOS, watchOS 和 tvOS 的应用开发。Swift 结合了 C 和 Objective-C 的优点，并且支持函数式编程，面向对象编程和泛型编程。它的目标是提供一种安全、高效、灵活和现代化的编程语言，可以让开发者创造出更快、更稳定、更易用的应用程序。</p>
+<span id="more"></span>
+
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>Swift 强调类型安全和内存管理。它不允许隐式转换到不安全的类型，这可以防止许多常见的编程错误。此外，Swift 使用自动引用计数（ARC）来管理内存，减少了内存泄露的可能性。</p>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>Swift 旨在提供高性能的应用程序。它的编译器进行了优化，以提高运行速度和减少能源消耗。Swift 的语法糖也有助于编写简洁且高效的代码。</p>
+<h3 id="易用性"><a href="#易用性" class="headerlink" title="易用性"></a>易用性</h3><p>Swift 的语法清晰简洁，易于学习和使用。它的设计哲学是“简单就是美”，使得 Swift 代码既美观又易读。</p>
+<h3 id="开源"><a href="#开源" class="headerlink" title="开源"></a>开源</h3><p>Swift 是开源的，这意味着开发者可以查看和修改其源代码。这使得 Swift 成为一个活跃的社区项目，不断有新的功能和改进加入其中。</p>
+<h2 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h2><h3 id="类型系统"><a href="#类型系统" class="headerlink" title="类型系统"></a>类型系统</h3><p>Swift 是一种静态类型语言，这意味着你在编写代码时必须为每个变量明确指定类型。这可以避免许多类型错误，并使得代码更加易于理解和维护。</p>
+<h3 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h3><p>Swift 完全支持面向对象编程，包括类、结构体、协议、继承和多态等概念。它也支持协议扩展，这使得你可以向现有类添加新的方法或者属性，而无需改变原有的代码。</p>
+<h3 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h3><p>Swift 同时支持函数式编程和面向对象编程。你可以在函数中使用闭包，这为处理异步事件或者创建高阶函数提供了强大的工具。</p>
+<h3 id="Playgrounds"><a href="#Playgrounds" class="headerlink" title="Playgrounds"></a>Playgrounds</h3><p>Xcode 集成了一个强大的交互式编程环境——Playgrounds。你可以在 Playgrounds 中尝试 Swift 的各种特性，而无需创建完整的项目。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Swift 是一种强大、直观且安全的编程语言，它专注于提供最好的用户体验和性能。无论你是初学者还是有经验的开发者，Swift 都能帮助你更有效地编写代码。</p>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>Apple</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI 介绍</title>
+    <url>/swift-blogs/posts/96cb395e.html</url>
+    <content><![CDATA[<h1 id="SwiftUI-简介"><a href="#SwiftUI-简介" class="headerlink" title="SwiftUI 简介"></a>SwiftUI 简介</h1><p>SwiftUI 是 Apple 在 2019 年 WWDC 推出的一种现代化的 UI 开发框架，它是 iOS 13 和 macOS Catalina 的一部分。SwiftUI 可以让用户更容易地创建美观且响应式的用户界面，并且与 Core Data、Realm 等数据存储解决方案集成得非常好。此外，SwiftUI 还在不断更新和完善，以满足开发者的需求。</p>
+<h2 id="SwiftUI-的特点"><a href="#SwiftUI-的特点" class="headerlink" title="SwiftUI 的特点"></a>SwiftUI 的特点</h2><h3 id="声明式编程"><a href="#声明式编程" class="headerlink" title="声明式编程"></a>声明式编程</h3><p>SwiftUI 采用了声明式编程的方式，与传统的命令式编程相比，这种方式让代码更加简洁易读。你只需要描述应用程序的界面应该如何显示，而不需要详细指定每一个视图的属性和方法。</p>
+<span id="more"></span>
+
+<h3 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h3><p>SwiftUI 提供了强大的响应式布局能力，可以轻松地创建出适应不同设备和屏幕尺寸的应用程序。它支持线性布局、网格布局和灵活的布局组合，让你可以轻松地构建出复杂的界面。</p>
+<h3 id="内置动画和过渡"><a href="#内置动画和过渡" class="headerlink" title="内置动画和过渡"></a>内置动画和过渡</h3><p>SwiftUI 提供了丰富的内置动画和过渡效果，可以让你轻松地为应用程序添加生动的交互效果。这些动画和过渡效果与硬件加速相结合，可以让你的应用程序看起来更加流畅和自然。</p>
+<h3 id="与-Core-Data-和-Realm-集成"><a href="#与-Core-Data-和-Realm-集成" class="headerlink" title="与 Core Data 和 Realm 集成"></a>与 Core Data 和 Realm 集成</h3><p>SwiftUI 可以很容易地与 Core Data 和 Realm 等数据存储解决方案集成。你可以在应用程序中方便地访问和操作数据，而无需手动处理繁琐的数据库操作。</p>
+<h2 id="开始使用-SwiftUI"><a href="#开始使用-SwiftUI" class="headerlink" title="开始使用 SwiftUI"></a>开始使用 SwiftUI</h2><p>要开始使用 SwiftUI，你需要先安装 Xcode（macOS 10.15 及更高版本自带），然后创建一个新的 iOS 或 macOS 项目。在项目中，你可以直接使用默认的 <code>ContentView</code> 模板来开始编写 SwiftUI 代码。</p>
+<p>下面是一个简单的 SwiftUI 示例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, SwiftUI!&quot;</span>)</span><br><span class="line">                .font(.largeTitle)</span><br><span class="line">                .padding()</span><br><span class="line">            <span class="type">Button</span>(action: &#123;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Button tapped!&quot;</span>)</span><br><span class="line">            &#125;) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Tap me!&quot;</span>)</span><br><span class="line">                    .font(.title)</span><br><span class="line">                    .foregroundColor(.white)</span><br><span class="line">                    .padding()</span><br><span class="line">                    .background(<span class="type">Color</span>.blue)</span><br><span class="line">                    .cornerRadius(<span class="number">10</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个示例展示了一个简单的页面，包含一个标题和一个按钮。当用户点击按钮时，控制台会输出 “Button tapped!”。你可以根据自己的需求修改这个示例，或者尝试创建更复杂的界面。</p>
+<p>总之，SwiftUI 是一种功能强大、易于使用的 UI 开发框架，它可以帮助你更高效地构建出美观且响应式的应用程序。如果你已经熟悉 Swift 语言，那么学习 SwiftUI 将会是一件非常愉快的事情。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>Apple</tag>
+        <tag>SwiftUI</tag>
+        <tag>WWDC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI之形状绘制</title>
+    <url>/swift-blogs/posts/69def74.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，可以使用内置的形状或者根据路径自定义形状。</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308261003030.png" style="zoom:20%;" />
+
+<h3 id="SwiftUI-中内置的形状"><a href="#SwiftUI-中内置的形状" class="headerlink" title="SwiftUI 中内置的形状"></a>SwiftUI 中内置的形状</h3><p>SwiftUI 中给我们提供了五种常用内置形状：矩形，圆角矩形，圆形，椭圆形和胶囊形状。</p>
+<span id="more"></span>
+
+<h4 id="矩形"><a href="#矩形" class="headerlink" title="矩形"></a>矩形</h4><p>在 SwiftUI 中使用<span style="color:red"> <strong><code>Rectangle</code></strong></span> 类创建一个矩形。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Rectangle</span>()</span><br><span class="line">      .fill(.gray) <span class="comment">// 矩形填充的颜色</span></span><br><span class="line">      .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="圆角矩形"><a href="#圆角矩形" class="headerlink" title="圆角矩形"></a>圆角矩形</h4><p>在 SwiftUI 中使用<span style="color:red"> <strong><code>RoundedRectangle</code></strong></span> 类创建一个圆角矩形，不过它的初始化方法给我们提供了两个属性， <code>cornerSize</code> 和 <code>cornerRadius</code> 。通过配置这两个属性我们都可以创建一个圆角矩形。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 通过圆角尺寸创建圆角矩形</span></span><br><span class="line"><span class="type">RoundedRectangle</span>(cornerSize: <span class="type">CGSize</span>(width: <span class="number">8</span>, height: <span class="number">8</span>))</span><br><span class="line">          .fill(.red)</span><br><span class="line">          .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过圆角半径创建圆角矩形</span></span><br><span class="line"><span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">8</span>)</span><br><span class="line">           .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上两中方式创建出来的圆角矩形形状是一样的。</p>
+<h4 id="胶囊形"><a href="#胶囊形" class="headerlink" title="胶囊形"></a>胶囊形</h4><p>创建一个胶囊形状使用 <span style="color:red"> <strong><code>Capsule</code></strong> </span>类。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Capsule</span>()</span><br><span class="line">    .fill(.orange)</span><br><span class="line">    .frame(width: <span class="number">100</span>, height: <span class="number">60</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意的一点是，当我们不添加 <code>frame</code> 修饰器时，默认情况下为一个圆形。胶囊的最终形状根据给<code>frame</code> 修饰器的<code>width</code>和<code>height</code> 两个属性决定。</p>
+<h4 id="椭圆形"><a href="#椭圆形" class="headerlink" title="椭圆形"></a>椭圆形</h4><p>创建一个椭圆形状使用 <span style="color:red"> <strong><code>Ellipse</code></strong> </span>类。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Ellipse</span>()</span><br><span class="line">     .frame(width: <span class="number">100</span>, height: <span class="number">60</span>)</span><br></pre></td></tr></table></figure>
+
+<p>同样地，当 <code>frame</code> 修饰器中的<code>width</code> 和 <code>height</code> 两个属性值一样时，椭圆形状会变成一个圆形。</p>
+<h4 id="圆形"><a href="#圆形" class="headerlink" title="圆形"></a>圆形</h4><p>创建一个圆形状使用 <span style="color:red"> <strong><code>Circle</code></strong> </span>类。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Circle</span>()</span><br><span class="line">      .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><p><a href="https://developer.apple.com/documentation/swiftui/shapes">Shapes | Apple Developer Documentation</a></p>
+]]></content>
+      <categories>
+        <category>SwiftUI 进阶</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>形状</tag>
       </tags>
   </entry>
 </search>
