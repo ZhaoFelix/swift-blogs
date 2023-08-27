@@ -1,8 +1,16 @@
 ---
 title: Swift 中的集合类型
+tags:
+  - Swift
+  - 集合类型
+  - Foundation
+  - 数组
+  - 集合
+  - 字典
+categories:
+  - Swift 基础语法
+abbrlink: 5f278529
 date: 2023-08-25 09:17:28
-tags: [Swift, 集合类型, Foundation, 数组, 集合, 字典]
-categories: [Swift 基础语法]
 ---
 
 Swift 语言提供 `Arrays`、`Sets` 和 `Dictionaries` 三种基本的集合类型用来存储集合数据。**数组（Arrays）**是有序数据的集。**集合（Sets）**是无序无重复数据的集。**字典（Dictionaries）**是无序的键值对的集。

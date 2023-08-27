@@ -1,8 +1,13 @@
 ---
 title: Swift 中的数据类型
+tags:
+  - Swift
+  - Foundation
+  - Xcode
+categories:
+  - Swift 基础语法
+abbrlink: 6876d7b8
 date: 2023-08-24 09:11:27
-tags: [Swift, Foundation, Xcode]
-categories: [Swift 基础语法] 
 ---
 
 #### 整数

@@ -1,8 +1,12 @@
 ---
 title: Swift 介绍
+tags:
+  - Swift
+  - Apple
+categories:
+  - Swift 基础语法
+abbrlink: ea0a67e1
 date: 2023-08-22 09:25:58
-tags: [Swift,Apple]
-categories: [Swift 基础语法]
 ---
 
 # Swift 编程语言介绍

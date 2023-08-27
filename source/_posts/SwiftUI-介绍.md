@@ -1,8 +1,14 @@
 ---
 title: SwiftUI 介绍
+tags:
+  - Swift
+  - Apple
+  - SwiftUI
+  - WWDC
+categories:
+  - SwiftUI 基础
+abbrlink: 96cb395e
 date: 2023-08-22 10:36:50
-tags: [Swift, Apple, SwiftUI, WWDC]
-categories: [SwiftUI 基础]
 ---
 
 # SwiftUI 简介

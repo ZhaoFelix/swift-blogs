@@ -1,8 +1,11 @@
 ---
 title: Swift 中的常量和变量
+tags:
+  - Foundation
+categories:
+  - Swift 基础语法
+abbrlink: c6460431
 date: 2023-08-22 12:30:14
-tags: [Foundation]
-categories: [Swift 基础语法]
 ---
 
 # 常量 & 变量
