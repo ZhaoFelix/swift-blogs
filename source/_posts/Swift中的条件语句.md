@@ -3,7 +3,7 @@ title: Swift中的条件语句
 abbrlink: 964c101d
 date: 2023-08-27 10:15:16
 tags: [Swift, 条件语句]
-categories: [Swift 基础]
+categories: [Swift 基础语法]
 ---
 
 Swift提供了**if**和**switch**两种条件语句，`if`语句用来判断简单的条件，`switch`语句适合复杂的条件。

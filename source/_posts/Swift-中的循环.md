@@ -3,7 +3,7 @@ title: Swift 中的循环
 abbrlink: 73894dfa
 date: 2023-08-27 10:19:37
 tags: [Swift, 循环]
-categories: [Swift 基础]
+categories: [Swift 基础语法]
 ---
 
 Swift提供了多样化的控制流语句。包括**while**循环；**for-in**循环；`if`，`guard`和`switch`语句用来基于特定的条件执行不同的代码分支。
