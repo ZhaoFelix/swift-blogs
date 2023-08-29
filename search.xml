@@ -589,6 +589,31 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI之绘制自定义形状</title>
+    <url>/swift-blogs/posts/8c78197a.html</url>
+    <content><![CDATA[<p>在之前一片文章中，我们介绍了 SwiftUI 中内置的一些图形形状。在一些特殊的工能需求下，我们需要自定义去绘制一些形状，例如五角星⭐️，多边形。</p>
+<h3 id="自定义路径"><a href="#自定义路径" class="headerlink" title="自定义路径"></a>自定义路径</h3><p>在 SwiftUI 中可以使用 <span style="color:red"><code>Shape</code></span>协议自定义路径。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 自定义一个结构体，实现 Shape 协议</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DrawRectangleShape</span>: <span class="title class_">Shape</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">path</span>(<span class="params">in</span> <span class="params">rect</span>: <span class="type">CGRect</span>) -&gt; <span class="type">Path</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> path <span class="operator">=</span> <span class="type">Path</span>()</span><br><span class="line">        path.addRect(rect)</span><br><span class="line">        <span class="keyword">return</span> path</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们自定义了一个实现 <code>Shape</code> 协议的结构体类型，在这个自定义的结构体中我们需要实现一个 <code>path(in:)</code>的协议方法，这个方法要求我们返回一个 <code>Path</code>对象，即我们要绘制的形状路径。</p>
+ <span id="more"></span>
+
+<p>在上面的这个例子中，我们直接将传进来的 <code>rect</code> 添加到绘制的路径中。具体表现为下面的代码绘制的是一个红色矩形：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以及下面的代码绘制结果看起来像是一根红色的线，因为绘制的图像的形状高度为 1。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 进阶</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>自定义形状</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift中的函数</title>
     <url>/swift-blogs/posts/66bf2022.html</url>
     <content><![CDATA[<h3 id="认识函数"><a href="#认识函数" class="headerlink" title="认识函数"></a>认识函数</h3><p>函数是一段独立的代码块，用来执行一些特定的操作。我们可以通过给函数一个名字来定义它的功能，当我们需要执行这段代码块的时候通过函数的名字来进行调用。</p>
@@ -659,31 +684,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI之绘制自定义形状</title>
-    <url>/swift-blogs/posts/8c78197a.html</url>
-    <content><![CDATA[<p>在之前一片文章中，我们介绍了 SwiftUI 中内置的一些图形形状。在一些特殊的工能需求下，我们需要自定义去绘制一些形状，例如五角星⭐️，多边形。</p>
-<h3 id="自定义路径"><a href="#自定义路径" class="headerlink" title="自定义路径"></a>自定义路径</h3><p>在 SwiftUI 中可以使用 <span style="color:red"><code>Shape</code></span>协议自定义路径。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 自定义一个结构体，实现 Shape 协议</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DrawRectangleShape</span>: <span class="title class_">Shape</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">path</span>(<span class="params">in</span> <span class="params">rect</span>: <span class="type">CGRect</span>) -&gt; <span class="type">Path</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> path <span class="operator">=</span> <span class="type">Path</span>()</span><br><span class="line">        path.addRect(rect)</span><br><span class="line">        <span class="keyword">return</span> path</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们自定义了一个实现 <code>Shape</code> 协议的结构体类型，在这个自定义的结构体中我们需要实现一个 <code>path(in:)</code>的协议方法，这个方法要求我们返回一个 <code>Path</code>对象，即我们要绘制的形状路径。</p>
- <span id="more"></span>
-
-<p>在上面的这个例子中，我们直接将传进来的 <code>rect</code> 添加到绘制的路径中。具体表现为下面的代码绘制的是一个红色矩形：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
-
-<p>以及下面的代码绘制结果看起来像是一根红色的线，因为绘制的图像的形状高度为 1。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 进阶</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>自定义形状</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Swift中的条件语句</title>
     <url>/swift-blogs/posts/964c101d.html</url>
     <content><![CDATA[<p>Swift提供了<strong>if</strong>和<strong>switch</strong>两种条件语句，<code>if</code>语句用来判断简单的条件，<code>switch</code>语句适合复杂的条件。</p>
@@ -722,6 +722,40 @@
       <tags>
         <tag>Swift</tag>
         <tag>条件语句</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在SwiftUI 中创建一个内容切换效果</title>
+    <url>/swift-blogs/posts/d4605c9a.html</url>
+    <content><![CDATA[<h3 id="文字内容切换效果"><a href="#文字内容切换效果" class="headerlink" title="文字内容切换效果"></a>文字内容切换效果</h3><p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> text: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;$<span class="subst">\(text)</span>&quot;</span>)</span><br><span class="line">                .font(.largeTitle.bold())</span><br><span class="line">                .contentTransition(.numericText(value: <span class="type">Double</span>(text)))</span><br><span class="line">            <span class="type">Button</span> &#123;</span><br><span class="line">                withAnimation(.bouncy) &#123;</span><br><span class="line">                    text <span class="operator">=</span> .random(in: <span class="number">100</span><span class="operator">...</span><span class="number">10000</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Update&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308291020904.mp4" style="zoom:20%"></img></p>
+<span id="more"></span> 
+
+<p><span style="color:red"><strong>注意</strong></span>：<code>contentTransition</code> 修饰器的系统要求为： <code>@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)</code>。</p>
+<h3 id="SFSymbol-切换效果"><a href="#SFSymbol-切换效果" class="headerlink" title="SFSymbol 切换效果"></a>SFSymbol 切换效果</h3><p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> sfImage: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;house.fill&quot;</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> sfCount: <span class="type">Int</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: sfImage)</span><br><span class="line">                .font(.largeTitle.bold())</span><br><span class="line">                .contentTransition(.symbolEffect(.automatic))</span><br><span class="line">            <span class="type">Button</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> images:[<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;suit.heart.fill&quot;</span>, <span class="string">&quot;house.fill&quot;</span>, <span class="string">&quot;gearshape&quot;</span>, <span class="string">&quot;person.circle.fill&quot;</span>, <span class="string">&quot;iphone&quot;</span>, <span class="string">&quot;macbook&quot;</span>]</span><br><span class="line">                withAnimation(.bouncy) &#123;</span><br><span class="line">                   sfCount <span class="operator">+=</span> <span class="number">1</span></span><br><span class="line">                    sfImage <span class="operator">=</span> images[sfCount <span class="operator">%</span> images.count]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Update&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308291039418.mp4"  style="zoom:20%"/>
+
+<p><span style="color:red"><strong>注意</strong></span>：</p>
+<ul>
+<li><p><code>contentTransition</code> 修饰器的系统要求为： <code>@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)</code>;</p>
+</li>
+<li><p><code>symbolEffect</code> 修饰器的系统要求为：<code>@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)</code>。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>SwiftUI 进阶</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>动画</tag>
+        <tag>SFSymbol</tag>
       </tags>
   </entry>
 </search>
