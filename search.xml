@@ -204,6 +204,41 @@
       </tags>
   </entry>
   <entry>
+    <title>Swift 中的枚举</title>
+    <url>/swift-blogs/posts/251de72f.html</url>
+    <content><![CDATA[<h3 id="Swift-中的枚举"><a href="#Swift-中的枚举" class="headerlink" title="Swift 中的枚举"></a>Swift 中的枚举</h3><p>在计算机编程中，枚举是一种数据类型，用于定义一定范围内的有名称的值。Swift语言中的枚举是强大且灵活的工具，我们可以在多种场景中使用它们，包括但不限于处理特定类型的数据、创建自定义的错误类型以及实现特定的设计模式。</p>
+<h4 id="定义和基本用法"><a href="#定义和基本用法" class="headerlink" title="定义和基本用法"></a>定义和基本用法</h4><p>在Swift中，我们使用<code>enum</code>关键字来定义枚举。下面是一个简单的例子，展示了如何定义和使用一个名为<code>Weekday</code>的枚举，表示一周中的每一天：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Monday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Tuesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Wednesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Thursday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Friday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Saturday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Sunday</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>我们可以使用这个枚举来处理与一周中的某天相关的数据。例如，我们可以创建一个函数，根据给定的<code>Weekday</code>枚举值返回一周中的相应天数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">dayOfWeek</span>(<span class="keyword">_</span> <span class="params">weekday</span>: <span class="type">Weekday</span>) -&gt; <span class="type">String</span> &#123;  </span><br><span class="line">    <span class="keyword">switch</span> weekday &#123;  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Monday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Tuesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wednesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Thursday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Friday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Saturday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Sunday&quot;</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们可以像下面这样使用这个函数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> monday <span class="operator">=</span> <span class="type">Weekday</span>.<span class="type">Monday</span>  </span><br><span class="line"><span class="built_in">print</span>(dayOfWeek(monday)) <span class="comment">// 输出：Monday</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="关联值"><a href="#关联值" class="headerlink" title="关联值"></a>关联值</h4><p>Swift的枚举还可以定义关联值，这使得枚举能够更丰富地表达信息。例如，我们创建一个枚举表示用户的登录状态，并为其关联一个错误消息：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">UserLoginStatus</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> success(<span class="type">String</span>)  </span><br><span class="line">    <span class="keyword">case</span> failure(<span class="type">String</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>UserLoginStatus</code>枚举有两个cases：<code>success</code>和<code>failure</code>。这两个cases都关联了一个String类型的值，表示成功或失败的状态信息。我们可以像下面这样使用这个枚举：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> successfulLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.success(<span class="string">&quot;登录成功&quot;</span>)  </span><br><span class="line"><span class="keyword">let</span> failedLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.failure(<span class="string">&quot;登录失败，请检查用户名和密码&quot;</span>)  </span><br><span class="line"><span class="built_in">print</span>(successfulLogin) <span class="comment">// 输出：登录成功  </span></span><br><span class="line"><span class="built_in">print</span>(failedLogin) <span class="comment">// 输出：登录失败，请检查用户名和密码</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="在switch语句中使用枚举"><a href="#在switch语句中使用枚举" class="headerlink" title="在switch语句中使用枚举"></a>在switch语句中使用枚举</h4><p>由于Swift的枚举是全特性的，所以在switch语句中可以使用枚举的所有case值。这对于处理多种可能的枚举值非常有用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> someWeekday: <span class="type">Weekday</span> <span class="operator">=</span> .<span class="type">Wednesday</span>  </span><br><span class="line"><span class="keyword">switch</span> someWeekday &#123;  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期一&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期二&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期三&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期四&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期五&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期六&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期日&quot;</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用原始值和匿名枚举"><a href="#使用原始值和匿名枚举" class="headerlink" title="使用原始值和匿名枚举"></a>使用原始值和匿名枚举</h4><p>有时候，我们可能不需要为枚举的每个case关联一个特定的值，或者我们希望将所有值都关联到一个单一的原始值。在这种情况下，我们可以使用原始值和匿名枚举。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span>乏味的颜色: <span class="title class_">Int</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> red <span class="operator">=</span> <span class="number">1</span>, green <span class="operator">=</span> <span class="number">2</span>, blue <span class="operator">=</span> <span class="number">3</span>, yellow <span class="operator">=</span> <span class="number">4</span>, orange <span class="operator">=</span> <span class="number">5</span>,  <span class="comment">// 可以根据需要添加更多颜色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>枚举</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift 中的类</title>
     <url>/swift-blogs/posts/338306b2.html</url>
     <content><![CDATA[<p>在Swift中，类是一种引用类型，用于封装数据和方法。类是面向对象编程的基础，它们允许我们创建具有特定属性和方法的自定义数据类型。在这篇文章中，我们将详细介绍Swift中的类及其使用方法。</p>
@@ -284,127 +319,6 @@
       <tags>
         <tag>Swift</tag>
         <tag>结构体</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 中的运算符</title>
-    <url>/swift-blogs/posts/c2a3f429.html</url>
-    <content><![CDATA[<h3 id="Swift-中的运算符"><a href="#Swift-中的运算符" class="headerlink" title="Swift 中的运算符"></a>Swift 中的运算符</h3><p>运算符是一个符号，用于告诉编译器执行一个数学或逻辑运算。</p>
-<h4 id="专门用语"><a href="#专门用语" class="headerlink" title="专门用语"></a>专门用语</h4><p>运算符包括一元、二元、三元：</p>
-<ul>
-<li>一元运算符对一个目标进行操作，例如-a。</li>
-<li>二元运算符对两个目标进行操作，例如a+b。</li>
-<li>三元运算符操作三个目标，Swift语言有仅只有一个三元运算符（a ? b : c）。</li>
-</ul>
-<p>Swift提供来以下几种运算符：</p>
-<ul>
-<li>算术运算符</li>
-<li>比较运算符</li>
-<li>逻辑运算符</li>
-<li>位运算符</li>
-<li>赋值运算符</li>
-<li>区间运算符</li>
-<li>其他运算符</li>
-</ul>
-<span id="more"></span>
-
-<h4 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h4><p>Swift提供来四种标准的算术运算符：</p>
-<ul>
-<li>加（+）</li>
-<li>减（-）</li>
-<li>乘（*）</li>
-<li>除（&#x2F;）</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span> <span class="operator">+</span> <span class="number">2</span> <span class="comment">//equals 3</span></span><br><span class="line"><span class="number">5</span> <span class="operator">-</span> <span class="number">3</span> <span class="comment">//equals 2</span></span><br><span class="line"><span class="number">2</span> <span class="operator">*</span> <span class="number">3</span> <span class="comment">//equals 6</span></span><br><span class="line"><span class="number">10</span> <span class="operator">/</span> <span class="number">2</span>  <span class="comment">//equals 5</span></span><br></pre></td></tr></table></figure>
-
-<p>加法运算符同时支持String的拼接：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;Hello ,&quot;</span> <span class="operator">+</span> <span class="string">&quot;World&quot;</span> <span class="comment">//equals &quot;Hello, World&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h5><p>Swift支持所有C的所有标准比较运算符：</p>
-<ul>
-<li>相等 （a &#x3D;&#x3D; b）</li>
-<li>不像等（a !&#x3D; b）</li>
-<li>大于（a &gt; b）</li>
-<li>小于（a &lt; b）</li>
-<li>大于等于（a &gt;&#x3D; b）</li>
-<li>小于等于（a &lt;&#x3D; b）</li>
-</ul>
-<p>每个比较运算符都会返回一个Bool来表示比较的结果是否为真：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span> <span class="operator">==</span> <span class="number">2</span> <span class="comment">//false</span></span><br><span class="line"><span class="number">2</span> <span class="operator">!=</span> <span class="number">3</span> <span class="comment">//true</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&gt;</span> <span class="number">1</span>  <span class="comment">//true</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&lt;</span> <span class="number">1</span> <span class="comment">//false </span></span><br><span class="line"><span class="number">1</span> <span class="operator">&gt;=</span> <span class="number">1</span> <span class="comment">//true</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&lt;=</span> <span class="number">3</span> <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注意：Swift同时也提供两个等价运算符（&#x3D;&#x3D;&#x3D; 和 !&#x3D;&#x3D; ）,你可以使用它们来判断两个对象的引用是否相同。</p>
-</blockquote>
-<h4 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h4><p>逻辑运算符可以修改或者合并布尔逻辑值true和false。Swift提供 以下三种标准的逻辑运算符：</p>
-<ul>
-<li>逻辑非 （ !a ）：对a的布尔值取反；</li>
-<li>逻辑与 （ a&amp;&amp;b ）：若a和b均为true,则结果为true；若a和b中有一个或两个都为false，则结果为false。</li>
-<li>逻辑或 （ a||b ）：若a和b其中一个为true，则结果为true。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a:<span class="type">Bool</span> <span class="operator">=</span> <span class="literal">true</span> </span><br><span class="line"><span class="keyword">var</span> b:<span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line"><span class="operator">!</span>a  <span class="comment">//false</span></span><br><span class="line">a<span class="operator">&amp;&amp;</span>b <span class="literal">false</span></span><br><span class="line">a<span class="operator">||</span>b <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h4><p>位运算符用来对二位进制位进行操作，Swift提供以下几种位运算符：</p>
-<ul>
-<li>取反（～）</li>
-<li>按位与（&amp;）</li>
-<li>按位或（|）</li>
-<li>按位异或（^）</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>p</th>
-<th>q</th>
-<th>p&amp;q</th>
-<th>p</th>
-<th>q</th>
-<th>p^q</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-</tbody></table>
-<h4 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h4><p>赋值运算符（a &#x3D; b）可是初始化或者更新a的值为b:</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> a <span class="operator">=</span> <span class="number">5</span></span><br><span class="line">a <span class="operator">=</span> b <span class="comment">//此时，a的值为10</span></span><br></pre></td></tr></table></figure>
-
-<p>除了简单的赋值运算符，Swift还提供了组合赋值运算符。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">10</span> </span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> c <span class="operator">=</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">c <span class="operator">+=</span> a <span class="comment">//  c = c+a</span></span><br><span class="line">c <span class="operator">-=</span> a  <span class="comment">// c = c - a</span></span><br><span class="line">c <span class="operator">*=</span> a <span class="comment">// c = c * a</span></span><br><span class="line">c <span class="operator">/=</span> a  <span class="comment">// c = c / a</span></span><br><span class="line">c <span class="operator">%=</span> a  <span class="comment">// c = c % a</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="区间运算符"><a href="#区间运算符" class="headerlink" title="区间运算符"></a>区间运算符</h4><p>Swift包含了两个区间运算符，他们表示一个范围的值的便捷方式。</p>
-<h5 id="闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。"><a href="#闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。" class="headerlink" title="闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。"></a>闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">5</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(i)  <span class="comment">//循环打印出1～5的整数，包括1和5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>关于循环控制流的内容将在后续内容中出现。</p>
-</blockquote>
-<h5 id="半开区间运算符"><a href="#半开区间运算符" class="headerlink" title="半开区间运算符"></a>半开区间运算符</h5><p>半开区间运算符（a..&lt;b）定义了从a到b但不包括b的区间。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">5</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(i)  <span class="comment">//循环打印出1～4的整数,包括4，不包括5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="单侧区间"><a href="#单侧区间" class="headerlink" title="单侧区间"></a>单侧区间</h5><p>单侧区间主要用在数组的遍历。当我们需要遍历数组中的指定索引前或者后的元素时可以使用单侧区间。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//遍历数组items索引2后的所有元素</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items[<span class="number">2</span><span class="operator">...</span>]&#123;</span><br><span class="line">    <span class="built_in">print</span>(item) </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//遍历数组items索引2前的所有元素</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items[<span class="operator">...</span><span class="number">2</span>]&#123;</span><br><span class="line">    <span class="built_in">print</span>(item) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历数组items索引2前的所有元素,不包括索引2的元素</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items[<span class="operator">..&lt;</span><span class="number">2</span>]&#123;</span><br><span class="line">    <span class="built_in">print</span>(item) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="三元运算符"><a href="#三元运算符" class="headerlink" title="三元运算符"></a>三元运算符</h4><p>三元条件运算符是一种有三部分的特殊运算符，它类似于 question ? answer1 : answer2。如果question为真，则会判断answer1并且返回它的值；否则它判断为answer2并且返回它的值。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> question &#123;</span><br><span class="line">    answer1</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    answer2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>运算符</tag>
       </tags>
   </entry>
   <entry>
@@ -535,6 +449,127 @@
       </tags>
   </entry>
   <entry>
+    <title>Swift 中的运算符</title>
+    <url>/swift-blogs/posts/c2a3f429.html</url>
+    <content><![CDATA[<h3 id="Swift-中的运算符"><a href="#Swift-中的运算符" class="headerlink" title="Swift 中的运算符"></a>Swift 中的运算符</h3><p>运算符是一个符号，用于告诉编译器执行一个数学或逻辑运算。</p>
+<h4 id="专门用语"><a href="#专门用语" class="headerlink" title="专门用语"></a>专门用语</h4><p>运算符包括一元、二元、三元：</p>
+<ul>
+<li>一元运算符对一个目标进行操作，例如-a。</li>
+<li>二元运算符对两个目标进行操作，例如a+b。</li>
+<li>三元运算符操作三个目标，Swift语言有仅只有一个三元运算符（a ? b : c）。</li>
+</ul>
+<p>Swift提供来以下几种运算符：</p>
+<ul>
+<li>算术运算符</li>
+<li>比较运算符</li>
+<li>逻辑运算符</li>
+<li>位运算符</li>
+<li>赋值运算符</li>
+<li>区间运算符</li>
+<li>其他运算符</li>
+</ul>
+<span id="more"></span>
+
+<h4 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h4><p>Swift提供来四种标准的算术运算符：</p>
+<ul>
+<li>加（+）</li>
+<li>减（-）</li>
+<li>乘（*）</li>
+<li>除（&#x2F;）</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span> <span class="operator">+</span> <span class="number">2</span> <span class="comment">//equals 3</span></span><br><span class="line"><span class="number">5</span> <span class="operator">-</span> <span class="number">3</span> <span class="comment">//equals 2</span></span><br><span class="line"><span class="number">2</span> <span class="operator">*</span> <span class="number">3</span> <span class="comment">//equals 6</span></span><br><span class="line"><span class="number">10</span> <span class="operator">/</span> <span class="number">2</span>  <span class="comment">//equals 5</span></span><br></pre></td></tr></table></figure>
+
+<p>加法运算符同时支持String的拼接：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;Hello ,&quot;</span> <span class="operator">+</span> <span class="string">&quot;World&quot;</span> <span class="comment">//equals &quot;Hello, World&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h5><p>Swift支持所有C的所有标准比较运算符：</p>
+<ul>
+<li>相等 （a &#x3D;&#x3D; b）</li>
+<li>不像等（a !&#x3D; b）</li>
+<li>大于（a &gt; b）</li>
+<li>小于（a &lt; b）</li>
+<li>大于等于（a &gt;&#x3D; b）</li>
+<li>小于等于（a &lt;&#x3D; b）</li>
+</ul>
+<p>每个比较运算符都会返回一个Bool来表示比较的结果是否为真：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span> <span class="operator">==</span> <span class="number">2</span> <span class="comment">//false</span></span><br><span class="line"><span class="number">2</span> <span class="operator">!=</span> <span class="number">3</span> <span class="comment">//true</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&gt;</span> <span class="number">1</span>  <span class="comment">//true</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&lt;</span> <span class="number">1</span> <span class="comment">//false </span></span><br><span class="line"><span class="number">1</span> <span class="operator">&gt;=</span> <span class="number">1</span> <span class="comment">//true</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&lt;=</span> <span class="number">3</span> <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：Swift同时也提供两个等价运算符（&#x3D;&#x3D;&#x3D; 和 !&#x3D;&#x3D; ）,你可以使用它们来判断两个对象的引用是否相同。</p>
+</blockquote>
+<h4 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h4><p>逻辑运算符可以修改或者合并布尔逻辑值true和false。Swift提供 以下三种标准的逻辑运算符：</p>
+<ul>
+<li>逻辑非 （ !a ）：对a的布尔值取反；</li>
+<li>逻辑与 （ a&amp;&amp;b ）：若a和b均为true,则结果为true；若a和b中有一个或两个都为false，则结果为false。</li>
+<li>逻辑或 （ a||b ）：若a和b其中一个为true，则结果为true。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a:<span class="type">Bool</span> <span class="operator">=</span> <span class="literal">true</span> </span><br><span class="line"><span class="keyword">var</span> b:<span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line"><span class="operator">!</span>a  <span class="comment">//false</span></span><br><span class="line">a<span class="operator">&amp;&amp;</span>b <span class="literal">false</span></span><br><span class="line">a<span class="operator">||</span>b <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h4><p>位运算符用来对二位进制位进行操作，Swift提供以下几种位运算符：</p>
+<ul>
+<li>取反（～）</li>
+<li>按位与（&amp;）</li>
+<li>按位或（|）</li>
+<li>按位异或（^）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>q</th>
+<th>p&amp;q</th>
+<th>p</th>
+<th>q</th>
+<th>p^q</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<h4 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h4><p>赋值运算符（a &#x3D; b）可是初始化或者更新a的值为b:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> a <span class="operator">=</span> <span class="number">5</span></span><br><span class="line">a <span class="operator">=</span> b <span class="comment">//此时，a的值为10</span></span><br></pre></td></tr></table></figure>
+
+<p>除了简单的赋值运算符，Swift还提供了组合赋值运算符。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">10</span> </span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> c <span class="operator">=</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">c <span class="operator">+=</span> a <span class="comment">//  c = c+a</span></span><br><span class="line">c <span class="operator">-=</span> a  <span class="comment">// c = c - a</span></span><br><span class="line">c <span class="operator">*=</span> a <span class="comment">// c = c * a</span></span><br><span class="line">c <span class="operator">/=</span> a  <span class="comment">// c = c / a</span></span><br><span class="line">c <span class="operator">%=</span> a  <span class="comment">// c = c % a</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="区间运算符"><a href="#区间运算符" class="headerlink" title="区间运算符"></a>区间运算符</h4><p>Swift包含了两个区间运算符，他们表示一个范围的值的便捷方式。</p>
+<h5 id="闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。"><a href="#闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。" class="headerlink" title="闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。"></a>闭区间运算符（a…b）定义了从a到b的一组范围，并且包含了a和b。a的值不能大于b。</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">5</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(i)  <span class="comment">//循环打印出1～5的整数，包括1和5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>关于循环控制流的内容将在后续内容中出现。</p>
+</blockquote>
+<h5 id="半开区间运算符"><a href="#半开区间运算符" class="headerlink" title="半开区间运算符"></a>半开区间运算符</h5><p>半开区间运算符（a..&lt;b）定义了从a到b但不包括b的区间。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">5</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(i)  <span class="comment">//循环打印出1～4的整数,包括4，不包括5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="单侧区间"><a href="#单侧区间" class="headerlink" title="单侧区间"></a>单侧区间</h5><p>单侧区间主要用在数组的遍历。当我们需要遍历数组中的指定索引前或者后的元素时可以使用单侧区间。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//遍历数组items索引2后的所有元素</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items[<span class="number">2</span><span class="operator">...</span>]&#123;</span><br><span class="line">    <span class="built_in">print</span>(item) </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//遍历数组items索引2前的所有元素</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items[<span class="operator">...</span><span class="number">2</span>]&#123;</span><br><span class="line">    <span class="built_in">print</span>(item) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历数组items索引2前的所有元素,不包括索引2的元素</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items[<span class="operator">..&lt;</span><span class="number">2</span>]&#123;</span><br><span class="line">    <span class="built_in">print</span>(item) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="三元运算符"><a href="#三元运算符" class="headerlink" title="三元运算符"></a>三元运算符</h4><p>三元条件运算符是一种有三部分的特殊运算符，它类似于 question ? answer1 : answer2。如果question为真，则会判断answer1并且返回它的值；否则它判断为answer2并且返回它的值。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> question &#123;</span><br><span class="line">    answer1</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    answer2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>运算符</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift 介绍</title>
     <url>/swift-blogs/posts/ea0a67e1.html</url>
     <content><![CDATA[<h1 id="Swift-编程语言介绍"><a href="#Swift-编程语言介绍" class="headerlink" title="Swift 编程语言介绍"></a>Swift 编程语言介绍</h1><p>Swift 是一种强大且直观的编程语言，由 Apple Inc. 开发，用于 iOS, macOS, watchOS 和 tvOS 的应用开发。Swift 结合了 C 和 Objective-C 的优点，并且支持函数式编程，面向对象编程和泛型编程。它的目标是提供一种安全、高效、灵活和现代化的编程语言，可以让开发者创造出更快、更稳定、更易用的应用程序。</p>
@@ -556,33 +591,6 @@
       <tags>
         <tag>Swift</tag>
         <tag>Apple</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI 介绍</title>
-    <url>/swift-blogs/posts/96cb395e.html</url>
-    <content><![CDATA[<h1 id="SwiftUI-简介"><a href="#SwiftUI-简介" class="headerlink" title="SwiftUI 简介"></a>SwiftUI 简介</h1><p>SwiftUI 是 Apple 在 2019 年 WWDC 推出的一种现代化的 UI 开发框架，它是 iOS 13 和 macOS Catalina 的一部分。SwiftUI 可以让用户更容易地创建美观且响应式的用户界面，并且与 Core Data、Realm 等数据存储解决方案集成得非常好。此外，SwiftUI 还在不断更新和完善，以满足开发者的需求。</p>
-<h2 id="SwiftUI-的特点"><a href="#SwiftUI-的特点" class="headerlink" title="SwiftUI 的特点"></a>SwiftUI 的特点</h2><h3 id="声明式编程"><a href="#声明式编程" class="headerlink" title="声明式编程"></a>声明式编程</h3><p>SwiftUI 采用了声明式编程的方式，与传统的命令式编程相比，这种方式让代码更加简洁易读。你只需要描述应用程序的界面应该如何显示，而不需要详细指定每一个视图的属性和方法。</p>
-<span id="more"></span>
-
-<h3 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h3><p>SwiftUI 提供了强大的响应式布局能力，可以轻松地创建出适应不同设备和屏幕尺寸的应用程序。它支持线性布局、网格布局和灵活的布局组合，让你可以轻松地构建出复杂的界面。</p>
-<h3 id="内置动画和过渡"><a href="#内置动画和过渡" class="headerlink" title="内置动画和过渡"></a>内置动画和过渡</h3><p>SwiftUI 提供了丰富的内置动画和过渡效果，可以让你轻松地为应用程序添加生动的交互效果。这些动画和过渡效果与硬件加速相结合，可以让你的应用程序看起来更加流畅和自然。</p>
-<h3 id="与-Core-Data-和-Realm-集成"><a href="#与-Core-Data-和-Realm-集成" class="headerlink" title="与 Core Data 和 Realm 集成"></a>与 Core Data 和 Realm 集成</h3><p>SwiftUI 可以很容易地与 Core Data 和 Realm 等数据存储解决方案集成。你可以在应用程序中方便地访问和操作数据，而无需手动处理繁琐的数据库操作。</p>
-<h2 id="开始使用-SwiftUI"><a href="#开始使用-SwiftUI" class="headerlink" title="开始使用 SwiftUI"></a>开始使用 SwiftUI</h2><p>要开始使用 SwiftUI，你需要先安装 Xcode（macOS 10.15 及更高版本自带），然后创建一个新的 iOS 或 macOS 项目。在项目中，你可以直接使用默认的 <code>ContentView</code> 模板来开始编写 SwiftUI 代码。</p>
-<p>下面是一个简单的 SwiftUI 示例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, SwiftUI!&quot;</span>)</span><br><span class="line">                .font(.largeTitle)</span><br><span class="line">                .padding()</span><br><span class="line">            <span class="type">Button</span>(action: &#123;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Button tapped!&quot;</span>)</span><br><span class="line">            &#125;) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Tap me!&quot;</span>)</span><br><span class="line">                    .font(.title)</span><br><span class="line">                    .foregroundColor(.white)</span><br><span class="line">                    .padding()</span><br><span class="line">                    .background(<span class="type">Color</span>.blue)</span><br><span class="line">                    .cornerRadius(<span class="number">10</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个示例展示了一个简单的页面，包含一个标题和一个按钮。当用户点击按钮时，控制台会输出 “Button tapped!”。你可以根据自己的需求修改这个示例，或者尝试创建更复杂的界面。</p>
-<p>总之，SwiftUI 是一种功能强大、易于使用的 UI 开发框架，它可以帮助你更高效地构建出美观且响应式的应用程序。如果你已经熟悉 Swift 语言，那么学习 SwiftUI 将会是一件非常愉快的事情。</p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>Apple</tag>
-        <tag>SwiftUI</tag>
-        <tag>WWDC</tag>
       </tags>
   </entry>
   <entry>
@@ -620,31 +628,6 @@
       <tags>
         <tag>SwiftUI</tag>
         <tag>形状</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI之绘制自定义形状</title>
-    <url>/swift-blogs/posts/8c78197a.html</url>
-    <content><![CDATA[<p>在之前一片文章中，我们介绍了 SwiftUI 中内置的一些图形形状。在一些特殊的工能需求下，我们需要自定义去绘制一些形状，例如五角星⭐️，多边形。</p>
-<h3 id="自定义路径"><a href="#自定义路径" class="headerlink" title="自定义路径"></a>自定义路径</h3><p>在 SwiftUI 中可以使用 <span style="color:red"><code>Shape</code></span>协议自定义路径。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 自定义一个结构体，实现 Shape 协议</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DrawRectangleShape</span>: <span class="title class_">Shape</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">path</span>(<span class="params">in</span> <span class="params">rect</span>: <span class="type">CGRect</span>) -&gt; <span class="type">Path</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> path <span class="operator">=</span> <span class="type">Path</span>()</span><br><span class="line">        path.addRect(rect)</span><br><span class="line">        <span class="keyword">return</span> path</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们自定义了一个实现 <code>Shape</code> 协议的结构体类型，在这个自定义的结构体中我们需要实现一个 <code>path(in:)</code>的协议方法，这个方法要求我们返回一个 <code>Path</code>对象，即我们要绘制的形状路径。</p>
- <span id="more"></span>
-
-<p>在上面的这个例子中，我们直接将传进来的 <code>rect</code> 添加到绘制的路径中。具体表现为下面的代码绘制的是一个红色矩形：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
-
-<p>以及下面的代码绘制结果看起来像是一根红色的线，因为绘制的图像的形状高度为 1。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 进阶</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>自定义形状</tag>
       </tags>
   </entry>
   <entry>
@@ -749,6 +732,58 @@
         <tag>SwiftUI</tag>
         <tag>动画</tag>
         <tag>SFSymbol</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI 介绍</title>
+    <url>/swift-blogs/posts/96cb395e.html</url>
+    <content><![CDATA[<h1 id="SwiftUI-简介"><a href="#SwiftUI-简介" class="headerlink" title="SwiftUI 简介"></a>SwiftUI 简介</h1><p>SwiftUI 是 Apple 在 2019 年 WWDC 推出的一种现代化的 UI 开发框架，它是 iOS 13 和 macOS Catalina 的一部分。SwiftUI 可以让用户更容易地创建美观且响应式的用户界面，并且与 Core Data、Realm 等数据存储解决方案集成得非常好。此外，SwiftUI 还在不断更新和完善，以满足开发者的需求。</p>
+<h2 id="SwiftUI-的特点"><a href="#SwiftUI-的特点" class="headerlink" title="SwiftUI 的特点"></a>SwiftUI 的特点</h2><h3 id="声明式编程"><a href="#声明式编程" class="headerlink" title="声明式编程"></a>声明式编程</h3><p>SwiftUI 采用了声明式编程的方式，与传统的命令式编程相比，这种方式让代码更加简洁易读。你只需要描述应用程序的界面应该如何显示，而不需要详细指定每一个视图的属性和方法。</p>
+<span id="more"></span>
+
+<h3 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h3><p>SwiftUI 提供了强大的响应式布局能力，可以轻松地创建出适应不同设备和屏幕尺寸的应用程序。它支持线性布局、网格布局和灵活的布局组合，让你可以轻松地构建出复杂的界面。</p>
+<h3 id="内置动画和过渡"><a href="#内置动画和过渡" class="headerlink" title="内置动画和过渡"></a>内置动画和过渡</h3><p>SwiftUI 提供了丰富的内置动画和过渡效果，可以让你轻松地为应用程序添加生动的交互效果。这些动画和过渡效果与硬件加速相结合，可以让你的应用程序看起来更加流畅和自然。</p>
+<h3 id="与-Core-Data-和-Realm-集成"><a href="#与-Core-Data-和-Realm-集成" class="headerlink" title="与 Core Data 和 Realm 集成"></a>与 Core Data 和 Realm 集成</h3><p>SwiftUI 可以很容易地与 Core Data 和 Realm 等数据存储解决方案集成。你可以在应用程序中方便地访问和操作数据，而无需手动处理繁琐的数据库操作。</p>
+<h2 id="开始使用-SwiftUI"><a href="#开始使用-SwiftUI" class="headerlink" title="开始使用 SwiftUI"></a>开始使用 SwiftUI</h2><p>要开始使用 SwiftUI，你需要先安装 Xcode（macOS 10.15 及更高版本自带），然后创建一个新的 iOS 或 macOS 项目。在项目中，你可以直接使用默认的 <code>ContentView</code> 模板来开始编写 SwiftUI 代码。</p>
+<p>下面是一个简单的 SwiftUI 示例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, SwiftUI!&quot;</span>)</span><br><span class="line">                .font(.largeTitle)</span><br><span class="line">                .padding()</span><br><span class="line">            <span class="type">Button</span>(action: &#123;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Button tapped!&quot;</span>)</span><br><span class="line">            &#125;) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Tap me!&quot;</span>)</span><br><span class="line">                    .font(.title)</span><br><span class="line">                    .foregroundColor(.white)</span><br><span class="line">                    .padding()</span><br><span class="line">                    .background(<span class="type">Color</span>.blue)</span><br><span class="line">                    .cornerRadius(<span class="number">10</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个示例展示了一个简单的页面，包含一个标题和一个按钮。当用户点击按钮时，控制台会输出 “Button tapped!”。你可以根据自己的需求修改这个示例，或者尝试创建更复杂的界面。</p>
+<p>总之，SwiftUI 是一种功能强大、易于使用的 UI 开发框架，它可以帮助你更高效地构建出美观且响应式的应用程序。如果你已经熟悉 Swift 语言，那么学习 SwiftUI 将会是一件非常愉快的事情。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>Apple</tag>
+        <tag>SwiftUI</tag>
+        <tag>WWDC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI之绘制自定义形状</title>
+    <url>/swift-blogs/posts/8c78197a.html</url>
+    <content><![CDATA[<p>在之前一片文章中，我们介绍了 SwiftUI 中内置的一些图形形状。在一些特殊的工能需求下，我们需要自定义去绘制一些形状，例如五角星⭐️，多边形。</p>
+<h3 id="自定义路径"><a href="#自定义路径" class="headerlink" title="自定义路径"></a>自定义路径</h3><p>在 SwiftUI 中可以使用 <span style="color:red"><code>Shape</code></span>协议自定义路径。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 自定义一个结构体，实现 Shape 协议</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DrawRectangleShape</span>: <span class="title class_">Shape</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">path</span>(<span class="params">in</span> <span class="params">rect</span>: <span class="type">CGRect</span>) -&gt; <span class="type">Path</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> path <span class="operator">=</span> <span class="type">Path</span>()</span><br><span class="line">        path.addRect(rect)</span><br><span class="line">        <span class="keyword">return</span> path</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们自定义了一个实现 <code>Shape</code> 协议的结构体类型，在这个自定义的结构体中我们需要实现一个 <code>path(in:)</code>的协议方法，这个方法要求我们返回一个 <code>Path</code>对象，即我们要绘制的形状路径。</p>
+ <span id="more"></span>
+
+<p>在上面的这个例子中，我们直接将传进来的 <code>rect</code> 添加到绘制的路径中。具体表现为下面的代码绘制的是一个红色矩形：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以及下面的代码绘制结果看起来像是一根红色的线，因为绘制的图像的形状高度为 1。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 进阶</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>自定义形状</tag>
       </tags>
   </entry>
   <entry>
