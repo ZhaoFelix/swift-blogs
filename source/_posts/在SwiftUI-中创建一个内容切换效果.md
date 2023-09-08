@@ -3,7 +3,7 @@ title: 在SwiftUI 中创建一个内容切换效果
 tags:
   - SwiftUI
   - 动画
-  - SFSymbol
+  - SF Symbol
 categories:
   - SwiftUI 进阶
 abbrlink: d4605c9a
@@ -46,7 +46,7 @@ struct ContentView: View {
 
 <span style="color:red">**注意**</span>：`contentTransition` 修饰器的系统要求为： `@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)`。
 
-###  SFSymbol 切换效果
+###  SF Symbol 切换效果
 
 界面布局：
 
