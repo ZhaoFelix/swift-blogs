@@ -6,7 +6,7 @@ tags:
   - Image
   - SF Symbol
 categories:
-  - SwiftUI 基础语法
+  - SwiftUI 基础
 abbrlink: 6b844059
 date: 2023-09-08 09:52:11
 ---
