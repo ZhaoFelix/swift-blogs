@@ -84,6 +84,41 @@
       </tags>
   </entry>
   <entry>
+    <title>Swift 中的枚举</title>
+    <url>/swift-blogs/posts/251de72f.html</url>
+    <content><![CDATA[<h3 id="Swift-中的枚举"><a href="#Swift-中的枚举" class="headerlink" title="Swift 中的枚举"></a>Swift 中的枚举</h3><p>在计算机编程中，枚举是一种数据类型，用于定义一定范围内的有名称的值。Swift语言中的枚举是强大且灵活的工具，我们可以在多种场景中使用它们，包括但不限于处理特定类型的数据、创建自定义的错误类型以及实现特定的设计模式。</p>
+<h4 id="定义和基本用法"><a href="#定义和基本用法" class="headerlink" title="定义和基本用法"></a>定义和基本用法</h4><p>在Swift中，我们使用<code>enum</code>关键字来定义枚举。下面是一个简单的例子，展示了如何定义和使用一个名为<code>Weekday</code>的枚举，表示一周中的每一天：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Monday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Tuesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Wednesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Thursday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Friday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Saturday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Sunday</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>我们可以使用这个枚举来处理与一周中的某天相关的数据。例如，我们可以创建一个函数，根据给定的<code>Weekday</code>枚举值返回一周中的相应天数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">dayOfWeek</span>(<span class="keyword">_</span> <span class="params">weekday</span>: <span class="type">Weekday</span>) -&gt; <span class="type">String</span> &#123;  </span><br><span class="line">    <span class="keyword">switch</span> weekday &#123;  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Monday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Tuesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wednesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Thursday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Friday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Saturday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Sunday&quot;</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们可以像下面这样使用这个函数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> monday <span class="operator">=</span> <span class="type">Weekday</span>.<span class="type">Monday</span>  </span><br><span class="line"><span class="built_in">print</span>(dayOfWeek(monday)) <span class="comment">// 输出：Monday</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="关联值"><a href="#关联值" class="headerlink" title="关联值"></a>关联值</h4><p>Swift的枚举还可以定义关联值，这使得枚举能够更丰富地表达信息。例如，我们创建一个枚举表示用户的登录状态，并为其关联一个错误消息：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">UserLoginStatus</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> success(<span class="type">String</span>)  </span><br><span class="line">    <span class="keyword">case</span> failure(<span class="type">String</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>UserLoginStatus</code>枚举有两个cases：<code>success</code>和<code>failure</code>。这两个cases都关联了一个String类型的值，表示成功或失败的状态信息。我们可以像下面这样使用这个枚举：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> successfulLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.success(<span class="string">&quot;登录成功&quot;</span>)  </span><br><span class="line"><span class="keyword">let</span> failedLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.failure(<span class="string">&quot;登录失败，请检查用户名和密码&quot;</span>)  </span><br><span class="line"><span class="built_in">print</span>(successfulLogin) <span class="comment">// 输出：登录成功  </span></span><br><span class="line"><span class="built_in">print</span>(failedLogin) <span class="comment">// 输出：登录失败，请检查用户名和密码</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="在switch语句中使用枚举"><a href="#在switch语句中使用枚举" class="headerlink" title="在switch语句中使用枚举"></a>在switch语句中使用枚举</h4><p>由于Swift的枚举是全特性的，所以在switch语句中可以使用枚举的所有case值。这对于处理多种可能的枚举值非常有用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> someWeekday: <span class="type">Weekday</span> <span class="operator">=</span> .<span class="type">Wednesday</span>  </span><br><span class="line"><span class="keyword">switch</span> someWeekday &#123;  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期一&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期二&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期三&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期四&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期五&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期六&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期日&quot;</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用原始值和匿名枚举"><a href="#使用原始值和匿名枚举" class="headerlink" title="使用原始值和匿名枚举"></a>使用原始值和匿名枚举</h4><p>有时候，我们可能不需要为枚举的每个case关联一个特定的值，或者我们希望将所有值都关联到一个单一的原始值。在这种情况下，我们可以使用原始值和匿名枚举。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span>乏味的颜色: <span class="title class_">Int</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> red <span class="operator">=</span> <span class="number">1</span>, green <span class="operator">=</span> <span class="number">2</span>, blue <span class="operator">=</span> <span class="number">3</span>, yellow <span class="operator">=</span> <span class="number">4</span>, orange <span class="operator">=</span> <span class="number">5</span>,  <span class="comment">// 可以根据需要添加更多颜色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>枚举</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift 中的数据类型</title>
     <url>/swift-blogs/posts/6876d7b8.html</url>
     <content><![CDATA[<h4 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h4><p>整数是没有小数部分的数字。整数可以是有符号的或者无符号。Swift提供来8，16，32和64位编码的有符号和无符号整数，例如UInt8表示8位无符号的整数，Int32表示32有符号整数。</p>
@@ -201,41 +236,6 @@
         <tag>Foundation</tag>
         <tag>Swift</tag>
         <tag>Xcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 中的枚举</title>
-    <url>/swift-blogs/posts/251de72f.html</url>
-    <content><![CDATA[<h3 id="Swift-中的枚举"><a href="#Swift-中的枚举" class="headerlink" title="Swift 中的枚举"></a>Swift 中的枚举</h3><p>在计算机编程中，枚举是一种数据类型，用于定义一定范围内的有名称的值。Swift语言中的枚举是强大且灵活的工具，我们可以在多种场景中使用它们，包括但不限于处理特定类型的数据、创建自定义的错误类型以及实现特定的设计模式。</p>
-<h4 id="定义和基本用法"><a href="#定义和基本用法" class="headerlink" title="定义和基本用法"></a>定义和基本用法</h4><p>在Swift中，我们使用<code>enum</code>关键字来定义枚举。下面是一个简单的例子，展示了如何定义和使用一个名为<code>Weekday</code>的枚举，表示一周中的每一天：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Monday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Tuesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Wednesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Thursday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Friday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Saturday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Sunday</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<p>我们可以使用这个枚举来处理与一周中的某天相关的数据。例如，我们可以创建一个函数，根据给定的<code>Weekday</code>枚举值返回一周中的相应天数：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">dayOfWeek</span>(<span class="keyword">_</span> <span class="params">weekday</span>: <span class="type">Weekday</span>) -&gt; <span class="type">String</span> &#123;  </span><br><span class="line">    <span class="keyword">switch</span> weekday &#123;  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Monday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Tuesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wednesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Thursday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Friday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Saturday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Sunday&quot;</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后我们可以像下面这样使用这个函数：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> monday <span class="operator">=</span> <span class="type">Weekday</span>.<span class="type">Monday</span>  </span><br><span class="line"><span class="built_in">print</span>(dayOfWeek(monday)) <span class="comment">// 输出：Monday</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="关联值"><a href="#关联值" class="headerlink" title="关联值"></a>关联值</h4><p>Swift的枚举还可以定义关联值，这使得枚举能够更丰富地表达信息。例如，我们创建一个枚举表示用户的登录状态，并为其关联一个错误消息：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">UserLoginStatus</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> success(<span class="type">String</span>)  </span><br><span class="line">    <span class="keyword">case</span> failure(<span class="type">String</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>UserLoginStatus</code>枚举有两个cases：<code>success</code>和<code>failure</code>。这两个cases都关联了一个String类型的值，表示成功或失败的状态信息。我们可以像下面这样使用这个枚举：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> successfulLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.success(<span class="string">&quot;登录成功&quot;</span>)  </span><br><span class="line"><span class="keyword">let</span> failedLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.failure(<span class="string">&quot;登录失败，请检查用户名和密码&quot;</span>)  </span><br><span class="line"><span class="built_in">print</span>(successfulLogin) <span class="comment">// 输出：登录成功  </span></span><br><span class="line"><span class="built_in">print</span>(failedLogin) <span class="comment">// 输出：登录失败，请检查用户名和密码</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="在switch语句中使用枚举"><a href="#在switch语句中使用枚举" class="headerlink" title="在switch语句中使用枚举"></a>在switch语句中使用枚举</h4><p>由于Swift的枚举是全特性的，所以在switch语句中可以使用枚举的所有case值。这对于处理多种可能的枚举值非常有用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> someWeekday: <span class="type">Weekday</span> <span class="operator">=</span> .<span class="type">Wednesday</span>  </span><br><span class="line"><span class="keyword">switch</span> someWeekday &#123;  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期一&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期二&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期三&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期四&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期五&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期六&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期日&quot;</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="使用原始值和匿名枚举"><a href="#使用原始值和匿名枚举" class="headerlink" title="使用原始值和匿名枚举"></a>使用原始值和匿名枚举</h4><p>有时候，我们可能不需要为枚举的每个case关联一个特定的值，或者我们希望将所有值都关联到一个单一的原始值。在这种情况下，我们可以使用原始值和匿名枚举。例如：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span>乏味的颜色: <span class="title class_">Int</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> red <span class="operator">=</span> <span class="number">1</span>, green <span class="operator">=</span> <span class="number">2</span>, blue <span class="operator">=</span> <span class="number">3</span>, yellow <span class="operator">=</span> <span class="number">4</span>, orange <span class="operator">=</span> <span class="number">5</span>,  <span class="comment">// 可以根据需要添加更多颜色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>枚举</tag>
       </tags>
   </entry>
   <entry>
@@ -1184,6 +1184,46 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI控件之 List</title>
+    <url>/swift-blogs/posts/57a1224a.html</url>
+    <content><![CDATA[<p>在很多 app 中，我们经常能看到上下滚动的列表，在 SwiftUI 中，我们可以使用<strong>List</strong> 实现这样的功能。</p>
+<h4 id="创建一个列表"><a href="#创建一个列表" class="headerlink" title="创建一个列表"></a>创建一个列表</h4><p>要实现一个列表，我们需要先创建一个<strong>数组</strong>类型的数据源：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> books: [<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;西游记&quot;</span>, <span class="string">&quot;红楼梦&quot;</span>, <span class="string">&quot;三国演义&quot;</span>, <span class="string">&quot;水浒传&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>ForEach</code> 遍历数组，将元素显示到 <code>List</code>中：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span> &#123;</span><br><span class="line">    <span class="type">ForEach</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">         <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 除了上面的这种方式，我们还可以直接将数据元给到<code>List</code>，然它进行循环创建列表：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里我们注意到，不管是我们使用哪种方式，我们都需要设置一个<code>id</code>的参数，这是因为<code>List</code> 要求每一行的元素都要有一个<span style="color:red"><strong>唯一</strong></span>的id，以便我们后续对<strong>List</strong> 进行编辑操作。这里我们是直接将循环出来的元素对象本身作为id 给它。</p>
+<p><span style="color:red"><strong>注意，这在数据源中元素不会出现重复的情况下是可行，但是如果存在重复相同的元素，就会出现编辑异常的情况。</strong></span></p>
+<span id="more"></span>
+
+<h4 id="不同的-listStyle"><a href="#不同的-listStyle" class="headerlink" title="不同的 listStyle"></a>不同的 <code>listStyle</code></h4><p>我们可以通过 <code>listStyle</code> 修饰器来定义<strong>List</strong> 不同的风格样式，<code>insetGrouped</code>、<code>inset</code>、<code>grouped</code>、<code>plain</code>、<code>sidebar</code>、<code>automatic</code>。</p>
+<p>注意，在不同的系统中样式显示也不一致。例如<code>sidebar</code> 样式在 iPadOS 中显示为侧边栏样式，在 iOS 中则为默认的样式。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.listStyle(.automatic)</span><br></pre></td></tr></table></figure>
+
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309121039437.png"/>
+
+<h4 id="List-分组和设置-footer-、-header"><a href="#List-分组和设置-footer-、-header" class="headerlink" title="List 分组和设置  footer 、 header"></a>List 分组和设置  footer 、 header</h4><p>如果我们想要实现 List 分组的效果，可以使用 <strong>Section</strong> ，然后<strong>Section</strong> 的构造方法分别给每个分组设置<strong>header</strong> 和<strong>footer</strong>。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span> &#123;</span><br><span class="line">    <span class="type">Section</span> &#123;</span><br><span class="line">        <span class="type">ForEach</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; header: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;四大名著&quot;</span>)</span><br><span class="line">            .bold()</span><br><span class="line">    &#125; footer: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;推荐阅读书籍&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">Section</span> &#123;</span><br><span class="line">        <span class="type">ForEach</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; header: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;四大名著&quot;</span>)</span><br><span class="line">            .bold()</span><br><span class="line">    &#125; footer: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;推荐阅读书籍&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309121055074.png" style="zoom:40%"/>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>List</tag>
+        <tag>Identifier</tag>
+        <tag>ForEach</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift中的函数</title>
     <url>/swift-blogs/posts/66bf2022.html</url>
     <content><![CDATA[<h3 id="认识函数"><a href="#认识函数" class="headerlink" title="认识函数"></a>认识函数</h3><p>函数是一段独立的代码块，用来执行一些特定的操作。我们可以通过给函数一个名字来定义它的功能，当我们需要执行这段代码块的时候通过函数的名字来进行调用。</p>
@@ -1292,6 +1332,40 @@
       </tags>
   </entry>
   <entry>
+    <title>在SwiftUI 中创建一个内容切换效果</title>
+    <url>/swift-blogs/posts/d4605c9a.html</url>
+    <content><![CDATA[<h3 id="文字内容切换效果"><a href="#文字内容切换效果" class="headerlink" title="文字内容切换效果"></a>文字内容切换效果</h3><p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> text: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;$<span class="subst">\(text)</span>&quot;</span>)</span><br><span class="line">                .font(.largeTitle.bold())</span><br><span class="line">                .contentTransition(.numericText(value: <span class="type">Double</span>(text)))</span><br><span class="line">            <span class="type">Button</span> &#123;</span><br><span class="line">                withAnimation(.bouncy) &#123;</span><br><span class="line">                    text <span class="operator">=</span> .random(in: <span class="number">100</span><span class="operator">...</span><span class="number">10000</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Update&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308291020904.mp4" style="zoom:20%"></img></p>
+<span id="more"></span> 
+
+<p><span style="color:red"><strong>注意</strong></span>：<code>contentTransition</code> 修饰器的系统要求为： <code>@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)</code>。</p>
+<h3 id="SF-Symbol-切换效果"><a href="#SF-Symbol-切换效果" class="headerlink" title="SF Symbol 切换效果"></a>SF Symbol 切换效果</h3><p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> sfImage: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;house.fill&quot;</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> sfCount: <span class="type">Int</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: sfImage)</span><br><span class="line">                .font(.largeTitle.bold())</span><br><span class="line">                .contentTransition(.symbolEffect(.automatic))</span><br><span class="line">            <span class="type">Button</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> images:[<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;suit.heart.fill&quot;</span>, <span class="string">&quot;house.fill&quot;</span>, <span class="string">&quot;gearshape&quot;</span>, <span class="string">&quot;person.circle.fill&quot;</span>, <span class="string">&quot;iphone&quot;</span>, <span class="string">&quot;macbook&quot;</span>]</span><br><span class="line">                withAnimation(.bouncy) &#123;</span><br><span class="line">                   sfCount <span class="operator">+=</span> <span class="number">1</span></span><br><span class="line">                    sfImage <span class="operator">=</span> images[sfCount <span class="operator">%</span> images.count]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Update&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308291039418.mp4"  style="zoom:20%"/>
+
+<p><span style="color:red"><strong>注意</strong></span>：</p>
+<ul>
+<li><p><code>contentTransition</code> 修饰器的系统要求为： <code>@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)</code>;</p>
+</li>
+<li><p><code>symbolEffect</code> 修饰器的系统要求为：<code>@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)</code>。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>SwiftUI 进阶</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>SF Symbol</tag>
+        <tag>动画</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift中的条件语句</title>
     <url>/swift-blogs/posts/964c101d.html</url>
     <content><![CDATA[<p>Swift提供了<strong>if</strong>和<strong>switch</strong>两种条件语句，<code>if</code>语句用来判断简单的条件，<code>switch</code>语句适合复杂的条件。</p>
@@ -1330,40 +1404,6 @@
       <tags>
         <tag>Swift</tag>
         <tag>条件语句</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在SwiftUI 中创建一个内容切换效果</title>
-    <url>/swift-blogs/posts/d4605c9a.html</url>
-    <content><![CDATA[<h3 id="文字内容切换效果"><a href="#文字内容切换效果" class="headerlink" title="文字内容切换效果"></a>文字内容切换效果</h3><p>界面布局：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> text: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;$<span class="subst">\(text)</span>&quot;</span>)</span><br><span class="line">                .font(.largeTitle.bold())</span><br><span class="line">                .contentTransition(.numericText(value: <span class="type">Double</span>(text)))</span><br><span class="line">            <span class="type">Button</span> &#123;</span><br><span class="line">                withAnimation(.bouncy) &#123;</span><br><span class="line">                    text <span class="operator">=</span> .random(in: <span class="number">100</span><span class="operator">...</span><span class="number">10000</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Update&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<p><img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308291020904.mp4" style="zoom:20%"></img></p>
-<span id="more"></span> 
-
-<p><span style="color:red"><strong>注意</strong></span>：<code>contentTransition</code> 修饰器的系统要求为： <code>@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)</code>。</p>
-<h3 id="SF-Symbol-切换效果"><a href="#SF-Symbol-切换效果" class="headerlink" title="SF Symbol 切换效果"></a>SF Symbol 切换效果</h3><p>界面布局：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> sfImage: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;house.fill&quot;</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> sfCount: <span class="type">Int</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: sfImage)</span><br><span class="line">                .font(.largeTitle.bold())</span><br><span class="line">                .contentTransition(.symbolEffect(.automatic))</span><br><span class="line">            <span class="type">Button</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> images:[<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;suit.heart.fill&quot;</span>, <span class="string">&quot;house.fill&quot;</span>, <span class="string">&quot;gearshape&quot;</span>, <span class="string">&quot;person.circle.fill&quot;</span>, <span class="string">&quot;iphone&quot;</span>, <span class="string">&quot;macbook&quot;</span>]</span><br><span class="line">                withAnimation(.bouncy) &#123;</span><br><span class="line">                   sfCount <span class="operator">+=</span> <span class="number">1</span></span><br><span class="line">                    sfImage <span class="operator">=</span> images[sfCount <span class="operator">%</span> images.count]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Update&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308291039418.mp4"  style="zoom:20%"/>
-
-<p><span style="color:red"><strong>注意</strong></span>：</p>
-<ul>
-<li><p><code>contentTransition</code> 修饰器的系统要求为： <code>@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)</code>;</p>
-</li>
-<li><p><code>symbolEffect</code> 修饰器的系统要求为：<code>@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)</code>。</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>SwiftUI 进阶</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>SF Symbol</tag>
-        <tag>动画</tag>
       </tags>
   </entry>
 </search>
