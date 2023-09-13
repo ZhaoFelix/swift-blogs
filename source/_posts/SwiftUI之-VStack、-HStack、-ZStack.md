@@ -225,4 +225,5 @@ struct ContentView: View {
 
 效果如下：
 
-<img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090955427.mp4" style="zoom:20%"/>
+<video type="video/mp4"  width="30%" height="50%" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090955427.mp4" controls="controls"/>
+

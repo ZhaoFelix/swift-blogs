@@ -370,4 +370,5 @@ ForEach(listModel.todos) {  todo in
 
 **此时，再运行我们的项目，点击任意一个待办事项，效果如下**：
 
-<img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309051431958.mp4" style="zoom:30%" />
+<video type="video/mp4"  width="30%" height="50%" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309051431958.mp4" controls="controls"/>
+
