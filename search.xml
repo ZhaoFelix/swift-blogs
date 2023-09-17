@@ -204,41 +204,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Swift 中的枚举</title>
-    <url>/swift-blogs/posts/251de72f.html</url>
-    <content><![CDATA[<h3 id="Swift-中的枚举"><a href="#Swift-中的枚举" class="headerlink" title="Swift 中的枚举"></a>Swift 中的枚举</h3><p>在计算机编程中，枚举是一种数据类型，用于定义一定范围内的有名称的值。Swift语言中的枚举是强大且灵活的工具，我们可以在多种场景中使用它们，包括但不限于处理特定类型的数据、创建自定义的错误类型以及实现特定的设计模式。</p>
-<h4 id="定义和基本用法"><a href="#定义和基本用法" class="headerlink" title="定义和基本用法"></a>定义和基本用法</h4><p>在Swift中，我们使用<code>enum</code>关键字来定义枚举。下面是一个简单的例子，展示了如何定义和使用一个名为<code>Weekday</code>的枚举，表示一周中的每一天：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Monday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Tuesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Wednesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Thursday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Friday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Saturday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Sunday</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<p>我们可以使用这个枚举来处理与一周中的某天相关的数据。例如，我们可以创建一个函数，根据给定的<code>Weekday</code>枚举值返回一周中的相应天数：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">dayOfWeek</span>(<span class="keyword">_</span> <span class="params">weekday</span>: <span class="type">Weekday</span>) -&gt; <span class="type">String</span> &#123;  </span><br><span class="line">    <span class="keyword">switch</span> weekday &#123;  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Monday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Tuesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wednesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Thursday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Friday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Saturday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Sunday&quot;</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后我们可以像下面这样使用这个函数：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> monday <span class="operator">=</span> <span class="type">Weekday</span>.<span class="type">Monday</span>  </span><br><span class="line"><span class="built_in">print</span>(dayOfWeek(monday)) <span class="comment">// 输出：Monday</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="关联值"><a href="#关联值" class="headerlink" title="关联值"></a>关联值</h4><p>Swift的枚举还可以定义关联值，这使得枚举能够更丰富地表达信息。例如，我们创建一个枚举表示用户的登录状态，并为其关联一个错误消息：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">UserLoginStatus</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> success(<span class="type">String</span>)  </span><br><span class="line">    <span class="keyword">case</span> failure(<span class="type">String</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>UserLoginStatus</code>枚举有两个cases：<code>success</code>和<code>failure</code>。这两个cases都关联了一个String类型的值，表示成功或失败的状态信息。我们可以像下面这样使用这个枚举：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> successfulLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.success(<span class="string">&quot;登录成功&quot;</span>)  </span><br><span class="line"><span class="keyword">let</span> failedLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.failure(<span class="string">&quot;登录失败，请检查用户名和密码&quot;</span>)  </span><br><span class="line"><span class="built_in">print</span>(successfulLogin) <span class="comment">// 输出：登录成功  </span></span><br><span class="line"><span class="built_in">print</span>(failedLogin) <span class="comment">// 输出：登录失败，请检查用户名和密码</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="在switch语句中使用枚举"><a href="#在switch语句中使用枚举" class="headerlink" title="在switch语句中使用枚举"></a>在switch语句中使用枚举</h4><p>由于Swift的枚举是全特性的，所以在switch语句中可以使用枚举的所有case值。这对于处理多种可能的枚举值非常有用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> someWeekday: <span class="type">Weekday</span> <span class="operator">=</span> .<span class="type">Wednesday</span>  </span><br><span class="line"><span class="keyword">switch</span> someWeekday &#123;  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期一&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期二&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期三&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期四&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期五&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期六&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期日&quot;</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="使用原始值和匿名枚举"><a href="#使用原始值和匿名枚举" class="headerlink" title="使用原始值和匿名枚举"></a>使用原始值和匿名枚举</h4><p>有时候，我们可能不需要为枚举的每个case关联一个特定的值，或者我们希望将所有值都关联到一个单一的原始值。在这种情况下，我们可以使用原始值和匿名枚举。例如：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span>乏味的颜色: <span class="title class_">Int</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> red <span class="operator">=</span> <span class="number">1</span>, green <span class="operator">=</span> <span class="number">2</span>, blue <span class="operator">=</span> <span class="number">3</span>, yellow <span class="operator">=</span> <span class="number">4</span>, orange <span class="operator">=</span> <span class="number">5</span>,  <span class="comment">// 可以根据需要添加更多颜色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>枚举</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Swift 中的类</title>
     <url>/swift-blogs/posts/338306b2.html</url>
     <content><![CDATA[<p>在Swift中，类是一种引用类型，用于封装数据和方法。类是面向对象编程的基础，它们允许我们创建具有特定属性和方法的自定义数据类型。在这篇文章中，我们将详细介绍Swift中的类及其使用方法。</p>
@@ -319,6 +284,41 @@
       <tags>
         <tag>Swift</tag>
         <tag>结构体</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 中的枚举</title>
+    <url>/swift-blogs/posts/251de72f.html</url>
+    <content><![CDATA[<h3 id="Swift-中的枚举"><a href="#Swift-中的枚举" class="headerlink" title="Swift 中的枚举"></a>Swift 中的枚举</h3><p>在计算机编程中，枚举是一种数据类型，用于定义一定范围内的有名称的值。Swift语言中的枚举是强大且灵活的工具，我们可以在多种场景中使用它们，包括但不限于处理特定类型的数据、创建自定义的错误类型以及实现特定的设计模式。</p>
+<h4 id="定义和基本用法"><a href="#定义和基本用法" class="headerlink" title="定义和基本用法"></a>定义和基本用法</h4><p>在Swift中，我们使用<code>enum</code>关键字来定义枚举。下面是一个简单的例子，展示了如何定义和使用一个名为<code>Weekday</code>的枚举，表示一周中的每一天：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Monday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Tuesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Wednesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Thursday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Friday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Saturday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Sunday</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>我们可以使用这个枚举来处理与一周中的某天相关的数据。例如，我们可以创建一个函数，根据给定的<code>Weekday</code>枚举值返回一周中的相应天数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">dayOfWeek</span>(<span class="keyword">_</span> <span class="params">weekday</span>: <span class="type">Weekday</span>) -&gt; <span class="type">String</span> &#123;  </span><br><span class="line">    <span class="keyword">switch</span> weekday &#123;  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Monday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Tuesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wednesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Thursday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Friday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Saturday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Sunday&quot;</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们可以像下面这样使用这个函数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> monday <span class="operator">=</span> <span class="type">Weekday</span>.<span class="type">Monday</span>  </span><br><span class="line"><span class="built_in">print</span>(dayOfWeek(monday)) <span class="comment">// 输出：Monday</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="关联值"><a href="#关联值" class="headerlink" title="关联值"></a>关联值</h4><p>Swift的枚举还可以定义关联值，这使得枚举能够更丰富地表达信息。例如，我们创建一个枚举表示用户的登录状态，并为其关联一个错误消息：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">UserLoginStatus</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> success(<span class="type">String</span>)  </span><br><span class="line">    <span class="keyword">case</span> failure(<span class="type">String</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>UserLoginStatus</code>枚举有两个cases：<code>success</code>和<code>failure</code>。这两个cases都关联了一个String类型的值，表示成功或失败的状态信息。我们可以像下面这样使用这个枚举：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> successfulLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.success(<span class="string">&quot;登录成功&quot;</span>)  </span><br><span class="line"><span class="keyword">let</span> failedLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.failure(<span class="string">&quot;登录失败，请检查用户名和密码&quot;</span>)  </span><br><span class="line"><span class="built_in">print</span>(successfulLogin) <span class="comment">// 输出：登录成功  </span></span><br><span class="line"><span class="built_in">print</span>(failedLogin) <span class="comment">// 输出：登录失败，请检查用户名和密码</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="在switch语句中使用枚举"><a href="#在switch语句中使用枚举" class="headerlink" title="在switch语句中使用枚举"></a>在switch语句中使用枚举</h4><p>由于Swift的枚举是全特性的，所以在switch语句中可以使用枚举的所有case值。这对于处理多种可能的枚举值非常有用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> someWeekday: <span class="type">Weekday</span> <span class="operator">=</span> .<span class="type">Wednesday</span>  </span><br><span class="line"><span class="keyword">switch</span> someWeekday &#123;  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期一&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期二&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期三&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期四&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期五&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期六&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期日&quot;</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用原始值和匿名枚举"><a href="#使用原始值和匿名枚举" class="headerlink" title="使用原始值和匿名枚举"></a>使用原始值和匿名枚举</h4><p>有时候，我们可能不需要为枚举的每个case关联一个特定的值，或者我们希望将所有值都关联到一个单一的原始值。在这种情况下，我们可以使用原始值和匿名枚举。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span>乏味的颜色: <span class="title class_">Int</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> red <span class="operator">=</span> <span class="number">1</span>, green <span class="operator">=</span> <span class="number">2</span>, blue <span class="operator">=</span> <span class="number">3</span>, yellow <span class="operator">=</span> <span class="number">4</span>, orange <span class="operator">=</span> <span class="number">5</span>,  <span class="comment">// 可以根据需要添加更多颜色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>枚举</tag>
       </tags>
   </entry>
   <entry>
@@ -727,6 +727,139 @@
         <tag>SwiftUI</tag>
         <tag>Image</tag>
         <tag>SF Symbol</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI 控件之 ScrollView(一)</title>
+    <url>/swift-blogs/posts/35d3a19e.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>ScrollView</strong> 是一个可滚动的视图。</p>
+<h4 id="创建一个-ScrollView"><a href="#创建一个-ScrollView" class="headerlink" title="创建一个 ScrollView"></a>创建一个 ScrollView</h4><p>当我们使用<code>ForEach</code> 循环创建超出一整个屏幕的内容时：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">      <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">          <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们使用<code>VStack</code>和<code>ForEach</code> 创建了 100 个<code>Text</code>，此时要显示的内容已经超出了一个屏幕所能显示的内容，我们无法看到超出屏幕范围的内容。为了解决这个问题，我们就可以在最外层嵌套一个<code>ScrollView</code>，让整个视图变成滚动显示的。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span> &#123;</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们就可以通过上下滚动的方式查看所有的<code>Text</code> 了。</p>
+<span id="more"></span>
+
+<h4 id="ScrollView的相关配置"><a href="#ScrollView的相关配置" class="headerlink" title="ScrollView的相关配置"></a>ScrollView的相关配置</h4><h5 id="控制-ScrollView-的滚动位置"><a href="#控制-ScrollView-的滚动位置" class="headerlink" title="控制 ScrollView 的滚动位置"></a>控制 ScrollView 的滚动位置</h5><p>可以通过<code>defaultScrollAnchor</code> 修饰器配置<code>ScrollView</code>的开始滚动的起始位置，它支持以下几个位置：</p>
+<ul>
+<li><code>top</code> : 从顶部开始滚动；</li>
+<li><code>bottom</code> : 从底部开始滚动；</li>
+<li><code>center</code>： 从中间位置开始滚动；</li>
+<li><code>leading</code>: 从左侧开始滚动；</li>
+<li><code>trailing</code>： 从右侧开始滚动；</li>
+<li><code>topLeading</code>：从左上开始滚动；</li>
+<li><code>topTrailing</code>：从右上开始滚动；</li>
+<li><code>bottomLeading</code>：从左下开始滚动；</li>
+<li><code>bottomTrailing</code>：从右下开始滚动。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.defaultScrollAnchor(.center)</span><br></pre></td></tr></table></figure>
+
+<h5 id="控制-ScrollView-滚动的方向"><a href="#控制-ScrollView-滚动的方向" class="headerlink" title="控制 ScrollView 滚动的方向"></a>控制 ScrollView 滚动的方向</h5><p><strong>ScrollView</strong> 支持水平<code>horizontal</code>和垂直<code>vertical</code>方向的滚动。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span>(.vertical) &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="控制-ScrollView-滚动指示器的显示-隐藏"><a href="#控制-ScrollView-滚动指示器的显示-隐藏" class="headerlink" title="控制 ScrollView 滚动指示器的显示&#x2F;隐藏"></a>控制 ScrollView 滚动指示器的显示&#x2F;隐藏</h5><p><strong>ScrollView</strong> 滚动的时候，视图边缘会有一个滚动的指示器。可以使用<code>scrollIndicators</code> 修饰器来控制它的显示或者隐藏。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>hidden</code>: 表示隐藏；</li>
+<li><code>visible</code>: 表示显示；</li>
+<li><code>never</code>：和<code>hidden</code> 一致；</li>
+</ul>
+<p>指定水平或垂直方向上的显示或者隐藏：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden, axes: [.horizontal])</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>ScrollView</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI之 VStack、 HStack、 ZStack</title>
+    <url>/swift-blogs/posts/e7687e8f.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，我们会经常使用到 <strong>VStack</strong>、<strong>HStack</strong>、<strong>ZStack</strong> 来帮助我们进行布局。</p>
+<h4 id="VStack"><a href="#VStack" class="headerlink" title="VStack"></a>VStack</h4><p>在<strong>VStack</strong>中的子视图都将按照<strong>垂直方向</strong>进行排列。</p>
+<p>例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">    <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时的布局效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090914844.png"/>
+
+<span id="more"></span>
+
+<h4 id="HStack"><a href="#HStack" class="headerlink" title="HStack"></a>HStack</h4><p>和<strong>VStack</strong> 类似，不过 <strong>HStack</strong>是将子视图按照<strong>水平方向</strong> 进行排列。</p>
+<p> 类似地，将上面示例代码中的<strong>VStack</strong> 改为<strong>HStack</strong> :</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">HStack</span> &#123;</span><br><span class="line">    <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090918393.png"/>
+
+<p>对于 <strong>VStack</strong> 和 <strong>HStack</strong> 而言，都可以设置它们子视图之前的间距<code>spacing</code> 和对齐方式<code>alignment</code> 。</p>
+<p>区别在于，<strong>VStack</strong> 的对齐方式有：</p>
+<ul>
+<li><code>center</code>：居中对齐；</li>
+<li><code>leading</code> ：左对齐；</li>
+<li><code>trailing</code> ： 右对齐。</li>
+</ul>
+<p><strong>HStack</strong> 的对齐方式有：</p>
+<ul>
+<li><code>center</code> ：居中对齐；</li>
+<li><code>top</code> ：顶部对齐；</li>
+<li><code>bottom</code>：底部对齐。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span>(alignment: .leading, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">                .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">HStack</span>(alignment: .top, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">                .font(.body)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="ZStack"><a href="#ZStack" class="headerlink" title="ZStack"></a>ZStack</h4><p><strong>ZStack</strong> 是让子视图按照<strong>Z轴方向</strong> 堆叠排列。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ZStack</span> &#123;</span><br><span class="line">        <span class="type">Image</span>(<span class="string">&quot;avatar&quot;</span>)</span><br><span class="line">            .resizable()</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">            .font(.body)</span><br><span class="line">            .foregroundStyle(.white)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090942670.png"/>
+
+<p><strong>ZStack</strong> 只能设置对齐方式<code>alignment</code>，它的对齐方式包括：</p>
+<ul>
+<li><code>top</code>：顶部对齐；</li>
+<li><code>bottom</code>：底部对齐；</li>
+<li><code>center</code>：居中对齐；</li>
+<li><code>leading</code>：左对齐；</li>
+<li><code>trailing</code>: 右对齐；</li>
+<li><code>topLeading</code>：左上角对齐；</li>
+<li><code>topTrailing</code>：右上角对齐；</li>
+<li><code>bottomLeading</code>：左下角对齐；</li>
+<li><code>bottomTrailing</code>: 右下角对齐。</li>
+</ul>
+<h4 id="布局示例"><a href="#布局示例" class="headerlink" title="布局示例"></a>布局示例</h4><h5 id="VStack-1"><a href="#VStack-1" class="headerlink" title="VStack"></a>VStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">VStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="comment">// 左对齐，上下间距为10</span></span><br><span class="line">        <span class="type">VStack</span>(alignment: .leading, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">...</span><span class="number">10</span>, id: \.<span class="keyword">self</span>) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;选项<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line">                <span class="type">Divider</span>()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.padding(<span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="HStack-1"><a href="#HStack-1" class="headerlink" title="HStack"></a>HStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">HStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> title: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;朋友圈&quot;</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">HStack</span>(alignment: .center, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Text</span>(title)</span><br><span class="line">            <span class="type">Spacer</span>()</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;chevron.right&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(<span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="ZStack-1"><a href="#ZStack-1" class="headerlink" title="ZStack"></a>ZStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ZStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="comment">// ZStack 实现头像置于背景之上的效果</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ZStack</span> &#123;</span><br><span class="line">            <span class="type">Image</span>(<span class="string">&quot;bg&quot;</span>)</span><br><span class="line">                .resizable()</span><br><span class="line">                .scaledToFit()</span><br><span class="line">                .frame(height: <span class="number">300</span>)</span><br><span class="line">            <span class="type">Image</span>(<span class="string">&quot;avatar&quot;</span>)</span><br><span class="line">                .resizable()</span><br><span class="line">                .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br><span class="line">                .clipShape(<span class="type">Circle</span>()) <span class="comment">// 圆形头像设置</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="VStack、-HStack和-ZStack-一起使用"><a href="#VStack、-HStack和-ZStack-一起使用" class="headerlink" title="VStack、 HStack和 ZStack 一起使用"></a>VStack、 HStack和 ZStack 一起使用</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">LayoutDemo</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> options <span class="operator">=</span> [<span class="string">&quot;朋友圈&quot;</span>, <span class="string">&quot;发现&quot;</span>, <span class="string">&quot;游戏&quot;</span>, <span class="string">&quot;更多&quot;</span>]</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">ZStackContentView</span>()</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(options, id: \.<span class="keyword">self</span>) &#123; title <span class="keyword">in</span></span><br><span class="line">                    <span class="type">HStackContentView</span>(title: title)</span><br><span class="line">                    <span class="type">Divider</span>()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="ContentView"><a href="#ContentView" class="headerlink" title="ContentView"></a>ContentView</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> selectedSeg:<span class="type">Int</span> <span class="operator">=</span> <span class="number">3</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">let</span> segmentArr <span class="operator">=</span> [<span class="string">&quot;VStack&quot;</span>, <span class="string">&quot;HStack&quot;</span>, <span class="string">&quot;ZStack&quot;</span>, <span class="string">&quot;Layout&quot;</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Picker</span>(selection: <span class="variable">$selectedSeg</span>) &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span> <span class="operator">..&lt;</span> segmentArr.count) &#123;</span><br><span class="line">                    <span class="type">Text</span>(segmentArr[<span class="variable">$0</span>]).tag(<span class="variable">$0</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            .pickerStyle(.segmented) <span class="comment">//设置选择器的样式</span></span><br><span class="line">            <span class="comment">// 根据选择器绑定值的变化不同，显示不同的布局视图</span></span><br><span class="line">            <span class="keyword">switch</span> selectedSeg &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                <span class="type">VStackContentView</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                <span class="type">HStackContentView</span>()</span><br><span class="line">                <span class="type">Divider</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                <span class="type">ZStackContentView</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">                <span class="type">LayoutDemo</span>()</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="type">Spacer</span>()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Spacer</span>()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<video type="video/mp4"  width="30%" height="50%" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090955427.mp4" controls="controls"/>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>VStack</tag>
+        <tag>HStack</tag>
+        <tag>ZStack</tag>
       </tags>
   </entry>
   <entry>
@@ -1177,6 +1310,65 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI控件之 List（二）</title>
+    <url>/swift-blogs/posts/37193cc1.html</url>
+    <content><![CDATA[<h4 id="创建-List"><a href="#创建-List" class="headerlink" title="创建 List"></a>创建 List</h4><p>在之前的<strong>List</strong> 使用中，我们是直接使用<code>ForEach</code> 循环遍历一个数组来实现的，在遍历的时候我们把<code>self</code> 作为<strong>List</strong>中必须的<strong>ID</strong>。接下来，我们通过自定义一个数据对象同时让它实现<code>Identifiable</code>。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Ocean</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:  <span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们自定义了一个结构体类型的对象<code>Ocean</code> ，同时让它实现了<code>Identifiable</code> 协议。在实现这个协议之后，它需要结构体的有一个名为<code>id</code>的成员属性，然后这个属性的值我们直接通过<code>UUID().uuisString</code> 创建一个字符串类型的值给它，这样可以实现之后创建的每一个<code>Ocean</code> 实例对象都有一个<strong>唯一</strong>的<strong>ID</strong>，便于我们在<strong>List</strong> 遍历时使用。</p>
+<span id="more"></span>
+
+<p>同样地，使用数组的方式创建一些数据源。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> oceans <span class="operator">=</span> [</span><br><span class="line">    <span class="type">Ocean</span>(name: <span class="string">&quot;Pacific&quot;</span>),</span><br><span class="line">    <span class="type">Ocean</span>(name: <span class="string">&quot;Atlantic&quot;</span>),</span><br><span class="line">    <span class="type">Ocean</span>(name: <span class="string">&quot;Indian&quot;</span>),</span><br><span class="line">    <span class="type">Ocean</span>(name: <span class="string">&quot;Southern&quot;</span>),</span><br><span class="line">    <span class="type">Ocean</span>(name: <span class="string">&quot;Arctic&quot;</span>)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>List</code> 和 <code>ForEach</code>创建一个<strong>List</strong>：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span> &#123;</span><br><span class="line">    <span class="type">ForEach</span>(oceans) &#123; ocean <span class="keyword">in</span></span><br><span class="line">        <span class="type">Text</span>(ocean.name)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><span style="color:red">注意：</span>在上面的代码中，由于<code>ForEach</code>遍历的对象实现了<code>Identifiable</code>协议，所以我们就不再需要去单独设置<code>id</code>。</strong></p>
+<p>或者可以直接讲数据源给到<code>List</code>来创建：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span>(oceans) &#123; ocean <span class="keyword">in</span></span><br><span class="line">    <span class="type">Text</span>(ocean.name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码也可以通过语法进行简写：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span>(oceans) &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="variable">$0</span>.name)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>简写前和简写后的效果是一样的，简写代码中的<code>$0</code>表示遍历的第一个参数，还可以有类似于<code>$1</code>、<code>$2</code> …等这样的形式。</p>
+<h4 id="List-中的多选"><a href="#List-中的多选" class="headerlink" title="List 中的多选"></a>List 中的多选</h4><p>首先将<code>List</code>嵌套到<code>NavigationStack</code>中实现一个带顶部导航栏的样式：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">NavigationStack</span> &#123;</span><br><span class="line">    <span class="type">List</span>(oceans) &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="variable">$0</span>.name)</span><br><span class="line">    &#125;</span><br><span class="line">    .navigationTitle(<span class="string">&quot;Oceans&quot;</span>) <span class="comment">// 导航栏的标题</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时，通过<code>toolBar</code>添加一个<code>EditButton</code> 按钮：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.toolbar &#123;</span><br><span class="line">                <span class="type">EditButton</span>()</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>完整代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> oceans <span class="operator">=</span> [</span><br><span class="line">        <span class="type">Ocean</span>(name: <span class="string">&quot;Pacific&quot;</span>),</span><br><span class="line">        <span class="type">Ocean</span>(name: <span class="string">&quot;Atlantic&quot;</span>),</span><br><span class="line">        <span class="type">Ocean</span>(name: <span class="string">&quot;Indian&quot;</span>),</span><br><span class="line">        <span class="type">Ocean</span>(name: <span class="string">&quot;Southern&quot;</span>),</span><br><span class="line">        <span class="type">Ocean</span>(name: <span class="string">&quot;Arctic&quot;</span>)</span><br><span class="line">    ]</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> multiSelection <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">String</span>&gt;()</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">NavigationStack</span> &#123;</span><br><span class="line">            <span class="type">List</span>(oceans, selection: <span class="variable">$multiSelection</span>) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="variable">$0</span>.name)</span><br><span class="line">            &#125;</span><br><span class="line">            .navigationTitle(<span class="string">&quot;Oceans&quot;</span>) <span class="comment">// 导航栏的标题</span></span><br><span class="line">            .toolbar &#123;</span><br><span class="line">                <span class="type">EditButton</span>()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;当前选中：<span class="subst">\(multiSelection.count)</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，实现了一下几步：</p>
+<ol>
+<li>通过<code>NavigationStack</code> 实现了导航栏；</li>
+<li>在<code>toolBar</code>上添加了一个<code>EditButton</code>，当点击 <strong>EditButton</strong>后<strong>List</strong> 将进入<strong>可编辑模式</strong>；</li>
+<li>使用<code>@State</code> 定义了一个元素类型和<code>Ocean</code> 中<code>id</code> 类型（<strong>String</strong>）一致的动态元祖变量，然后将这个变量和<strong>List</strong>中的<code>selection</code>绑定，当 <strong>List</strong> 进入编辑模式之后我们就可以获取到被选中的<strong>List</strong>中<strong>唯一</strong>的<strong>ID</strong>。</li>
+</ol>
+<p>效果如下：</p>
+<p><video width="30%" height="50%" controls="controls" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309161014389.mp4"> </video></p>
+<h4 id="List-的下拉刷新加载"><a href="#List-的下拉刷新加载" class="headerlink" title="List 的下拉刷新加载"></a>List 的下拉刷新加载</h4><p>首先将数据源<code>oceans</code> 使用<code>@State</code> 声明为动态的响应式类型：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> oceans <span class="operator">=</span> [</span><br><span class="line">       <span class="type">Ocean</span>(name: <span class="string">&quot;Pacific&quot;</span>),</span><br><span class="line">       <span class="type">Ocean</span>(name: <span class="string">&quot;Atlantic&quot;</span>),</span><br><span class="line">       <span class="type">Ocean</span>(name: <span class="string">&quot;Indian&quot;</span>),</span><br><span class="line">       <span class="type">Ocean</span>(name: <span class="string">&quot;Southern&quot;</span>),</span><br><span class="line">       <span class="type">Ocean</span>(name: <span class="string">&quot;Arctic&quot;</span>)</span><br><span class="line">   ]</span><br></pre></td></tr></table></figure>
+
+<p>然后给<code>List</code>添加一个<code>refreshable </code>修饰器：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.refreshable &#123;</span><br><span class="line">                <span class="comment">// 每次刷新向 oceans 数组中添加一个新的元素</span></span><br><span class="line">                oceans.append(.<span class="keyword">init</span>(name: <span class="string">&quot;Other&quot;</span>))</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时，当程序运行后，每次下拉刷新<strong>List</strong> 中都将添加一个新的名为<code>Other</code> 的元素。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>EditButton</tag>
+        <tag>List</tag>
+        <tag>Identifier</tag>
+        <tag>NavigationStack</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI控件之 TextField</title>
     <url>/swift-blogs/posts/edbc1019.html</url>
     <content><![CDATA[<p>在 SwiftUI 中，<strong>TextField</strong> 用来展示和接收用户编辑的文本内容。</p>
@@ -1283,148 +1475,6 @@
       <tags>
         <tag>Swift</tag>
         <tag>函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI之 VStack、 HStack、 ZStack</title>
-    <url>/swift-blogs/posts/e7687e8f.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，我们会经常使用到 <strong>VStack</strong>、<strong>HStack</strong>、<strong>ZStack</strong> 来帮助我们进行布局。</p>
-<h4 id="VStack"><a href="#VStack" class="headerlink" title="VStack"></a>VStack</h4><p>在<strong>VStack</strong>中的子视图都将按照<strong>垂直方向</strong>进行排列。</p>
-<p>例如：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">    <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时的布局效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090914844.png"/>
-
-<span id="more"></span>
-
-<h4 id="HStack"><a href="#HStack" class="headerlink" title="HStack"></a>HStack</h4><p>和<strong>VStack</strong> 类似，不过 <strong>HStack</strong>是将子视图按照<strong>水平方向</strong> 进行排列。</p>
-<p> 类似地，将上面示例代码中的<strong>VStack</strong> 改为<strong>HStack</strong> :</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">HStack</span> &#123;</span><br><span class="line">    <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090918393.png"/>
-
-<p>对于 <strong>VStack</strong> 和 <strong>HStack</strong> 而言，都可以设置它们子视图之前的间距<code>spacing</code> 和对齐方式<code>alignment</code> 。</p>
-<p>区别在于，<strong>VStack</strong> 的对齐方式有：</p>
-<ul>
-<li><code>center</code>：居中对齐；</li>
-<li><code>leading</code> ：左对齐；</li>
-<li><code>trailing</code> ： 右对齐。</li>
-</ul>
-<p><strong>HStack</strong> 的对齐方式有：</p>
-<ul>
-<li><code>center</code> ：居中对齐；</li>
-<li><code>top</code> ：顶部对齐；</li>
-<li><code>bottom</code>：底部对齐。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span>(alignment: .leading, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">                .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">HStack</span>(alignment: .top, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">                .font(.body)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="ZStack"><a href="#ZStack" class="headerlink" title="ZStack"></a>ZStack</h4><p><strong>ZStack</strong> 是让子视图按照<strong>Z轴方向</strong> 堆叠排列。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ZStack</span> &#123;</span><br><span class="line">        <span class="type">Image</span>(<span class="string">&quot;avatar&quot;</span>)</span><br><span class="line">            .resizable()</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">            .font(.body)</span><br><span class="line">            .foregroundStyle(.white)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090942670.png"/>
-
-<p><strong>ZStack</strong> 只能设置对齐方式<code>alignment</code>，它的对齐方式包括：</p>
-<ul>
-<li><code>top</code>：顶部对齐；</li>
-<li><code>bottom</code>：底部对齐；</li>
-<li><code>center</code>：居中对齐；</li>
-<li><code>leading</code>：左对齐；</li>
-<li><code>trailing</code>: 右对齐；</li>
-<li><code>topLeading</code>：左上角对齐；</li>
-<li><code>topTrailing</code>：右上角对齐；</li>
-<li><code>bottomLeading</code>：左下角对齐；</li>
-<li><code>bottomTrailing</code>: 右下角对齐。</li>
-</ul>
-<h4 id="布局示例"><a href="#布局示例" class="headerlink" title="布局示例"></a>布局示例</h4><h5 id="VStack-1"><a href="#VStack-1" class="headerlink" title="VStack"></a>VStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">VStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="comment">// 左对齐，上下间距为10</span></span><br><span class="line">        <span class="type">VStack</span>(alignment: .leading, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">...</span><span class="number">10</span>, id: \.<span class="keyword">self</span>) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;选项<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line">                <span class="type">Divider</span>()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.padding(<span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="HStack-1"><a href="#HStack-1" class="headerlink" title="HStack"></a>HStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">HStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> title: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;朋友圈&quot;</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">HStack</span>(alignment: .center, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Text</span>(title)</span><br><span class="line">            <span class="type">Spacer</span>()</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;chevron.right&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(<span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="ZStack-1"><a href="#ZStack-1" class="headerlink" title="ZStack"></a>ZStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ZStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="comment">// ZStack 实现头像置于背景之上的效果</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ZStack</span> &#123;</span><br><span class="line">            <span class="type">Image</span>(<span class="string">&quot;bg&quot;</span>)</span><br><span class="line">                .resizable()</span><br><span class="line">                .scaledToFit()</span><br><span class="line">                .frame(height: <span class="number">300</span>)</span><br><span class="line">            <span class="type">Image</span>(<span class="string">&quot;avatar&quot;</span>)</span><br><span class="line">                .resizable()</span><br><span class="line">                .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br><span class="line">                .clipShape(<span class="type">Circle</span>()) <span class="comment">// 圆形头像设置</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="VStack、-HStack和-ZStack-一起使用"><a href="#VStack、-HStack和-ZStack-一起使用" class="headerlink" title="VStack、 HStack和 ZStack 一起使用"></a>VStack、 HStack和 ZStack 一起使用</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">LayoutDemo</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> options <span class="operator">=</span> [<span class="string">&quot;朋友圈&quot;</span>, <span class="string">&quot;发现&quot;</span>, <span class="string">&quot;游戏&quot;</span>, <span class="string">&quot;更多&quot;</span>]</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">ZStackContentView</span>()</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(options, id: \.<span class="keyword">self</span>) &#123; title <span class="keyword">in</span></span><br><span class="line">                    <span class="type">HStackContentView</span>(title: title)</span><br><span class="line">                    <span class="type">Divider</span>()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="ContentView"><a href="#ContentView" class="headerlink" title="ContentView"></a>ContentView</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> selectedSeg:<span class="type">Int</span> <span class="operator">=</span> <span class="number">3</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">let</span> segmentArr <span class="operator">=</span> [<span class="string">&quot;VStack&quot;</span>, <span class="string">&quot;HStack&quot;</span>, <span class="string">&quot;ZStack&quot;</span>, <span class="string">&quot;Layout&quot;</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Picker</span>(selection: <span class="variable">$selectedSeg</span>) &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span> <span class="operator">..&lt;</span> segmentArr.count) &#123;</span><br><span class="line">                    <span class="type">Text</span>(segmentArr[<span class="variable">$0</span>]).tag(<span class="variable">$0</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            .pickerStyle(.segmented) <span class="comment">//设置选择器的样式</span></span><br><span class="line">            <span class="comment">// 根据选择器绑定值的变化不同，显示不同的布局视图</span></span><br><span class="line">            <span class="keyword">switch</span> selectedSeg &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                <span class="type">VStackContentView</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                <span class="type">HStackContentView</span>()</span><br><span class="line">                <span class="type">Divider</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                <span class="type">ZStackContentView</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">                <span class="type">LayoutDemo</span>()</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="type">Spacer</span>()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Spacer</span>()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<video type="video/mp4"  width="30%" height="50%" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090955427.mp4" controls="controls"/>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>VStack</tag>
-        <tag>HStack</tag>
-        <tag>ZStack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI控件之 List（二）</title>
-    <url>/swift-blogs/posts/37193cc1.html</url>
-    <content><![CDATA[<h4 id="创建-List"><a href="#创建-List" class="headerlink" title="创建 List"></a>创建 List</h4><p>在之前的<strong>List</strong> 使用中，我们是直接使用<code>ForEach</code> 循环遍历一个数组来实现的，在遍历的时候我们把<code>self</code> 作为<strong>List</strong>中必须的<strong>ID</strong>。接下来，我们通过自定义一个数据对象同时让它实现<code>Identifiable</code>。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Ocean</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:  <span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们自定义了一个结构体类型的对象<code>Ocean</code> ，同时让它实现了<code>Identifiable</code> 协议。在实现这个协议之后，它需要结构体的有一个名为<code>id</code>的成员属性，然后这个属性的值我们直接通过<code>UUID().uuisString</code> 创建一个字符串类型的值给它，这样可以实现之后创建的每一个<code>Ocean</code> 实例对象都有一个<strong>唯一</strong>的<strong>ID</strong>，便于我们在<strong>List</strong> 遍历时使用。</p>
-<span id="more"></span>
-
-<p>同样地，使用数组的方式创建一些数据源。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> oceans <span class="operator">=</span> [</span><br><span class="line">    <span class="type">Ocean</span>(name: <span class="string">&quot;Pacific&quot;</span>),</span><br><span class="line">    <span class="type">Ocean</span>(name: <span class="string">&quot;Atlantic&quot;</span>),</span><br><span class="line">    <span class="type">Ocean</span>(name: <span class="string">&quot;Indian&quot;</span>),</span><br><span class="line">    <span class="type">Ocean</span>(name: <span class="string">&quot;Southern&quot;</span>),</span><br><span class="line">    <span class="type">Ocean</span>(name: <span class="string">&quot;Arctic&quot;</span>)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p>使用<code>List</code> 和 <code>ForEach</code>创建一个<strong>List</strong>：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span> &#123;</span><br><span class="line">    <span class="type">ForEach</span>(oceans) &#123; ocean <span class="keyword">in</span></span><br><span class="line">        <span class="type">Text</span>(ocean.name)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong><span style="color:red">注意：</span>在上面的代码中，由于<code>ForEach</code>遍历的对象实现了<code>Identifiable</code>协议，所以我们就不再需要去单独设置<code>id</code>。</strong></p>
-<p>或者可以直接讲数据源给到<code>List</code>来创建：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span>(oceans) &#123; ocean <span class="keyword">in</span></span><br><span class="line">    <span class="type">Text</span>(ocean.name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面的代码也可以通过语法进行简写：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span>(oceans) &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="variable">$0</span>.name)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<p>简写前和简写后的效果是一样的，简写代码中的<code>$0</code>表示遍历的第一个参数，还可以有类似于<code>$1</code>、<code>$2</code> …等这样的形式。</p>
-<h4 id="List-中的多选"><a href="#List-中的多选" class="headerlink" title="List 中的多选"></a>List 中的多选</h4><p>首先将<code>List</code>嵌套到<code>NavigationStack</code>中实现一个带顶部导航栏的样式：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">NavigationStack</span> &#123;</span><br><span class="line">    <span class="type">List</span>(oceans) &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="variable">$0</span>.name)</span><br><span class="line">    &#125;</span><br><span class="line">    .navigationTitle(<span class="string">&quot;Oceans&quot;</span>) <span class="comment">// 导航栏的标题</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>同时，通过<code>toolBar</code>添加一个<code>EditButton</code> 按钮：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.toolbar &#123;</span><br><span class="line">                <span class="type">EditButton</span>()</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>完整代码如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> oceans <span class="operator">=</span> [</span><br><span class="line">        <span class="type">Ocean</span>(name: <span class="string">&quot;Pacific&quot;</span>),</span><br><span class="line">        <span class="type">Ocean</span>(name: <span class="string">&quot;Atlantic&quot;</span>),</span><br><span class="line">        <span class="type">Ocean</span>(name: <span class="string">&quot;Indian&quot;</span>),</span><br><span class="line">        <span class="type">Ocean</span>(name: <span class="string">&quot;Southern&quot;</span>),</span><br><span class="line">        <span class="type">Ocean</span>(name: <span class="string">&quot;Arctic&quot;</span>)</span><br><span class="line">    ]</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> multiSelection <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">String</span>&gt;()</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">NavigationStack</span> &#123;</span><br><span class="line">            <span class="type">List</span>(oceans, selection: <span class="variable">$multiSelection</span>) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="variable">$0</span>.name)</span><br><span class="line">            &#125;</span><br><span class="line">            .navigationTitle(<span class="string">&quot;Oceans&quot;</span>) <span class="comment">// 导航栏的标题</span></span><br><span class="line">            .toolbar &#123;</span><br><span class="line">                <span class="type">EditButton</span>()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;当前选中：<span class="subst">\(multiSelection.count)</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，实现了一下几步：</p>
-<ol>
-<li>通过<code>NavigationStack</code> 实现了导航栏；</li>
-<li>在<code>toolBar</code>上添加了一个<code>EditButton</code>，当点击 <strong>EditButton</strong>后<strong>List</strong> 将进入<strong>可编辑模式</strong>；</li>
-<li>使用<code>@State</code> 定义了一个元素类型和<code>Ocean</code> 中<code>id</code> 类型（<strong>String</strong>）一致的动态元祖变量，然后将这个变量和<strong>List</strong>中的<code>selection</code>绑定，当 <strong>List</strong> 进入编辑模式之后我们就可以获取到被选中的<strong>List</strong>中<strong>唯一</strong>的<strong>ID</strong>。</li>
-</ol>
-<p>效果如下：</p>
-<p><video width="30%" height="50%" controls="controls" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309161014389.mp4"> </video></p>
-<h4 id="List-的下拉刷新加载"><a href="#List-的下拉刷新加载" class="headerlink" title="List 的下拉刷新加载"></a>List 的下拉刷新加载</h4><p>首先将数据源<code>oceans</code> 使用<code>@State</code> 声明为动态的响应式类型：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> oceans <span class="operator">=</span> [</span><br><span class="line">       <span class="type">Ocean</span>(name: <span class="string">&quot;Pacific&quot;</span>),</span><br><span class="line">       <span class="type">Ocean</span>(name: <span class="string">&quot;Atlantic&quot;</span>),</span><br><span class="line">       <span class="type">Ocean</span>(name: <span class="string">&quot;Indian&quot;</span>),</span><br><span class="line">       <span class="type">Ocean</span>(name: <span class="string">&quot;Southern&quot;</span>),</span><br><span class="line">       <span class="type">Ocean</span>(name: <span class="string">&quot;Arctic&quot;</span>)</span><br><span class="line">   ]</span><br></pre></td></tr></table></figure>
-
-<p>然后给<code>List</code>添加一个<code>refreshable </code>修饰器：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.refreshable &#123;</span><br><span class="line">                <span class="comment">// 每次刷新向 oceans 数组中添加一个新的元素</span></span><br><span class="line">                oceans.append(.<span class="keyword">init</span>(name: <span class="string">&quot;Other&quot;</span>))</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时，当程序运行后，每次下拉刷新<strong>List</strong> 中都将添加一个新的名为<code>Other</code> 的元素。</p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>EditButton</tag>
-        <tag>List</tag>
-        <tag>Identifier</tag>
-        <tag>NavigationStack</tag>
       </tags>
   </entry>
   <entry>
