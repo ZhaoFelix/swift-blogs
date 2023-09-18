@@ -84,126 +84,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Swift 中的数据类型</title>
-    <url>/swift-blogs/posts/6876d7b8.html</url>
-    <content><![CDATA[<h4 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h4><p>整数是没有小数部分的数字。整数可以是有符号的或者无符号。Swift提供来8，16，32和64位编码的有符号和无符号整数，例如UInt8表示8位无符号的整数，Int32表示32有符号整数。</p>
-<span id="more"></span>
-
-<h5 id="Int"><a href="#Int" class="headerlink" title="Int"></a>Int</h5><p>Swift 提供了一个特殊的整数类型<strong>Int</strong>，长度与当前平台的原生字长相同：</p>
-<ul>
-<li>在32位平台上，Int和Int32长度相同。</li>
-<li>在64位平台上，Int和Int64长度相同。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> age:<span class="type">Int</span> <span class="operator">=</span> <span class="number">27</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>除非你需要特定长度的整数，一般来说使用Int就够了。这可以提高代码一致性和可复用性。即使是在32位平台上，Int可以存储的整数范围也可以达到-2,147,483,648~2,147,483,647，大多数时候这已经足够大了。</p>
-<h5 id="UInt"><a href="#UInt" class="headerlink" title="UInt"></a>UInt</h5><p>Swift 也提供了一个特殊的无符号类型<strong>UInt</strong>，长度与当前平台的原生字长相同：</p>
-<ul>
-<li>在32位平台上，<strong>UInt</strong>和<strong>UInt32</strong>长度相同。</li>
-<li>在64位平台上，<strong>UInt</strong>和<strong>UInt64</strong>长度相同。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> age:<span class="type">UInt</span> <span class="operator">=</span> <span class="number">29</span></span><br></pre></td></tr></table></figure>
-
-<p>如果此时重新赋一个<span style="color:red"><strong>负值</strong></span>， Xcode 将会报错。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">age <span class="operator">=</span> <span class="operator">-</span><span class="number">27</span></span><br></pre></td></tr></table></figure>
-
-<p>错误信息如下：<span style='color:red'>“<strong>Negative integer ‘-27’ overflows when stored into unsigned type ‘UInt’</strong>“</span>。</p>
-<blockquote>
-<p><strong>注意</strong><br>只在的确需要存储一个和当前平台原生字长度相同的无符号整数的时候才使用 UInt 。其他情况下，推荐使用 Int ，即使已经知道存储的值都是非负的。如同类型安全和类型推断中描述的那样，统一使用 Int 会提高代码的兼容性，同时可以避免不同数字类型之间的转换问题，也符合整数的类型推断。</p>
-</blockquote>
-<h4 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h4><p>浮点数是有小数的数字，例如3.1425926。浮点类型相比整数类型来说能表示更大的范围的值，可以存储比Int更大或者更小的数字。Swift提供来两种有符号的浮点数类型：</p>
-<ul>
-<li><strong>Double</strong>代表63位的浮点数</li>
-<li><strong>Float</strong>代表32位的浮点数</li>
-</ul>
-<blockquote>
-<p><strong>注意</strong><br>Double有至少15位数字的精度，而Float的精度只有6位。</p>
-</blockquote>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> floatPI: <span class="type">Float</span> <span class="operator">=</span> <span class="number">3.1415926535897932384626433832795028841971693993751058209</span></span><br><span class="line"><span class="keyword">var</span> doublePI: <span class="type">Double</span> <span class="operator">=</span> <span class="number">3.1415926535897932384626433832795028841971693993751058209</span></span><br></pre></td></tr></table></figure>
-
-<p>显示结果如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="number">3.141593</span></span><br><span class="line"><span class="number">3.141592653589793</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="布尔值"><a href="#布尔值" class="headerlink" title="布尔值"></a>布尔值</h4><p>Swift有一个基础布尔量类型，就是Bool，布尔量被作为逻辑值来引用，因为它的值只能是真或者假。Swift布尔量提供量两个常量值，<strong>true</strong>和<strong>false</strong>。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> isLocked: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">true</span> </span><br><span class="line">isLocked <span class="operator">=</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>字符串是一系列字符，例如”Hello world”。字符串类型用String表示。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> name:<span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;Felix&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>多行字符串：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> multiLineString <span class="operator">=</span> <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Hello,</span></span><br><span class="line"><span class="string">My name is Felix.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><p>字符指的是单个字母。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> c:<span class="type">Character</span> <span class="operator">=</span> <span class="string">&quot;a&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="可选类型"><a href="#可选类型" class="headerlink" title="可选类型"></a>可选类型</h4><p>可选类型用来处理值可能确实的情况，可选类型表示有值或没有值。</p>
-<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>大小（字节）</th>
-<th>区间值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Int8</td>
-<td>1字节</td>
-<td>-128到127</td>
-</tr>
-<tr>
-<td>UInt8</td>
-<td>1字节</td>
-<td>0到255</td>
-</tr>
-<tr>
-<td>Int32</td>
-<td>4字节</td>
-<td>-2147483648 到 2147483647</td>
-</tr>
-<tr>
-<td>UInt32</td>
-<td>4字节</td>
-<td>0 到 4294967295</td>
-</tr>
-<tr>
-<td>Int64</td>
-<td>8字节</td>
-<td>-9223372036854775808 到 9223372036854775807</td>
-</tr>
-<tr>
-<td>UInt64</td>
-<td>8字节</td>
-<td>0 到 18446744073709551615</td>
-</tr>
-<tr>
-<td>Float</td>
-<td>4字节</td>
-<td>1.2E-38 到 3.4E+38 (~6 digits)</td>
-</tr>
-<tr>
-<td>Double</td>
-<td>8字节</td>
-<td>2.3E-308 到 1.7E+308 (~15 digits)</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>整数类型可以使用<strong>Int.max</strong>和<strong>Int.min</strong>获取Int的最大值和最小值。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Foundation</tag>
-        <tag>Swift</tag>
-        <tag>Xcode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Swift 中的枚举</title>
     <url>/swift-blogs/posts/251de72f.html</url>
     <content><![CDATA[<h3 id="Swift-中的枚举"><a href="#Swift-中的枚举" class="headerlink" title="Swift 中的枚举"></a>Swift 中的枚举</h3><p>在计算机编程中，枚举是一种数据类型，用于定义一定范围内的有名称的值。Swift语言中的枚举是强大且灵活的工具，我们可以在多种场景中使用它们，包括但不限于处理特定类型的数据、创建自定义的错误类型以及实现特定的设计模式。</p>
@@ -236,55 +116,6 @@
       <tags>
         <tag>Swift</tag>
         <tag>枚举</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 中的类</title>
-    <url>/swift-blogs/posts/338306b2.html</url>
-    <content><![CDATA[<p>在Swift中，类是一种引用类型，用于封装数据和方法。类是面向对象编程的基础，它们允许我们创建具有特定属性和方法的自定义数据类型。在这篇文章中，我们将详细介绍Swift中的类及其使用方法。</p>
-<h2 id="类的定义"><a href="#类的定义" class="headerlink" title="类的定义"></a>类的定义</h2><p>在Swift中，类使用<code>class</code>关键字定义。类的定义包括一个可选的名称、一对大括号<code>&#123;&#125;</code>，以及一个或多个属性和方法的定义。类的属性可以是<span style="color:red"><strong>值类型</strong></span>（例如<code>Int</code>、<code>String</code>等），也可以是<span style="color:red"><strong>引用类型</strong></span>（例如数组、字典等）。方法则包含在一个或多个大括号内，并遵循特定的语法规则。</p>
-<span id="more"></span>
-
-<p>下面是一个简单的类定义示例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个示例中，我们定义了一个名为<code>Person</code>的类，它有两个属性（<code>name</code>和<code>age</code>）和一个方法（<code>sayHello</code>）。<code>init</code>方法是一个特殊的方法，用于初始化类的实例。当创建一个新的<code>Person</code>实例时，我们需要提供一个名字和一个年龄，然后<code>init</code>方法会将这些值分别赋给<code>name</code>和<code>age</code>属性。</p>
-<p>定义好一个类之后，我们可以实例化一个类的对象，然后通过<strong>点语法</strong>去访问类的属性和方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">25</span>)</span><br><span class="line">person.sayHello()</span><br><span class="line">person.age <span class="operator">=</span> <span class="number">26</span> </span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="类的构造器和属性访问修饰符"><a href="#类的构造器和属性访问修饰符" class="headerlink" title="类的构造器和属性访问修饰符"></a>类的构造器和属性访问修饰符</h2><p>在Swift中，我们可以使用构造器来初始化类的实例。构造器是一个特殊的函数，它在创建类的实例时被调用。构造器的名称与类名相同，并且没有返回类型。我们可以在构造器中设置实例的属性值。</p>
-<p>在上面的<code>Person</code>类中，我们使用了<code>init</code>方法作为构造器。当我们创建一个新的<code>Person</code>实例时，需要提供名字和年龄参数，如下所示：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Alice&quot;</span>, age: <span class="number">30</span>)</span><br></pre></td></tr></table></figure>
-
-<p>此外，我们还可以使用访问修饰符来控制属性和方法的访问权限。Swift提供了四种访问修饰符：<code>public</code>、<code>protected</code>、<code>internal</code>和默认（即不使用任何修饰符）。<strong>默认情况下，所有属性和方法都是公开的（可以在任何地方访问）</strong>。通过使用不同的访问修饰符，我们可以限制属性和方法的可见性，从而提高代码的安全性和可维护性。</p>
-<p>例如，我们可以将上面的<code>Person</code>类修改为以下形式，将所有属性和方法设置为私有：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am (age) years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当我们再想通过实例化的对象访问 <code>name</code> 和 <code>age</code> 属性时，Xcode 会报以下的错误：</p>
-<p> <span style="color:red"><code>&#39;age&#39; is inaccessible due to &#39;private&#39; protection level </code></span></p>
-<h2 id="类的继承和多态性"><a href="#类的继承和多态性" class="headerlink" title="类的继承和多态性"></a>类的继承和多态性</h2><p>在Swift中，类可以继承自其他类，从而实现代码的重用和扩展。子类可以继承父类的属性和方法，并可以根据需要添加新的属性和方法。此外，Swift还支持多态性，这意味着我们可以使用父类的引用来操作子类的对象。</p>
-<p>下面是一个关于类继承的例子：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="comment">// 子类独有的属性</span></span><br><span class="line">    <span class="keyword">var</span> school: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>, <span class="params">school</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.school <span class="operator">=</span> school</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name, age: age)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">// 子类独有的方法</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">toSchool</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Go to school&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在上面的这个例子中，我们定义了一个<code>Student</code> 子类，这个子类继承了<code>Person</code> 父类。这里的继承意味着<code>Student</code> 子类有父类的<code>age</code> 和<code>name</code>属性以及<code>sayHello</code>方法。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> student <span class="operator">=</span> <span class="type">Student</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">26</span>, school: <span class="string">&quot;SBS&quot;</span>)</span><br><span class="line">student.toSchool() <span class="comment">// 调用字类方法</span></span><br><span class="line">student.sayHello() <span class="comment">// 调用父类方法</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>在子类中，我们还可以重写父类的方法，使用 <code>override</code> 关键字：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 重写父类的方法</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is<span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old. my school is <span class="subst">\(school)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>类</tag>
       </tags>
   </entry>
   <entry>
@@ -643,6 +474,126 @@
       </tags>
   </entry>
   <entry>
+    <title>Swift 中的数据类型</title>
+    <url>/swift-blogs/posts/6876d7b8.html</url>
+    <content><![CDATA[<h4 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h4><p>整数是没有小数部分的数字。整数可以是有符号的或者无符号。Swift提供来8，16，32和64位编码的有符号和无符号整数，例如UInt8表示8位无符号的整数，Int32表示32有符号整数。</p>
+<span id="more"></span>
+
+<h5 id="Int"><a href="#Int" class="headerlink" title="Int"></a>Int</h5><p>Swift 提供了一个特殊的整数类型<strong>Int</strong>，长度与当前平台的原生字长相同：</p>
+<ul>
+<li>在32位平台上，Int和Int32长度相同。</li>
+<li>在64位平台上，Int和Int64长度相同。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> age:<span class="type">Int</span> <span class="operator">=</span> <span class="number">27</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>除非你需要特定长度的整数，一般来说使用Int就够了。这可以提高代码一致性和可复用性。即使是在32位平台上，Int可以存储的整数范围也可以达到-2,147,483,648~2,147,483,647，大多数时候这已经足够大了。</p>
+<h5 id="UInt"><a href="#UInt" class="headerlink" title="UInt"></a>UInt</h5><p>Swift 也提供了一个特殊的无符号类型<strong>UInt</strong>，长度与当前平台的原生字长相同：</p>
+<ul>
+<li>在32位平台上，<strong>UInt</strong>和<strong>UInt32</strong>长度相同。</li>
+<li>在64位平台上，<strong>UInt</strong>和<strong>UInt64</strong>长度相同。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> age:<span class="type">UInt</span> <span class="operator">=</span> <span class="number">29</span></span><br></pre></td></tr></table></figure>
+
+<p>如果此时重新赋一个<span style="color:red"><strong>负值</strong></span>， Xcode 将会报错。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">age <span class="operator">=</span> <span class="operator">-</span><span class="number">27</span></span><br></pre></td></tr></table></figure>
+
+<p>错误信息如下：<span style='color:red'>“<strong>Negative integer ‘-27’ overflows when stored into unsigned type ‘UInt’</strong>“</span>。</p>
+<blockquote>
+<p><strong>注意</strong><br>只在的确需要存储一个和当前平台原生字长度相同的无符号整数的时候才使用 UInt 。其他情况下，推荐使用 Int ，即使已经知道存储的值都是非负的。如同类型安全和类型推断中描述的那样，统一使用 Int 会提高代码的兼容性，同时可以避免不同数字类型之间的转换问题，也符合整数的类型推断。</p>
+</blockquote>
+<h4 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h4><p>浮点数是有小数的数字，例如3.1425926。浮点类型相比整数类型来说能表示更大的范围的值，可以存储比Int更大或者更小的数字。Swift提供来两种有符号的浮点数类型：</p>
+<ul>
+<li><strong>Double</strong>代表63位的浮点数</li>
+<li><strong>Float</strong>代表32位的浮点数</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong><br>Double有至少15位数字的精度，而Float的精度只有6位。</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> floatPI: <span class="type">Float</span> <span class="operator">=</span> <span class="number">3.1415926535897932384626433832795028841971693993751058209</span></span><br><span class="line"><span class="keyword">var</span> doublePI: <span class="type">Double</span> <span class="operator">=</span> <span class="number">3.1415926535897932384626433832795028841971693993751058209</span></span><br></pre></td></tr></table></figure>
+
+<p>显示结果如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="number">3.141593</span></span><br><span class="line"><span class="number">3.141592653589793</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="布尔值"><a href="#布尔值" class="headerlink" title="布尔值"></a>布尔值</h4><p>Swift有一个基础布尔量类型，就是Bool，布尔量被作为逻辑值来引用，因为它的值只能是真或者假。Swift布尔量提供量两个常量值，<strong>true</strong>和<strong>false</strong>。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> isLocked: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">true</span> </span><br><span class="line">isLocked <span class="operator">=</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>字符串是一系列字符，例如”Hello world”。字符串类型用String表示。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> name:<span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;Felix&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>多行字符串：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> multiLineString <span class="operator">=</span> <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Hello,</span></span><br><span class="line"><span class="string">My name is Felix.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><p>字符指的是单个字母。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> c:<span class="type">Character</span> <span class="operator">=</span> <span class="string">&quot;a&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="可选类型"><a href="#可选类型" class="headerlink" title="可选类型"></a>可选类型</h4><p>可选类型用来处理值可能确实的情况，可选类型表示有值或没有值。</p>
+<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小（字节）</th>
+<th>区间值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Int8</td>
+<td>1字节</td>
+<td>-128到127</td>
+</tr>
+<tr>
+<td>UInt8</td>
+<td>1字节</td>
+<td>0到255</td>
+</tr>
+<tr>
+<td>Int32</td>
+<td>4字节</td>
+<td>-2147483648 到 2147483647</td>
+</tr>
+<tr>
+<td>UInt32</td>
+<td>4字节</td>
+<td>0 到 4294967295</td>
+</tr>
+<tr>
+<td>Int64</td>
+<td>8字节</td>
+<td>-9223372036854775808 到 9223372036854775807</td>
+</tr>
+<tr>
+<td>UInt64</td>
+<td>8字节</td>
+<td>0 到 18446744073709551615</td>
+</tr>
+<tr>
+<td>Float</td>
+<td>4字节</td>
+<td>1.2E-38 到 3.4E+38 (~6 digits)</td>
+</tr>
+<tr>
+<td>Double</td>
+<td>8字节</td>
+<td>2.3E-308 到 1.7E+308 (~15 digits)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>整数类型可以使用<strong>Int.max</strong>和<strong>Int.min</strong>获取Int的最大值和最小值。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Foundation</tag>
+        <tag>Swift</tag>
+        <tag>Xcode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI 介绍</title>
     <url>/swift-blogs/posts/96cb395e.html</url>
     <content><![CDATA[<h1 id="SwiftUI-简介"><a href="#SwiftUI-简介" class="headerlink" title="SwiftUI 简介"></a>SwiftUI 简介</h1><p>SwiftUI 是 Apple 在 2019 年 WWDC 推出的一种现代化的 UI 开发框架，它是 iOS 13 和 macOS Catalina 的一部分。SwiftUI 可以让用户更容易地创建美观且响应式的用户界面，并且与 Core Data、Realm 等数据存储解决方案集成得非常好。此外，SwiftUI 还在不断更新和完善，以满足开发者的需求。</p>
@@ -723,60 +674,10 @@
         <category>SwiftUI 基础</category>
       </categories>
       <tags>
-        <tag>Xcode</tag>
         <tag>SwiftUI</tag>
+        <tag>Xcode</tag>
         <tag>Image</tag>
         <tag>SF Symbol</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI 控件之 ScrollView(一)</title>
-    <url>/swift-blogs/posts/35d3a19e.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>ScrollView</strong> 是一个可滚动的视图。</p>
-<h4 id="创建一个-ScrollView"><a href="#创建一个-ScrollView" class="headerlink" title="创建一个 ScrollView"></a>创建一个 ScrollView</h4><p>当我们使用<code>ForEach</code> 循环创建超出一整个屏幕的内容时：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">      <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">          <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们使用<code>VStack</code>和<code>ForEach</code> 创建了 100 个<code>Text</code>，此时要显示的内容已经超出了一个屏幕所能显示的内容，我们无法看到超出屏幕范围的内容。为了解决这个问题，我们就可以在最外层嵌套一个<code>ScrollView</code>，让整个视图变成滚动显示的。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span> &#123;</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时，我们就可以通过上下滚动的方式查看所有的<code>Text</code> 了。</p>
-<span id="more"></span>
-
-<h4 id="ScrollView的相关配置"><a href="#ScrollView的相关配置" class="headerlink" title="ScrollView的相关配置"></a>ScrollView的相关配置</h4><h5 id="控制-ScrollView-的滚动位置"><a href="#控制-ScrollView-的滚动位置" class="headerlink" title="控制 ScrollView 的滚动位置"></a>控制 ScrollView 的滚动位置</h5><p>可以通过<code>defaultScrollAnchor</code> 修饰器配置<code>ScrollView</code>的开始滚动的起始位置，它支持以下几个位置：</p>
-<ul>
-<li><code>top</code> : 从顶部开始滚动；</li>
-<li><code>bottom</code> : 从底部开始滚动；</li>
-<li><code>center</code>： 从中间位置开始滚动；</li>
-<li><code>leading</code>: 从左侧开始滚动；</li>
-<li><code>trailing</code>： 从右侧开始滚动；</li>
-<li><code>topLeading</code>：从左上开始滚动；</li>
-<li><code>topTrailing</code>：从右上开始滚动；</li>
-<li><code>bottomLeading</code>：从左下开始滚动；</li>
-<li><code>bottomTrailing</code>：从右下开始滚动。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.defaultScrollAnchor(.center)</span><br></pre></td></tr></table></figure>
-
-<h5 id="控制-ScrollView-滚动的方向"><a href="#控制-ScrollView-滚动的方向" class="headerlink" title="控制 ScrollView 滚动的方向"></a>控制 ScrollView 滚动的方向</h5><p><strong>ScrollView</strong> 支持水平<code>horizontal</code>和垂直<code>vertical</code>方向的滚动。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span>(.vertical) &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="控制-ScrollView-滚动指示器的显示-隐藏"><a href="#控制-ScrollView-滚动指示器的显示-隐藏" class="headerlink" title="控制 ScrollView 滚动指示器的显示&#x2F;隐藏"></a>控制 ScrollView 滚动指示器的显示&#x2F;隐藏</h5><p><strong>ScrollView</strong> 滚动的时候，视图边缘会有一个滚动的指示器。可以使用<code>scrollIndicators</code> 修饰器来控制它的显示或者隐藏。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>hidden</code>: 表示隐藏；</li>
-<li><code>visible</code>: 表示显示；</li>
-<li><code>never</code>：和<code>hidden</code> 一致；</li>
-</ul>
-<p>指定水平或垂直方向上的显示或者隐藏：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden, axes: [.horizontal])</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>ScrollView</tag>
       </tags>
   </entry>
   <entry>
@@ -860,6 +761,55 @@
         <tag>VStack</tag>
         <tag>HStack</tag>
         <tag>ZStack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 中的类</title>
+    <url>/swift-blogs/posts/338306b2.html</url>
+    <content><![CDATA[<p>在Swift中，类是一种引用类型，用于封装数据和方法。类是面向对象编程的基础，它们允许我们创建具有特定属性和方法的自定义数据类型。在这篇文章中，我们将详细介绍Swift中的类及其使用方法。</p>
+<h2 id="类的定义"><a href="#类的定义" class="headerlink" title="类的定义"></a>类的定义</h2><p>在Swift中，类使用<code>class</code>关键字定义。类的定义包括一个可选的名称、一对大括号<code>&#123;&#125;</code>，以及一个或多个属性和方法的定义。类的属性可以是<span style="color:red"><strong>值类型</strong></span>（例如<code>Int</code>、<code>String</code>等），也可以是<span style="color:red"><strong>引用类型</strong></span>（例如数组、字典等）。方法则包含在一个或多个大括号内，并遵循特定的语法规则。</p>
+<span id="more"></span>
+
+<p>下面是一个简单的类定义示例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们定义了一个名为<code>Person</code>的类，它有两个属性（<code>name</code>和<code>age</code>）和一个方法（<code>sayHello</code>）。<code>init</code>方法是一个特殊的方法，用于初始化类的实例。当创建一个新的<code>Person</code>实例时，我们需要提供一个名字和一个年龄，然后<code>init</code>方法会将这些值分别赋给<code>name</code>和<code>age</code>属性。</p>
+<p>定义好一个类之后，我们可以实例化一个类的对象，然后通过<strong>点语法</strong>去访问类的属性和方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">25</span>)</span><br><span class="line">person.sayHello()</span><br><span class="line">person.age <span class="operator">=</span> <span class="number">26</span> </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="类的构造器和属性访问修饰符"><a href="#类的构造器和属性访问修饰符" class="headerlink" title="类的构造器和属性访问修饰符"></a>类的构造器和属性访问修饰符</h2><p>在Swift中，我们可以使用构造器来初始化类的实例。构造器是一个特殊的函数，它在创建类的实例时被调用。构造器的名称与类名相同，并且没有返回类型。我们可以在构造器中设置实例的属性值。</p>
+<p>在上面的<code>Person</code>类中，我们使用了<code>init</code>方法作为构造器。当我们创建一个新的<code>Person</code>实例时，需要提供名字和年龄参数，如下所示：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Alice&quot;</span>, age: <span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+
+<p>此外，我们还可以使用访问修饰符来控制属性和方法的访问权限。Swift提供了四种访问修饰符：<code>public</code>、<code>protected</code>、<code>internal</code>和默认（即不使用任何修饰符）。<strong>默认情况下，所有属性和方法都是公开的（可以在任何地方访问）</strong>。通过使用不同的访问修饰符，我们可以限制属性和方法的可见性，从而提高代码的安全性和可维护性。</p>
+<p>例如，我们可以将上面的<code>Person</code>类修改为以下形式，将所有属性和方法设置为私有：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am (age) years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当我们再想通过实例化的对象访问 <code>name</code> 和 <code>age</code> 属性时，Xcode 会报以下的错误：</p>
+<p> <span style="color:red"><code>&#39;age&#39; is inaccessible due to &#39;private&#39; protection level </code></span></p>
+<h2 id="类的继承和多态性"><a href="#类的继承和多态性" class="headerlink" title="类的继承和多态性"></a>类的继承和多态性</h2><p>在Swift中，类可以继承自其他类，从而实现代码的重用和扩展。子类可以继承父类的属性和方法，并可以根据需要添加新的属性和方法。此外，Swift还支持多态性，这意味着我们可以使用父类的引用来操作子类的对象。</p>
+<p>下面是一个关于类继承的例子：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="comment">// 子类独有的属性</span></span><br><span class="line">    <span class="keyword">var</span> school: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>, <span class="params">school</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.school <span class="operator">=</span> school</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name, age: age)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">// 子类独有的方法</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">toSchool</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Go to school&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在上面的这个例子中，我们定义了一个<code>Student</code> 子类，这个子类继承了<code>Person</code> 父类。这里的继承意味着<code>Student</code> 子类有父类的<code>age</code> 和<code>name</code>属性以及<code>sayHello</code>方法。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> student <span class="operator">=</span> <span class="type">Student</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">26</span>, school: <span class="string">&quot;SBS&quot;</span>)</span><br><span class="line">student.toSchool() <span class="comment">// 调用字类方法</span></span><br><span class="line">student.sayHello() <span class="comment">// 调用父类方法</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>在子类中，我们还可以重写父类的方法，使用 <code>override</code> 关键字：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 重写父类的方法</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is<span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old. my school is <span class="subst">\(school)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>类</tag>
       </tags>
   </entry>
   <entry>
@@ -1047,6 +997,56 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI 控件之 ScrollView(一)</title>
+    <url>/swift-blogs/posts/35d3a19e.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>ScrollView</strong> 是一个可滚动的视图。</p>
+<h4 id="创建一个-ScrollView"><a href="#创建一个-ScrollView" class="headerlink" title="创建一个 ScrollView"></a>创建一个 ScrollView</h4><p>当我们使用<code>ForEach</code> 循环创建超出一整个屏幕的内容时：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">      <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">          <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们使用<code>VStack</code>和<code>ForEach</code> 创建了 100 个<code>Text</code>，此时要显示的内容已经超出了一个屏幕所能显示的内容，我们无法看到超出屏幕范围的内容。为了解决这个问题，我们就可以在最外层嵌套一个<code>ScrollView</code>，让整个视图变成滚动显示的。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span> &#123;</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们就可以通过上下滚动的方式查看所有的<code>Text</code> 了。</p>
+<span id="more"></span>
+
+<h4 id="ScrollView的相关配置"><a href="#ScrollView的相关配置" class="headerlink" title="ScrollView的相关配置"></a>ScrollView的相关配置</h4><h5 id="控制-ScrollView-的滚动位置"><a href="#控制-ScrollView-的滚动位置" class="headerlink" title="控制 ScrollView 的滚动位置"></a>控制 ScrollView 的滚动位置</h5><p>可以通过<code>defaultScrollAnchor</code> 修饰器配置<code>ScrollView</code>的开始滚动的起始位置，它支持以下几个位置：</p>
+<ul>
+<li><code>top</code> : 从顶部开始滚动；</li>
+<li><code>bottom</code> : 从底部开始滚动；</li>
+<li><code>center</code>： 从中间位置开始滚动；</li>
+<li><code>leading</code>: 从左侧开始滚动；</li>
+<li><code>trailing</code>： 从右侧开始滚动；</li>
+<li><code>topLeading</code>：从左上开始滚动；</li>
+<li><code>topTrailing</code>：从右上开始滚动；</li>
+<li><code>bottomLeading</code>：从左下开始滚动；</li>
+<li><code>bottomTrailing</code>：从右下开始滚动。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.defaultScrollAnchor(.center)</span><br></pre></td></tr></table></figure>
+
+<h5 id="控制-ScrollView-滚动的方向"><a href="#控制-ScrollView-滚动的方向" class="headerlink" title="控制 ScrollView 滚动的方向"></a>控制 ScrollView 滚动的方向</h5><p><strong>ScrollView</strong> 支持水平<code>horizontal</code>和垂直<code>vertical</code>方向的滚动。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span>(.vertical) &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="控制-ScrollView-滚动指示器的显示-隐藏"><a href="#控制-ScrollView-滚动指示器的显示-隐藏" class="headerlink" title="控制 ScrollView 滚动指示器的显示&#x2F;隐藏"></a>控制 ScrollView 滚动指示器的显示&#x2F;隐藏</h5><p><strong>ScrollView</strong> 滚动的时候，视图边缘会有一个滚动的指示器。可以使用<code>scrollIndicators</code> 修饰器来控制它的显示或者隐藏。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>hidden</code>: 表示隐藏；</li>
+<li><code>visible</code>: 表示显示；</li>
+<li><code>never</code>：和<code>hidden</code> 一致；</li>
+</ul>
+<p>指定水平或垂直方向上的显示或者隐藏：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden, axes: [.horizontal])</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>ScrollView</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI实践之创建一个待办清单（一）</title>
     <url>/swift-blogs/posts/5b45bb70.html</url>
     <content><![CDATA[<h1 id="项目创建和基础配置说明"><a href="#项目创建和基础配置说明" class="headerlink" title="项目创建和基础配置说明"></a>项目创建和基础配置说明</h1><h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>1、打开Xcode</p>
@@ -1178,6 +1178,42 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI控件之 Label</title>
+    <url>/swift-blogs/posts/8bd109ea.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>Label</strong> 用来展示一个文本和图标（icon）。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>使用<strong>Assets</strong> 中的图片作为<strong>Label</strong> 的图标：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Label(&quot;avatar&quot;, image: &quot;avatar&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>使用<strong>SF Symbols</strong> 中的图标作为<strong>Label</strong> 的图标：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置不同的Label样式"><a href="#设置不同的Label样式" class="headerlink" title="设置不同的Label样式"></a>设置不同的<strong>Label</strong>样式</h4><p>可以使用<code>labelStyle</code> 修饰器来定义 Label 的样式：</p>
+<ul>
+<li><code>iconOnly</code> : 只显示图标；</li>
+<li><code>titleAndIcon</code>: 显示文字和图标，默认样式；</li>
+<li><code>titleOnly</code> ： 只显示文字；</li>
+<li><code>automatic</code>：自动。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br><span class="line">   .labelStyle(.automatic)</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h4 id="使用一个-View作为-Label-的图标"><a href="#使用一个-View作为-Label-的图标" class="headerlink" title="使用一个 View作为 Label 的图标"></a>使用一个 View作为 Label 的图标</h4><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span> &#123;</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Felix&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">        .foregroundStyle(.primary)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Zhao&quot;</span>)</span><br><span class="line">        .font(.subheadline)</span><br><span class="line">        .foregroundStyle(.secondary)</span><br><span class="line">    </span><br><span class="line">&#125; icon: &#123;</span><br><span class="line">    <span class="type">Circle</span>()</span><br><span class="line">        .fill(.red)</span><br><span class="line">        .frame(width: <span class="number">44</span>, height: <span class="number">44</span>)</span><br><span class="line">        .overlay(<span class="type">Text</span>(<span class="string">&quot;F&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的Label 中，我们使用两个不同样式的<code>Text</code> 作为<strong>Label</strong> 要显示的文字内容；使用一个<code>Circle</code> 作为<strong>Label</strong>的自定义图标视图。</p>
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131405868.png"/>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>Label</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI控件之 Button</title>
     <url>/swift-blogs/posts/d48dbb48.html</url>
     <content><![CDATA[<p>在 SwiftUI 中，<strong>Button</strong> 是一个视图，它可以响应触摸点击事件。Button 视图有一个基本的结构，包括<strong>标题（label）</strong>和<strong>动作（action）</strong>。动作是一个在按钮被点击时触发的函数。</p>
@@ -1234,42 +1270,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI控件之 Label</title>
-    <url>/swift-blogs/posts/8bd109ea.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>Label</strong> 用来展示一个文本和图标（icon）。</p>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>使用<strong>Assets</strong> 中的图片作为<strong>Label</strong> 的图标：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Label(&quot;avatar&quot;, image: &quot;avatar&quot;)</span><br></pre></td></tr></table></figure>
-
-<p>使用<strong>SF Symbols</strong> 中的图标作为<strong>Label</strong> 的图标：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="设置不同的Label样式"><a href="#设置不同的Label样式" class="headerlink" title="设置不同的Label样式"></a>设置不同的<strong>Label</strong>样式</h4><p>可以使用<code>labelStyle</code> 修饰器来定义 Label 的样式：</p>
-<ul>
-<li><code>iconOnly</code> : 只显示图标；</li>
-<li><code>titleAndIcon</code>: 显示文字和图标，默认样式；</li>
-<li><code>titleOnly</code> ： 只显示文字；</li>
-<li><code>automatic</code>：自动。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br><span class="line">   .labelStyle(.automatic)</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h4 id="使用一个-View作为-Label-的图标"><a href="#使用一个-View作为-Label-的图标" class="headerlink" title="使用一个 View作为 Label 的图标"></a>使用一个 View作为 Label 的图标</h4><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span> &#123;</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Felix&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">        .foregroundStyle(.primary)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Zhao&quot;</span>)</span><br><span class="line">        .font(.subheadline)</span><br><span class="line">        .foregroundStyle(.secondary)</span><br><span class="line">    </span><br><span class="line">&#125; icon: &#123;</span><br><span class="line">    <span class="type">Circle</span>()</span><br><span class="line">        .fill(.red)</span><br><span class="line">        .frame(width: <span class="number">44</span>, height: <span class="number">44</span>)</span><br><span class="line">        .overlay(<span class="type">Text</span>(<span class="string">&quot;F&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的Label 中，我们使用两个不同样式的<code>Text</code> 作为<strong>Label</strong> 要显示的文字内容；使用一个<code>Circle</code> 作为<strong>Label</strong>的自定义图标视图。</p>
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131405868.png"/>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>Label</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SwiftUI控件之 List（一）</title>
     <url>/swift-blogs/posts/57a1224a.html</url>
     <content><![CDATA[<p>在很多 app 中，我们经常能看到上下滚动的列表，在 SwiftUI 中，我们可以使用<strong>List</strong> 实现这样的功能。</p>
@@ -1307,6 +1307,73 @@
         <tag>List</tag>
         <tag>Identifier</tag>
         <tag>ForEach</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI控件之 ScrollView(二)</title>
+    <url>/swift-blogs/posts/ff84e235.html</url>
+    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
+<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>在上面的示例代码中，实现了一下几个步骤：</p>
+<ol>
+<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
+<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
+<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
+<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
+</ol>
+<p>效果如下：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>ScrollView</tag>
+        <tag>ScrollViewReader</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI控件之 TextField</title>
+    <url>/swift-blogs/posts/edbc1019.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>TextField</strong> 用来展示和接收用户编辑的文本内容。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>在创建一个<strong>TextField</strong>之前，需要先定义一个<strong>响应式</strong>类型的状态变量：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> userName:<span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>在创建<strong>TextField</strong> 时，使用<code>$userName</code> 的形式绑定这个状态变量：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br></pre></td></tr></table></figure>
+
+<p>当<code>userName</code> 这个变量和<strong>TextField</strong> 绑定后，当我们在输入框中输入或者删除内容时，<code>userName</code> 对应的值也会跟着发生变化。</p>
+<span id="more"></span>
+
+<h4 id="TextField-的不同风格"><a href="#TextField-的不同风格" class="headerlink" title="TextField 的不同风格"></a>TextField 的不同风格</h4><p>使用<code>textFieldStyle</code> 修饰器来定义<strong>TextField</strong>的不同风格：</p>
+<ul>
+<li><code>roundedBorder</code>： 圆角边框样式；</li>
+<li><code>plain</code> ： 默认的无边框样式；</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">    <span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br><span class="line">        .textFieldStyle(.roundedBorder)</span><br><span class="line">    </span><br><span class="line">    <span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br><span class="line">        .textFieldStyle(.plain)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131432602.png"/>
+
+<h4 id="SecureField"><a href="#SecureField" class="headerlink" title="SecureField"></a>SecureField</h4><p>除了常见的<strong>TextField</strong> ，还可以使用<strong>SecureField</strong> 来获取一些隐私数据的输入，例如密码。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">SecureField</span>(<span class="string">&quot;Password&quot;</span>,text: <span class="variable">$password</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用安全输入框时，当用户输入类似于密码之类的隐私数据时，会以**<code>····</code>** 形式呈现，从而起到保护隐私数据的作用。</p>
+<h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="https://developer.apple.com/documentation/swiftui/textfield">TextField | Apple Developer Documentation</a></p>
+<p><a href="https://developer.apple.com/documentation/swiftui/securefield">SecureField | Apple Developer Documentation</a></p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>TextField</tag>
+        <tag>SecureField</tag>
       </tags>
   </entry>
   <entry>
@@ -1366,45 +1433,6 @@
         <tag>List</tag>
         <tag>Identifier</tag>
         <tag>NavigationStack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI控件之 TextField</title>
-    <url>/swift-blogs/posts/edbc1019.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>TextField</strong> 用来展示和接收用户编辑的文本内容。</p>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>在创建一个<strong>TextField</strong>之前，需要先定义一个<strong>响应式</strong>类型的状态变量：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> userName:<span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>在创建<strong>TextField</strong> 时，使用<code>$userName</code> 的形式绑定这个状态变量：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br></pre></td></tr></table></figure>
-
-<p>当<code>userName</code> 这个变量和<strong>TextField</strong> 绑定后，当我们在输入框中输入或者删除内容时，<code>userName</code> 对应的值也会跟着发生变化。</p>
-<span id="more"></span>
-
-<h4 id="TextField-的不同风格"><a href="#TextField-的不同风格" class="headerlink" title="TextField 的不同风格"></a>TextField 的不同风格</h4><p>使用<code>textFieldStyle</code> 修饰器来定义<strong>TextField</strong>的不同风格：</p>
-<ul>
-<li><code>roundedBorder</code>： 圆角边框样式；</li>
-<li><code>plain</code> ： 默认的无边框样式；</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">    <span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br><span class="line">        .textFieldStyle(.roundedBorder)</span><br><span class="line">    </span><br><span class="line">    <span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br><span class="line">        .textFieldStyle(.plain)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131432602.png"/>
-
-<h4 id="SecureField"><a href="#SecureField" class="headerlink" title="SecureField"></a>SecureField</h4><p>除了常见的<strong>TextField</strong> ，还可以使用<strong>SecureField</strong> 来获取一些隐私数据的输入，例如密码。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">SecureField</span>(<span class="string">&quot;Password&quot;</span>,text: <span class="variable">$password</span>)</span><br></pre></td></tr></table></figure>
-
-<p>使用安全输入框时，当用户输入类似于密码之类的隐私数据时，会以**<code>····</code>** 形式呈现，从而起到保护隐私数据的作用。</p>
-<h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="https://developer.apple.com/documentation/swiftui/textfield">TextField | Apple Developer Documentation</a></p>
-<p><a href="https://developer.apple.com/documentation/swiftui/securefield">SecureField | Apple Developer Documentation</a></p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>TextField</tag>
-        <tag>SecureField</tag>
       </tags>
   </entry>
   <entry>
@@ -1475,6 +1503,44 @@
       <tags>
         <tag>Swift</tag>
         <tag>函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>工欲善其事，必先利其器（Xcode 常见设置）</title>
+    <url>/swift-blogs/posts/b2a2499d.html</url>
+    <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h2 id="Xcode-基础设置"><a href="#Xcode-基础设置" class="headerlink" title="Xcode 基础设置"></a>Xcode 基础设置</h2><h3 id="设置代码编辑器的字体和整体样式"><a href="#设置代码编辑器的字体和整体样式" class="headerlink" title="设置代码编辑器的字体和整体样式"></a>设置代码编辑器的字体和整体样式</h3><p>创建好项目之后，使用快捷 <strong><code>Command + ,</code></strong> 或者顶部菜单栏的 <strong>Xcode→Settings</strong> 打开Xcode的偏好设置，在 <strong>Themes</strong> 主题选项部分可以选择或者设置代码编辑器的代码风格和字体大小：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061748945.png" style="zoom:30%"/>
+
+<span id="more"></span>
+
+<p>另外一个常用的设置是 <strong>显示&#x2F;隐藏</strong> 文件的扩展名，也可以根据需要指定需要隐藏&#x2F;显示 的文件类型：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061749630.png" style="zoom:80%"/>
+
+<p>显示文件扩展名：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061750955.png"/>
+
+<p> 隐藏文件扩展名：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061751694.png"/>
+
+<h3 id="Xcode-整体布局设置"><a href="#Xcode-整体布局设置" class="headerlink" title="Xcode 整体布局设置"></a>Xcode 整体布局设置</h3><p><strong>显示&#x2F;隐藏</strong> SwiftUI项目的预览区：</p>
+<p>在Xcode的右上角部分，点击从右往左数的第二个图标，<strong>选中&#x2F;取消选中</strong> <strong>Canvas  选项即可显示或关闭预览区：</strong></p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061752415.png" style="zoom:30%"/>
+
+<p>另一个比较常用的设置是代码区域的预览小地图，按照上面的方式勾选 <strong>Minimap</strong> 即可在代码编辑区域的右上角显示代码预览，当一个代码文件的代码行数很多时，我们可以通过快速点击预览到达指定的代码位置。</p>
+<p>上面的设置是我们比较常用，同时也是能极大提升我们开发效率的设置，随着对Xcode越来越熟悉也可以逐渐了解Xcode中更多的使用技巧。</p>
+<p>除了上面的一些基础设置，接着我们来介绍几个Xcode中常用的快捷键：</p>
+<ul>
+<li><code>Command + B</code> ： 快速进行项目的编译，可以在不运行的情况下检查我们的代码编写是否存在错误；</li>
+<li><code>Command + R</code> ： 在指定模拟下运行项目；</li>
+<li><code>Command + N</code> ： 在项目中创建一个文件；</li>
+<li><code>Command + Option + P</code> ：重新加载SwiftUI的预览界面。在默认情况下，我们在代码区域编写完成SwiftUI的代码后，右边的预览区域会自动进行加载，但是当我们的SwiftUI代码很多或者自动加载失败时就可以使用这个快捷方式重新快速加载预览而无须通过鼠标点击的方式进行。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Xcode 使用技巧</category>
+      </categories>
+      <tags>
+        <tag>Xcode</tag>
       </tags>
   </entry>
   <entry>
@@ -1550,44 +1616,6 @@
         <tag>SwiftUI</tag>
         <tag>SF Symbol</tag>
         <tag>动画</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>工欲善其事，必先利其器（Xcode 常见设置）</title>
-    <url>/swift-blogs/posts/b2a2499d.html</url>
-    <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h2 id="Xcode-基础设置"><a href="#Xcode-基础设置" class="headerlink" title="Xcode 基础设置"></a>Xcode 基础设置</h2><h3 id="设置代码编辑器的字体和整体样式"><a href="#设置代码编辑器的字体和整体样式" class="headerlink" title="设置代码编辑器的字体和整体样式"></a>设置代码编辑器的字体和整体样式</h3><p>创建好项目之后，使用快捷 <strong><code>Command + ,</code></strong> 或者顶部菜单栏的 <strong>Xcode→Settings</strong> 打开Xcode的偏好设置，在 <strong>Themes</strong> 主题选项部分可以选择或者设置代码编辑器的代码风格和字体大小：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061748945.png" style="zoom:30%"/>
-
-<span id="more"></span>
-
-<p>另外一个常用的设置是 <strong>显示&#x2F;隐藏</strong> 文件的扩展名，也可以根据需要指定需要隐藏&#x2F;显示 的文件类型：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061749630.png" style="zoom:80%"/>
-
-<p>显示文件扩展名：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061750955.png"/>
-
-<p> 隐藏文件扩展名：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061751694.png"/>
-
-<h3 id="Xcode-整体布局设置"><a href="#Xcode-整体布局设置" class="headerlink" title="Xcode 整体布局设置"></a>Xcode 整体布局设置</h3><p><strong>显示&#x2F;隐藏</strong> SwiftUI项目的预览区：</p>
-<p>在Xcode的右上角部分，点击从右往左数的第二个图标，<strong>选中&#x2F;取消选中</strong> <strong>Canvas  选项即可显示或关闭预览区：</strong></p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061752415.png" style="zoom:30%"/>
-
-<p>另一个比较常用的设置是代码区域的预览小地图，按照上面的方式勾选 <strong>Minimap</strong> 即可在代码编辑区域的右上角显示代码预览，当一个代码文件的代码行数很多时，我们可以通过快速点击预览到达指定的代码位置。</p>
-<p>上面的设置是我们比较常用，同时也是能极大提升我们开发效率的设置，随着对Xcode越来越熟悉也可以逐渐了解Xcode中更多的使用技巧。</p>
-<p>除了上面的一些基础设置，接着我们来介绍几个Xcode中常用的快捷键：</p>
-<ul>
-<li><code>Command + B</code> ： 快速进行项目的编译，可以在不运行的情况下检查我们的代码编写是否存在错误；</li>
-<li><code>Command + R</code> ： 在指定模拟下运行项目；</li>
-<li><code>Command + N</code> ： 在项目中创建一个文件；</li>
-<li><code>Command + Option + P</code> ：重新加载SwiftUI的预览界面。在默认情况下，我们在代码区域编写完成SwiftUI的代码后，右边的预览区域会自动进行加载，但是当我们的SwiftUI代码很多或者自动加载失败时就可以使用这个快捷方式重新快速加载预览而无须通过鼠标点击的方式进行。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Xcode 使用技巧</category>
-      </categories>
-      <tags>
-        <tag>Xcode</tag>
       </tags>
   </entry>
 </search>
