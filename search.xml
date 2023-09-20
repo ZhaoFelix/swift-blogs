@@ -1,44 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Swift 中的常量和变量</title>
-    <url>/swift-blogs/posts/c6460431.html</url>
-    <content><![CDATA[<h1 id="常量-变量"><a href="#常量-变量" class="headerlink" title="常量 &amp; 变量"></a>常量 &amp; 变量</h1><p>常量一旦被设置就不能被更改，使用关键字<strong>let</strong> 。变量被设置之后是可以被修改的，使用关键字<strong>var</strong>。</p>
-<h2 id="声明常量和变量"><a href="#声明常量和变量" class="headerlink" title="声明常量和变量"></a>声明常量和变量</h2><p>常量和变量之后在被声明后才能使用，声明方式如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">let</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
-
-<p>这段代码的意思是：</p>
-<p>“声明一个名为num，数据类型为<strong>Int</strong>，值为8的变量。然后声明一个名为x，数据类型为<strong>Int</strong>，值为10的常量。”</p>
-<p>你可以在一行中声明多个常量或变量，使用逗号隔开：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>,y:<span class="type">Int</span> <span class="operator">=</span> <span class="number">12</span>,z:<span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="类型标注"><a href="#类型标注" class="headerlink" title="类型标注"></a>类型标注</h2><p>在上面常量与变量的声明中，我们标识的常量和变量数据类型均为<strong>Int</strong>类型。这意味着变量num和常量x在进行赋值时只能赋<strong>Int</strong>类型的数值。</p>
-<p>上面的错误显示的是把一个字符串类型的10赋值给了一个指定类型为<strong>Int</strong>的常量，这在Swift中是不被允许的。</p>
-<p>你可以在一行中定义多个相同类型的常量或者变量，只需要在结尾加上数据类型即可：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x,y,z:<span class="type">Int</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="类型安全与类型推断"><a href="#类型安全与类型推断" class="headerlink" title="类型安全与类型推断"></a>类型安全与类型推断</h2><p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚地知道代码可以处理的值的类型。如果你的一部分代码期望获得<strong>String</strong>类型的值，你就不能错误的传给它一个<strong>Int</strong>类型的值。</p>
-<p>因为Swift是类型安全的语言，所以Swift在编译的过程中会进行类型检查，任何不匹配的类型都会被标记为错误。</p>
-<p>类型检查可以帮助我们在对一个已经声明好的常量或者变量进行赋值时，能够准备无误的赋一个指定类型的数据。但是，类型检查并不意味着我们每次声明时都需要明确指定数据类型，我们可以通过Swift中的类型判断来完成数据类型的指定。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> y <span class="operator">=</span> <span class="number">10.0</span></span><br></pre></td></tr></table></figure>
-
-<p>上面的代码中，我们并没有给变量指定数据类型。Swift在编译的过程中通过类型判断推断x为<strong>Int</strong>类型，y为<strong>Double</strong>类型。</p>
-<h2 id="常量与变量的命名"><a href="#常量与变量的命名" class="headerlink" title="常量与变量的命名"></a>常量与变量的命名</h2><p>常量和变量的命名几乎可以使用任何的字符，包括Unicode字符：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 你好 <span class="operator">=</span> <span class="string">&quot;你好&quot;</span></span><br><span class="line"><span class="keyword">var</span> 😃 <span class="operator">=</span>  <span class="string">&quot;😃&quot;</span></span><br><span class="line"><span class="keyword">var</span> `let` <span class="operator">=</span> <span class="string">&quot;let&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，在使用Swift中关键字进行命名是需要添加反引号（&#96;）。</p>
-<p>虽然Swift在命名上可以使用很多字符，但是为了开发的方便与后期维护建议开发者在命名时尽量遵循一些标准化的命名规范，例如驼峰式命名法。</p>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Foundation</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Swift 中的循环</title>
     <url>/swift-blogs/posts/73894dfa.html</url>
     <content><![CDATA[<p>Swift提供了多样化的控制流语句。包括<strong>while</strong>循环；<strong>for-in</strong>循环；<code>if</code>，<code>guard</code>和<code>switch</code>语句用来基于特定的条件执行不同的代码分支。</p>
@@ -198,9 +160,47 @@
         <category>Swift 基础语法</category>
       </categories>
       <tags>
-        <tag>Foundation</tag>
         <tag>Swift</tag>
+        <tag>Foundation</tag>
         <tag>Xcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 中的常量和变量</title>
+    <url>/swift-blogs/posts/c6460431.html</url>
+    <content><![CDATA[<h1 id="常量-变量"><a href="#常量-变量" class="headerlink" title="常量 &amp; 变量"></a>常量 &amp; 变量</h1><p>常量一旦被设置就不能被更改，使用关键字<strong>let</strong> 。变量被设置之后是可以被修改的，使用关键字<strong>var</strong>。</p>
+<h2 id="声明常量和变量"><a href="#声明常量和变量" class="headerlink" title="声明常量和变量"></a>声明常量和变量</h2><p>常量和变量之后在被声明后才能使用，声明方式如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">let</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码的意思是：</p>
+<p>“声明一个名为num，数据类型为<strong>Int</strong>，值为8的变量。然后声明一个名为x，数据类型为<strong>Int</strong>，值为10的常量。”</p>
+<p>你可以在一行中声明多个常量或变量，使用逗号隔开：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>,y:<span class="type">Int</span> <span class="operator">=</span> <span class="number">12</span>,z:<span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="类型标注"><a href="#类型标注" class="headerlink" title="类型标注"></a>类型标注</h2><p>在上面常量与变量的声明中，我们标识的常量和变量数据类型均为<strong>Int</strong>类型。这意味着变量num和常量x在进行赋值时只能赋<strong>Int</strong>类型的数值。</p>
+<p>上面的错误显示的是把一个字符串类型的10赋值给了一个指定类型为<strong>Int</strong>的常量，这在Swift中是不被允许的。</p>
+<p>你可以在一行中定义多个相同类型的常量或者变量，只需要在结尾加上数据类型即可：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x,y,z:<span class="type">Int</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="类型安全与类型推断"><a href="#类型安全与类型推断" class="headerlink" title="类型安全与类型推断"></a>类型安全与类型推断</h2><p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚地知道代码可以处理的值的类型。如果你的一部分代码期望获得<strong>String</strong>类型的值，你就不能错误的传给它一个<strong>Int</strong>类型的值。</p>
+<p>因为Swift是类型安全的语言，所以Swift在编译的过程中会进行类型检查，任何不匹配的类型都会被标记为错误。</p>
+<p>类型检查可以帮助我们在对一个已经声明好的常量或者变量进行赋值时，能够准备无误的赋一个指定类型的数据。但是，类型检查并不意味着我们每次声明时都需要明确指定数据类型，我们可以通过Swift中的类型判断来完成数据类型的指定。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> y <span class="operator">=</span> <span class="number">10.0</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中，我们并没有给变量指定数据类型。Swift在编译的过程中通过类型判断推断x为<strong>Int</strong>类型，y为<strong>Double</strong>类型。</p>
+<h2 id="常量与变量的命名"><a href="#常量与变量的命名" class="headerlink" title="常量与变量的命名"></a>常量与变量的命名</h2><p>常量和变量的命名几乎可以使用任何的字符，包括Unicode字符：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 你好 <span class="operator">=</span> <span class="string">&quot;你好&quot;</span></span><br><span class="line"><span class="keyword">var</span> 😃 <span class="operator">=</span>  <span class="string">&quot;😃&quot;</span></span><br><span class="line"><span class="keyword">var</span> `let` <span class="operator">=</span> <span class="string">&quot;let&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，在使用Swift中关键字进行命名是需要添加反引号（&#96;）。</p>
+<p>虽然Swift在命名上可以使用很多字符，但是为了开发的方便与后期维护建议开发者在命名时尽量遵循一些标准化的命名规范，例如驼峰式命名法。</p>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Foundation</tag>
       </tags>
   </entry>
   <entry>
@@ -236,55 +236,6 @@
       <tags>
         <tag>Swift</tag>
         <tag>枚举</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 中的类</title>
-    <url>/swift-blogs/posts/338306b2.html</url>
-    <content><![CDATA[<p>在Swift中，类是一种引用类型，用于封装数据和方法。类是面向对象编程的基础，它们允许我们创建具有特定属性和方法的自定义数据类型。在这篇文章中，我们将详细介绍Swift中的类及其使用方法。</p>
-<h2 id="类的定义"><a href="#类的定义" class="headerlink" title="类的定义"></a>类的定义</h2><p>在Swift中，类使用<code>class</code>关键字定义。类的定义包括一个可选的名称、一对大括号<code>&#123;&#125;</code>，以及一个或多个属性和方法的定义。类的属性可以是<span style="color:red"><strong>值类型</strong></span>（例如<code>Int</code>、<code>String</code>等），也可以是<span style="color:red"><strong>引用类型</strong></span>（例如数组、字典等）。方法则包含在一个或多个大括号内，并遵循特定的语法规则。</p>
-<span id="more"></span>
-
-<p>下面是一个简单的类定义示例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个示例中，我们定义了一个名为<code>Person</code>的类，它有两个属性（<code>name</code>和<code>age</code>）和一个方法（<code>sayHello</code>）。<code>init</code>方法是一个特殊的方法，用于初始化类的实例。当创建一个新的<code>Person</code>实例时，我们需要提供一个名字和一个年龄，然后<code>init</code>方法会将这些值分别赋给<code>name</code>和<code>age</code>属性。</p>
-<p>定义好一个类之后，我们可以实例化一个类的对象，然后通过<strong>点语法</strong>去访问类的属性和方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">25</span>)</span><br><span class="line">person.sayHello()</span><br><span class="line">person.age <span class="operator">=</span> <span class="number">26</span> </span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="类的构造器和属性访问修饰符"><a href="#类的构造器和属性访问修饰符" class="headerlink" title="类的构造器和属性访问修饰符"></a>类的构造器和属性访问修饰符</h2><p>在Swift中，我们可以使用构造器来初始化类的实例。构造器是一个特殊的函数，它在创建类的实例时被调用。构造器的名称与类名相同，并且没有返回类型。我们可以在构造器中设置实例的属性值。</p>
-<p>在上面的<code>Person</code>类中，我们使用了<code>init</code>方法作为构造器。当我们创建一个新的<code>Person</code>实例时，需要提供名字和年龄参数，如下所示：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Alice&quot;</span>, age: <span class="number">30</span>)</span><br></pre></td></tr></table></figure>
-
-<p>此外，我们还可以使用访问修饰符来控制属性和方法的访问权限。Swift提供了四种访问修饰符：<code>public</code>、<code>protected</code>、<code>internal</code>和默认（即不使用任何修饰符）。<strong>默认情况下，所有属性和方法都是公开的（可以在任何地方访问）</strong>。通过使用不同的访问修饰符，我们可以限制属性和方法的可见性，从而提高代码的安全性和可维护性。</p>
-<p>例如，我们可以将上面的<code>Person</code>类修改为以下形式，将所有属性和方法设置为私有：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am (age) years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当我们再想通过实例化的对象访问 <code>name</code> 和 <code>age</code> 属性时，Xcode 会报以下的错误：</p>
-<p> <span style="color:red"><code>&#39;age&#39; is inaccessible due to &#39;private&#39; protection level </code></span></p>
-<h2 id="类的继承和多态性"><a href="#类的继承和多态性" class="headerlink" title="类的继承和多态性"></a>类的继承和多态性</h2><p>在Swift中，类可以继承自其他类，从而实现代码的重用和扩展。子类可以继承父类的属性和方法，并可以根据需要添加新的属性和方法。此外，Swift还支持多态性，这意味着我们可以使用父类的引用来操作子类的对象。</p>
-<p>下面是一个关于类继承的例子：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="comment">// 子类独有的属性</span></span><br><span class="line">    <span class="keyword">var</span> school: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>, <span class="params">school</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.school <span class="operator">=</span> school</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name, age: age)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">// 子类独有的方法</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">toSchool</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Go to school&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在上面的这个例子中，我们定义了一个<code>Student</code> 子类，这个子类继承了<code>Person</code> 父类。这里的继承意味着<code>Student</code> 子类有父类的<code>age</code> 和<code>name</code>属性以及<code>sayHello</code>方法。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> student <span class="operator">=</span> <span class="type">Student</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">26</span>, school: <span class="string">&quot;SBS&quot;</span>)</span><br><span class="line">student.toSchool() <span class="comment">// 调用字类方法</span></span><br><span class="line">student.sayHello() <span class="comment">// 调用父类方法</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>在子类中，我们还可以重写父类的方法，使用 <code>override</code> 关键字：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 重写父类的方法</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is<span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old. my school is <span class="subst">\(school)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>类</tag>
       </tags>
   </entry>
   <entry>
@@ -443,6 +394,55 @@
       </tags>
   </entry>
   <entry>
+    <title>Swift 中的类</title>
+    <url>/swift-blogs/posts/338306b2.html</url>
+    <content><![CDATA[<p>在Swift中，类是一种引用类型，用于封装数据和方法。类是面向对象编程的基础，它们允许我们创建具有特定属性和方法的自定义数据类型。在这篇文章中，我们将详细介绍Swift中的类及其使用方法。</p>
+<h2 id="类的定义"><a href="#类的定义" class="headerlink" title="类的定义"></a>类的定义</h2><p>在Swift中，类使用<code>class</code>关键字定义。类的定义包括一个可选的名称、一对大括号<code>&#123;&#125;</code>，以及一个或多个属性和方法的定义。类的属性可以是<span style="color:red"><strong>值类型</strong></span>（例如<code>Int</code>、<code>String</code>等），也可以是<span style="color:red"><strong>引用类型</strong></span>（例如数组、字典等）。方法则包含在一个或多个大括号内，并遵循特定的语法规则。</p>
+<span id="more"></span>
+
+<p>下面是一个简单的类定义示例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们定义了一个名为<code>Person</code>的类，它有两个属性（<code>name</code>和<code>age</code>）和一个方法（<code>sayHello</code>）。<code>init</code>方法是一个特殊的方法，用于初始化类的实例。当创建一个新的<code>Person</code>实例时，我们需要提供一个名字和一个年龄，然后<code>init</code>方法会将这些值分别赋给<code>name</code>和<code>age</code>属性。</p>
+<p>定义好一个类之后，我们可以实例化一个类的对象，然后通过<strong>点语法</strong>去访问类的属性和方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">25</span>)</span><br><span class="line">person.sayHello()</span><br><span class="line">person.age <span class="operator">=</span> <span class="number">26</span> </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="类的构造器和属性访问修饰符"><a href="#类的构造器和属性访问修饰符" class="headerlink" title="类的构造器和属性访问修饰符"></a>类的构造器和属性访问修饰符</h2><p>在Swift中，我们可以使用构造器来初始化类的实例。构造器是一个特殊的函数，它在创建类的实例时被调用。构造器的名称与类名相同，并且没有返回类型。我们可以在构造器中设置实例的属性值。</p>
+<p>在上面的<code>Person</code>类中，我们使用了<code>init</code>方法作为构造器。当我们创建一个新的<code>Person</code>实例时，需要提供名字和年龄参数，如下所示：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Alice&quot;</span>, age: <span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+
+<p>此外，我们还可以使用访问修饰符来控制属性和方法的访问权限。Swift提供了四种访问修饰符：<code>public</code>、<code>protected</code>、<code>internal</code>和默认（即不使用任何修饰符）。<strong>默认情况下，所有属性和方法都是公开的（可以在任何地方访问）</strong>。通过使用不同的访问修饰符，我们可以限制属性和方法的可见性，从而提高代码的安全性和可维护性。</p>
+<p>例如，我们可以将上面的<code>Person</code>类修改为以下形式，将所有属性和方法设置为私有：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am (age) years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当我们再想通过实例化的对象访问 <code>name</code> 和 <code>age</code> 属性时，Xcode 会报以下的错误：</p>
+<p> <span style="color:red"><code>&#39;age&#39; is inaccessible due to &#39;private&#39; protection level </code></span></p>
+<h2 id="类的继承和多态性"><a href="#类的继承和多态性" class="headerlink" title="类的继承和多态性"></a>类的继承和多态性</h2><p>在Swift中，类可以继承自其他类，从而实现代码的重用和扩展。子类可以继承父类的属性和方法，并可以根据需要添加新的属性和方法。此外，Swift还支持多态性，这意味着我们可以使用父类的引用来操作子类的对象。</p>
+<p>下面是一个关于类继承的例子：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="comment">// 子类独有的属性</span></span><br><span class="line">    <span class="keyword">var</span> school: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>, <span class="params">school</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.school <span class="operator">=</span> school</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name, age: age)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">// 子类独有的方法</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">toSchool</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Go to school&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在上面的这个例子中，我们定义了一个<code>Student</code> 子类，这个子类继承了<code>Person</code> 父类。这里的继承意味着<code>Student</code> 子类有父类的<code>age</code> 和<code>name</code>属性以及<code>sayHello</code>方法。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> student <span class="operator">=</span> <span class="type">Student</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">26</span>, school: <span class="string">&quot;SBS&quot;</span>)</span><br><span class="line">student.toSchool() <span class="comment">// 调用字类方法</span></span><br><span class="line">student.sayHello() <span class="comment">// 调用父类方法</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>在子类中，我们还可以重写父类的方法，使用 <code>override</code> 关键字：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 重写父类的方法</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is<span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old. my school is <span class="subst">\(school)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>类</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift 中的集合类型</title>
     <url>/swift-blogs/posts/5f278529.html</url>
     <content><![CDATA[<p>Swift 语言提供 <code>Arrays</code>、<code>Sets</code> 和 <code>Dictionaries</code> 三种基本的集合类型用来存储集合数据。<strong>数组（Arrays）</strong>是有序数据的集。<strong>集合（Sets）</strong>是无序无重复数据的集。<strong>字典（Dictionaries）</strong>是无序的键值对的集。</p>
@@ -561,8 +561,8 @@
         <category>Swift 基础语法</category>
       </categories>
       <tags>
-        <tag>Foundation</tag>
         <tag>Swift</tag>
+        <tag>Foundation</tag>
         <tag>集合类型</tag>
         <tag>数组</tag>
         <tag>集合</tag>
@@ -1047,62 +1047,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI控件之 Button</title>
-    <url>/swift-blogs/posts/d48dbb48.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>Button</strong> 是一个视图，它可以响应触摸点击事件。Button 视图有一个基本的结构，包括<strong>标题（label）</strong>和<strong>动作（action）</strong>。动作是一个在按钮被点击时触发的函数。</p>
-<h3 id="按钮的定义"><a href="#按钮的定义" class="headerlink" title="按钮的定义"></a>按钮的定义</h3><p>下面是一个简单的 Button 示例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Button</span>(<span class="string">&quot;按钮&quot;</span>) &#123;</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;按钮被点击了&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，我们定义了按钮的文字<code>按钮</code>和点击的响应事件<code>print(&quot;按钮被点击了&quot;)</code>。除了这种方式，我们还可以使用另外一种常用的方式定义一个按钮：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Button</span> &#123;</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;按钮被点击了&quot;</span>)</span><br><span class="line">&#125; label: &#123;</span><br><span class="line">   <span class="type">Text</span>(<span class="string">&quot;按钮&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<p>在后面的这种方式中，我们是使用一个<code>Text(&quot;按钮&quot;)</code> 作为按钮的<strong>label</strong>，这样做的好处是可以更多的自定义按钮标题的样式。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Button</span> &#123;</span><br><span class="line">     <span class="built_in">print</span>(<span class="string">&quot;按钮被点击了&quot;</span>)</span><br><span class="line">&#125; label: &#123;</span><br><span class="line">     <span class="type">Text</span>(<span class="string">&quot;按钮&quot;</span>)</span><br><span class="line">         .foregroundStyle(.black)</span><br><span class="line">         .background(.gray)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>除了使用<strong>Text</strong> 作为<strong>label</strong> 的要显示的内容，也可以使用其他的控件，例如<strong>Image</strong>。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;apple.logo&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="按钮的样式"><a href="#按钮的样式" class="headerlink" title="按钮的样式"></a>按钮的样式</h3><p><strong>Button</strong>的风格可以通过<code> .buttonStyle</code> 修饰器来进行修改，我们可以定义以下的几种风格：</p>
-<p><code>automatic</code>、<code>bordered</code>、<code>borderedProminent</code>、<code>borderless</code>和<code>plain</code>。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">VStack</span>(spacing: <span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Button</span>(<span class="string">&quot;风格1&quot;</span>) &#123;</span><br><span class="line">                &#125;.buttonStyle(.automatic)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;automatic&quot;</span>)</span><br><span class="line">                    .font(.system(size: <span class="number">12</span>))</span><br><span class="line">                    .foregroundStyle(.red)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Divider</span>()</span><br><span class="line">            <span class="type">VStack</span>(spacing:<span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Button</span>(<span class="string">&quot;风格2&quot;</span>) &#123;</span><br><span class="line">                &#125;.buttonStyle(.bordered)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;.bordered&quot;</span>)</span><br><span class="line">                    .font(.system(size: <span class="number">12</span>))</span><br><span class="line">                    .foregroundStyle(.red)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Divider</span>()</span><br><span class="line">            <span class="type">VStack</span>(spacing:<span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Button</span>(<span class="string">&quot;风格3&quot;</span>) &#123;</span><br><span class="line">                &#125;.buttonStyle(.borderedProminent)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;.borderedProminent&quot;</span>)</span><br><span class="line">                    .font(.system(size: <span class="number">12</span>))</span><br><span class="line">                    .foregroundStyle(.red)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Divider</span>()</span><br><span class="line">            <span class="type">VStack</span>(spacing:<span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Button</span>(<span class="string">&quot;风格4&quot;</span>) &#123;</span><br><span class="line">                &#125;.buttonStyle(.borderless)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;.borderless&quot;</span>)</span><br><span class="line">                    .font(.system(size: <span class="number">12</span>))</span><br><span class="line">                    .foregroundStyle(.red)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Divider</span>()</span><br><span class="line">            <span class="type">VStack</span>(spacing:<span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Button</span>(<span class="string">&quot;风格5&quot;</span>) &#123;</span><br><span class="line">                &#125;.buttonStyle(.plain)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;.plain&quot;</span>)</span><br><span class="line">                    .font(.system(size: <span class="number">12</span>))</span><br><span class="line">                    .foregroundStyle(.red)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309071011683.png"  style="zoom:20%"/>
-
-<h3 id="几种特殊的-Button"><a href="#几种特殊的-Button" class="headerlink" title="几种特殊的 Button"></a>几种特殊的 Button</h3><h4 id="EditButton"><a href="#EditButton" class="headerlink" title="EditButton"></a>EditButton</h4><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">EditButton</span>()</span><br></pre></td></tr></table></figure>
-
-<p><strong>EditButton</strong> 经常配合<strong>List</strong> 一起使用，实现<strong>List</strong> 的编辑功能。</p>
-<h4 id="SignInWithAppleButton"><a href="#SignInWithAppleButton" class="headerlink" title="SignInWithAppleButton"></a>SignInWithAppleButton</h4><p>使用<strong>SignInWithAppleButton</strong> 按钮，我们可以快速实现使用 <strong>Apple ID</strong> 的快速登录和登出。</p>
-<p>首先，如果需要使用<strong>SignInWithAppleButton</strong> 控件，需要导入<strong>AuthenticationServices</strong> 模块：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> AuthenticationServices</span><br></pre></td></tr></table></figure>
-
-<p>使用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">SignInWithAppleButton</span>(.signIn,</span><br><span class="line">                                  onRequest: &#123; request <span class="keyword">in</span></span><br><span class="line">                <span class="comment">// 发起登录、登出请求</span></span><br><span class="line">                request.requestedScopes <span class="operator">=</span> [.fullName, .email]</span><br><span class="line">            &#125;,</span><br><span class="line">                                  onCompletion: &#123; result <span class="keyword">in</span></span><br><span class="line">                <span class="comment">// 请求完成后的回调</span></span><br><span class="line">                <span class="keyword">switch</span> result &#123;</span><br><span class="line">                <span class="keyword">case</span> .success(<span class="keyword">let</span> authResults):</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;Authorization successful.&quot;</span>)</span><br><span class="line">                <span class="keyword">case</span> .failure(<span class="keyword">let</span> error):</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;Authorization failed: &quot;</span> <span class="operator">+</span> error.localizedDescription)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">50</span>)</span><br><span class="line">            .signInWithAppleButtonStyle(.whiteOutline) <span class="comment">// 按钮的风格</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意，<strong>SignInWithAppleButton</strong> 和普通的<strong>Button</strong> 不同，它可以根据我们的需要设置为<code>signIn</code>和<code>signUp</code>两种不同的状态，除此之外还需要实现两个回调。</p>
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309071035663.png" style="zoom:20%"/>
-
-<p><strong>SignInWithAppleButton</strong> 也可以使用 <code>signInWithAppleButtonStyle</code> 修饰器进行样式的定义，可以定义以下三种样式：</p>
-<p><code>whiteOutline</code>、<code>black</code>、<code>white</code>。</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309071038752.png" style="zoom:20%"/>
-
-<h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><p><a href="https://developer.apple.com/documentation/swiftui/button">Button | Apple Developer Documentation</a></p>
-<p><a href="https://developer.apple.com/documentation/swiftui/editbutton/">EditButton | Apple Developer Documentation</a></p>
-<p><a href="https://developer.apple.com/documentation/authenticationservices/signinwithapplebutton/">SignInWithAppleButton | Apple Developer Documentation</a></p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>Button</tag>
-        <tag>EditButton</tag>
-        <tag>SignInWithAppleButton</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SwiftUI实践之创建一个待办清单（一）</title>
     <url>/swift-blogs/posts/5b45bb70.html</url>
     <content><![CDATA[<h1 id="项目创建和基础配置说明"><a href="#项目创建和基础配置说明" class="headerlink" title="项目创建和基础配置说明"></a>项目创建和基础配置说明</h1><h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>1、打开Xcode</p>
@@ -1231,6 +1175,62 @@
       <tags>
         <tag>SwiftUI</tag>
         <tag>待办清单</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI控件之 Button</title>
+    <url>/swift-blogs/posts/d48dbb48.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>Button</strong> 是一个视图，它可以响应触摸点击事件。Button 视图有一个基本的结构，包括<strong>标题（label）</strong>和<strong>动作（action）</strong>。动作是一个在按钮被点击时触发的函数。</p>
+<h3 id="按钮的定义"><a href="#按钮的定义" class="headerlink" title="按钮的定义"></a>按钮的定义</h3><p>下面是一个简单的 Button 示例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Button</span>(<span class="string">&quot;按钮&quot;</span>) &#123;</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;按钮被点击了&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们定义了按钮的文字<code>按钮</code>和点击的响应事件<code>print(&quot;按钮被点击了&quot;)</code>。除了这种方式，我们还可以使用另外一种常用的方式定义一个按钮：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Button</span> &#123;</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;按钮被点击了&quot;</span>)</span><br><span class="line">&#125; label: &#123;</span><br><span class="line">   <span class="type">Text</span>(<span class="string">&quot;按钮&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>在后面的这种方式中，我们是使用一个<code>Text(&quot;按钮&quot;)</code> 作为按钮的<strong>label</strong>，这样做的好处是可以更多的自定义按钮标题的样式。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Button</span> &#123;</span><br><span class="line">     <span class="built_in">print</span>(<span class="string">&quot;按钮被点击了&quot;</span>)</span><br><span class="line">&#125; label: &#123;</span><br><span class="line">     <span class="type">Text</span>(<span class="string">&quot;按钮&quot;</span>)</span><br><span class="line">         .foregroundStyle(.black)</span><br><span class="line">         .background(.gray)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除了使用<strong>Text</strong> 作为<strong>label</strong> 的要显示的内容，也可以使用其他的控件，例如<strong>Image</strong>。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;apple.logo&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="按钮的样式"><a href="#按钮的样式" class="headerlink" title="按钮的样式"></a>按钮的样式</h3><p><strong>Button</strong>的风格可以通过<code> .buttonStyle</code> 修饰器来进行修改，我们可以定义以下的几种风格：</p>
+<p><code>automatic</code>、<code>bordered</code>、<code>borderedProminent</code>、<code>borderless</code>和<code>plain</code>。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">VStack</span>(spacing: <span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Button</span>(<span class="string">&quot;风格1&quot;</span>) &#123;</span><br><span class="line">                &#125;.buttonStyle(.automatic)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;automatic&quot;</span>)</span><br><span class="line">                    .font(.system(size: <span class="number">12</span>))</span><br><span class="line">                    .foregroundStyle(.red)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Divider</span>()</span><br><span class="line">            <span class="type">VStack</span>(spacing:<span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Button</span>(<span class="string">&quot;风格2&quot;</span>) &#123;</span><br><span class="line">                &#125;.buttonStyle(.bordered)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;.bordered&quot;</span>)</span><br><span class="line">                    .font(.system(size: <span class="number">12</span>))</span><br><span class="line">                    .foregroundStyle(.red)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Divider</span>()</span><br><span class="line">            <span class="type">VStack</span>(spacing:<span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Button</span>(<span class="string">&quot;风格3&quot;</span>) &#123;</span><br><span class="line">                &#125;.buttonStyle(.borderedProminent)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;.borderedProminent&quot;</span>)</span><br><span class="line">                    .font(.system(size: <span class="number">12</span>))</span><br><span class="line">                    .foregroundStyle(.red)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Divider</span>()</span><br><span class="line">            <span class="type">VStack</span>(spacing:<span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Button</span>(<span class="string">&quot;风格4&quot;</span>) &#123;</span><br><span class="line">                &#125;.buttonStyle(.borderless)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;.borderless&quot;</span>)</span><br><span class="line">                    .font(.system(size: <span class="number">12</span>))</span><br><span class="line">                    .foregroundStyle(.red)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Divider</span>()</span><br><span class="line">            <span class="type">VStack</span>(spacing:<span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Button</span>(<span class="string">&quot;风格5&quot;</span>) &#123;</span><br><span class="line">                &#125;.buttonStyle(.plain)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;.plain&quot;</span>)</span><br><span class="line">                    .font(.system(size: <span class="number">12</span>))</span><br><span class="line">                    .foregroundStyle(.red)</span><br><span class="line">                    .fontWeight(.bold)</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309071011683.png"  style="zoom:20%"/>
+
+<h3 id="几种特殊的-Button"><a href="#几种特殊的-Button" class="headerlink" title="几种特殊的 Button"></a>几种特殊的 Button</h3><h4 id="EditButton"><a href="#EditButton" class="headerlink" title="EditButton"></a>EditButton</h4><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">EditButton</span>()</span><br></pre></td></tr></table></figure>
+
+<p><strong>EditButton</strong> 经常配合<strong>List</strong> 一起使用，实现<strong>List</strong> 的编辑功能。</p>
+<h4 id="SignInWithAppleButton"><a href="#SignInWithAppleButton" class="headerlink" title="SignInWithAppleButton"></a>SignInWithAppleButton</h4><p>使用<strong>SignInWithAppleButton</strong> 按钮，我们可以快速实现使用 <strong>Apple ID</strong> 的快速登录和登出。</p>
+<p>首先，如果需要使用<strong>SignInWithAppleButton</strong> 控件，需要导入<strong>AuthenticationServices</strong> 模块：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> AuthenticationServices</span><br></pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">SignInWithAppleButton</span>(.signIn,</span><br><span class="line">                                  onRequest: &#123; request <span class="keyword">in</span></span><br><span class="line">                <span class="comment">// 发起登录、登出请求</span></span><br><span class="line">                request.requestedScopes <span class="operator">=</span> [.fullName, .email]</span><br><span class="line">            &#125;,</span><br><span class="line">                                  onCompletion: &#123; result <span class="keyword">in</span></span><br><span class="line">                <span class="comment">// 请求完成后的回调</span></span><br><span class="line">                <span class="keyword">switch</span> result &#123;</span><br><span class="line">                <span class="keyword">case</span> .success(<span class="keyword">let</span> authResults):</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;Authorization successful.&quot;</span>)</span><br><span class="line">                <span class="keyword">case</span> .failure(<span class="keyword">let</span> error):</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;Authorization failed: &quot;</span> <span class="operator">+</span> error.localizedDescription)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">50</span>)</span><br><span class="line">            .signInWithAppleButtonStyle(.whiteOutline) <span class="comment">// 按钮的风格</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，<strong>SignInWithAppleButton</strong> 和普通的<strong>Button</strong> 不同，它可以根据我们的需要设置为<code>signIn</code>和<code>signUp</code>两种不同的状态，除此之外还需要实现两个回调。</p>
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309071035663.png" style="zoom:20%"/>
+
+<p><strong>SignInWithAppleButton</strong> 也可以使用 <code>signInWithAppleButtonStyle</code> 修饰器进行样式的定义，可以定义以下三种样式：</p>
+<p><code>whiteOutline</code>、<code>black</code>、<code>white</code>。</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309071038752.png" style="zoom:20%"/>
+
+<h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><p><a href="https://developer.apple.com/documentation/swiftui/button">Button | Apple Developer Documentation</a></p>
+<p><a href="https://developer.apple.com/documentation/swiftui/editbutton/">EditButton | Apple Developer Documentation</a></p>
+<p><a href="https://developer.apple.com/documentation/authenticationservices/signinwithapplebutton/">SignInWithAppleButton | Apple Developer Documentation</a></p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>Button</tag>
+        <tag>EditButton</tag>
+        <tag>SignInWithAppleButton</tag>
       </tags>
   </entry>
   <entry>
@@ -1408,84 +1408,46 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI控件之 ScrollView(二)</title>
-    <url>/swift-blogs/posts/ff84e235.html</url>
-    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
-<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>SwiftUI控件之 NavigationStack</title>
+    <url>/swift-blogs/posts/80d98b55.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>NavigationStack</strong> 用来作为一个根视图（root view）使得我们能够将一个新的视图展示在这个根视图上。</p>
+<h3 id="创建一个带导航栏和标题的app"><a href="#创建一个带导航栏和标题的app" class="headerlink" title="创建一个带导航栏和标题的app"></a>创建一个带导航栏和标题的app</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">NavigationStack</span> &#123;</span><br><span class="line">            <span class="type">List</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">10</span>,id: \.<span class="keyword">self</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            .navigationTitle(<span class="string">&quot;导航栏标题&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <span id="more"></span>
 
-<p>在上面的示例代码中，实现了一下几个步骤：</p>
+<p>在上面的代码中，</p>
 <ol>
-<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
-<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
-<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
-<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
+<li>将一个<code>NavigationStack</code> 作为整个页面的根视图；</li>
+<li>给 <code>NavigationStack</code> 的第一个子视图<code>List</code>添加<code>navigationTitle</code>修饰器，<span style="color:red"><strong>注意，</strong></span>这个修饰器的作为就是给导航栏添加标题。</li>
+<li>使用<code>ForEach</code>创建<code>List</code>的显示内容。</li>
 </ol>
-<p>效果如下：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
-<h3 id="实现滚动到指定索引的位置"><a href="#实现滚动到指定索引的位置" class="headerlink" title="实现滚动到指定索引的位置"></a>实现滚动到指定索引的位置</h3><p>创建一个数据结构：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">NameModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">let</span> index: <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309201401648.png" style="zoom:20%"/>
 
-<p>生成一些测试使用的数据源：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"><span class="keyword">var</span> nameDatas:[<span class="type">NameModel</span>] &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        (<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>).map &#123;</span><br><span class="line">            <span class="type">NameModel</span>(name: <span class="string">&quot;我是-<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>, index: <span class="variable">$0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="导航栏风格"><a href="#导航栏风格" class="headerlink" title="导航栏风格"></a>导航栏风格</h3><p>在默认情况下，iOS 中的导航栏为大标题的样式。可以通过<code>navigationBarTitleDisplayMode</code>修改标题的样式：</p>
+<ul>
+<li><code>inline</code>：小标题样式，之前 UIKit中常用的样式；</li>
+<li><code>larget</code>：大标题样式，SwiftUI app 中的默认样式。</li>
+</ul>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309201404954.png" style="zoom:20%"/>
 
-<p>界面布局：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">           <span class="type">ScrollView</span> &#123;</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   withAnimation &#123;</span><br><span class="line">                       proxy.scrollTo(nameDatas[scrollToIndex].index)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;滚动到索引为<span class="subst">\(scrollToIndex)</span>的地方&quot;</span>)</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="type">ForEach</span>(nameDatas) &#123; data <span class="keyword">in</span></span><br><span class="line">                   <span class="type">Text</span>(data.name)</span><br><span class="line">                       .padding(<span class="number">4</span>)</span><br><span class="line">                       .id(data.index)</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>不过，即使在大标题的样式下，当我们向下滑动时，当标题样式也会变为小标题样式，向上滑动到顶部时又会重新变为原来的样式。</p>
+<h3 id="使用NavigationLink-实现页面跳转和展示"><a href="#使用NavigationLink-实现页面跳转和展示" class="headerlink" title="使用NavigationLink 实现页面跳转和展示"></a>使用NavigationLink 实现页面跳转和展示</h3><p>文章开头我们说过，使用<code>NavigationStack</code>作为根视图来实现页面的展示。要想实现其他视图的展示或者常见的导航栏页面跳转需要和<code>NavigationLink</code>一起使用。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">NavigationLink</span> &#123;</span><br><span class="line">    <span class="comment">// 要展示的视图</span></span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;当前页面<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">&#125; label: &#123;</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>此时的效果为当我们点击按钮后，<strong>ScrollView</strong>将滚动到子视图 ID为 70 的位置：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309181236721.mp4" width="30%" height="50%" controls="controls"></video></p>
-<p><span style="color:red"><strong>注意：</strong></span>这里目前依然存在一个问题，当我们使用数据模型的<code>id</code>属性作为<strong>ScrollView</strong>子视图的ID 时，即 <code>.id(data.id)</code>，无法实现类似的效果。</p>
+<p>这里，我们使用的是<code> NavigationLink(destination: () -&gt; View, label: () -&gt; View)</code>函数，<code>destination</code>参数表示的展示的视图，<code>label</code>表示通过那个视图来触发展示的内容，即被点击的视图。</p>
+<p>当我们添加了<code>NavigationLink</code>之后，<code>List</code>中的每一行视图都会变成可点击的样式，然后我们点击任意一行之后都将跳转或者展示对应的页面。具体效果如下：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309201433629.mp4" width="30%" height="50%" controls="controls"></video></p>
+<p>在上面的演示效果中，我们会发现，当我们进入展示的目标视图页面，目标视图页面本身也会带上导航栏并且自带返回功能。</p>
+<p><span style="color:red"><strong>注意，</strong></span>在一些旧版本的 SwiftUI 代码中，使用的是<code>NavigationView</code>实现相同的功能，目前<code>NavigationView</code>已被逐步放弃，官方更推荐我们使用<code>NavigationLink</code>。</p>
 ]]></content>
       <categories>
         <category>SwiftUI 基础</category>
       </categories>
       <tags>
         <tag>SwiftUI</tag>
-        <tag>ScrollView</tag>
-        <tag>ScrollViewReader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift中的条件语句</title>
-    <url>/swift-blogs/posts/964c101d.html</url>
-    <content><![CDATA[<p>Swift提供了<strong>if</strong>和<strong>switch</strong>两种条件语句，<code>if</code>语句用来判断简单的条件，<code>switch</code>语句适合复杂的条件。</p>
-<span id="more"></span>
-
-<h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><p>当只有一个单一的条件时：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>if</strong>语句也提供else分句，当条件为false时使用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于或等于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当需要判断多个条件时，可以使用<strong>else-if</strong>配合if语句使用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a<span class="operator">&gt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;等于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h4><p>每一个 <code>switch</code> 语句都由多个可能的情况组成，每一个情况都以 case 关键字开始。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="type">A</span> <span class="operator">=</span> <span class="string">&quot;a&quot;</span></span><br><span class="line"><span class="keyword">switch</span> <span class="type">A</span> &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;q&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串q&quot;</span>)</span><br><span class="line"><span class="keyword">case</span>  <span class="string">&quot;a&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串a&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;其他字符&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">常量A等于字符串a</span><br></pre></td></tr></table></figure>
-
-<p><code>switch</code>语句要求仅可能的提供所有可能的值，但是当我们无法对所有可能的情况进行判断时，我们可以时关键字<strong>default</strong>进行标记，这表示其他没有提供的情况执行这部分的代码块。</p>
-<h5 id="多条件的匹配："><a href="#多条件的匹配：" class="headerlink" title="多条件的匹配："></a>多条件的匹配：</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="type">A</span> <span class="operator">=</span> <span class="string">&quot;b&quot;</span></span><br><span class="line"><span class="keyword">switch</span> <span class="type">A</span> &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;q&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串q&quot;</span>)</span><br><span class="line"><span class="keyword">case</span>  <span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串a或b&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;其他字符&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们在<code>case</code>后面添加了一个新的条件，条件之间使用逗号隔开。当常量A等于”a”或”b”时执行的结果都是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">常量A等于字符串a或b</span><br></pre></td></tr></table></figure>
-
-<h5 id="区间匹配："><a href="#区间匹配：" class="headerlink" title="区间匹配："></a>区间匹配：</h5><p><code>switch</code>语句也可以配个区间运算符一起使用。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">23</span></span><br><span class="line"><span class="keyword">switch</span> a &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="operator">..&lt;</span><span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于0&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="number">10</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于等于0小于10&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">10</span><span class="operator">..&lt;</span><span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于等于10小于100&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于或等于100&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">a大于等于<span class="number">10</span>小于<span class="number">100</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>条件语句</tag>
+        <tag>NavigationStack</tag>
+        <tag>NavigationLink</tag>
       </tags>
   </entry>
   <entry>
@@ -1559,6 +1521,47 @@
       </tags>
   </entry>
   <entry>
+    <title>Swift中的条件语句</title>
+    <url>/swift-blogs/posts/964c101d.html</url>
+    <content><![CDATA[<p>Swift提供了<strong>if</strong>和<strong>switch</strong>两种条件语句，<code>if</code>语句用来判断简单的条件，<code>switch</code>语句适合复杂的条件。</p>
+<span id="more"></span>
+
+<h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><p>当只有一个单一的条件时：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>if</strong>语句也提供else分句，当条件为false时使用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于或等于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当需要判断多个条件时，可以使用<strong>else-if</strong>配合if语句使用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a<span class="operator">&gt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;等于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h4><p>每一个 <code>switch</code> 语句都由多个可能的情况组成，每一个情况都以 case 关键字开始。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="type">A</span> <span class="operator">=</span> <span class="string">&quot;a&quot;</span></span><br><span class="line"><span class="keyword">switch</span> <span class="type">A</span> &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;q&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串q&quot;</span>)</span><br><span class="line"><span class="keyword">case</span>  <span class="string">&quot;a&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串a&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;其他字符&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">常量A等于字符串a</span><br></pre></td></tr></table></figure>
+
+<p><code>switch</code>语句要求仅可能的提供所有可能的值，但是当我们无法对所有可能的情况进行判断时，我们可以时关键字<strong>default</strong>进行标记，这表示其他没有提供的情况执行这部分的代码块。</p>
+<h5 id="多条件的匹配："><a href="#多条件的匹配：" class="headerlink" title="多条件的匹配："></a>多条件的匹配：</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="type">A</span> <span class="operator">=</span> <span class="string">&quot;b&quot;</span></span><br><span class="line"><span class="keyword">switch</span> <span class="type">A</span> &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;q&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串q&quot;</span>)</span><br><span class="line"><span class="keyword">case</span>  <span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串a或b&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;其他字符&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们在<code>case</code>后面添加了一个新的条件，条件之间使用逗号隔开。当常量A等于”a”或”b”时执行的结果都是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">常量A等于字符串a或b</span><br></pre></td></tr></table></figure>
+
+<h5 id="区间匹配："><a href="#区间匹配：" class="headerlink" title="区间匹配："></a>区间匹配：</h5><p><code>switch</code>语句也可以配个区间运算符一起使用。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">23</span></span><br><span class="line"><span class="keyword">switch</span> a &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="operator">..&lt;</span><span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于0&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="number">10</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于等于0小于10&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">10</span><span class="operator">..&lt;</span><span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于等于10小于100&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于或等于100&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">a大于等于<span class="number">10</span>小于<span class="number">100</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>条件语句</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>工欲善其事，必先利其器（Xcode 常见设置）</title>
     <url>/swift-blogs/posts/b2a2499d.html</url>
     <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h2 id="Xcode-基础设置"><a href="#Xcode-基础设置" class="headerlink" title="Xcode 基础设置"></a>Xcode 基础设置</h2><h3 id="设置代码编辑器的字体和整体样式"><a href="#设置代码编辑器的字体和整体样式" class="headerlink" title="设置代码编辑器的字体和整体样式"></a>设置代码编辑器的字体和整体样式</h3><p>创建好项目之后，使用快捷 <strong><code>Command + ,</code></strong> 或者顶部菜单栏的 <strong>Xcode→Settings</strong> 打开Xcode的偏好设置，在 <strong>Themes</strong> 主题选项部分可以选择或者设置代码编辑器的代码风格和字体大小：</p>
@@ -1628,6 +1631,46 @@
         <tag>SwiftUI</tag>
         <tag>SF Symbol</tag>
         <tag>动画</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI控件之 ScrollView(二)</title>
+    <url>/swift-blogs/posts/ff84e235.html</url>
+    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
+<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>在上面的示例代码中，实现了一下几个步骤：</p>
+<ol>
+<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
+<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
+<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
+<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
+</ol>
+<p>效果如下：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
+<h3 id="实现滚动到指定索引的位置"><a href="#实现滚动到指定索引的位置" class="headerlink" title="实现滚动到指定索引的位置"></a>实现滚动到指定索引的位置</h3><p>创建一个数据结构：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">NameModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">let</span> index: <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成一些测试使用的数据源：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"><span class="keyword">var</span> nameDatas:[<span class="type">NameModel</span>] &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        (<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>).map &#123;</span><br><span class="line">            <span class="type">NameModel</span>(name: <span class="string">&quot;我是-<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>, index: <span class="variable">$0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">           <span class="type">ScrollView</span> &#123;</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   withAnimation &#123;</span><br><span class="line">                       proxy.scrollTo(nameDatas[scrollToIndex].index)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;滚动到索引为<span class="subst">\(scrollToIndex)</span>的地方&quot;</span>)</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="type">ForEach</span>(nameDatas) &#123; data <span class="keyword">in</span></span><br><span class="line">                   <span class="type">Text</span>(data.name)</span><br><span class="line">                       .padding(<span class="number">4</span>)</span><br><span class="line">                       .id(data.index)</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时的效果为当我们点击按钮后，<strong>ScrollView</strong>将滚动到子视图 ID为 70 的位置：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309181236721.mp4" width="30%" height="50%" controls="controls"></video></p>
+<p><span style="color:red"><strong>注意：</strong></span>这里目前依然存在一个问题，当我们使用数据模型的<code>id</code>属性作为<strong>ScrollView</strong>子视图的ID 时，即 <code>.id(data.id)</code>，无法实现类似的效果。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>ScrollView</tag>
+        <tag>ScrollViewReader</tag>
       </tags>
   </entry>
 </search>
