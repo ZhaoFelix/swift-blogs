@@ -31,5 +31,8 @@
     "hexo-symbols-count-time": "^0.7.1",
     "hexo-theme-next": "^8.18.0",
     "hexo-wordcount": "^6.0.1"
+  },
+  "devDependencies": {
+    "hexo-markmap": "^1.2.5"
   }
 }

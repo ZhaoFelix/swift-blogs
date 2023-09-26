@@ -158,3 +158,15 @@ symbols_count_time:
   awl: 2
   wpm: 200
   suffix: 'mins.'
+
+hexo_markmap:
+  pjax: false
+  katex: false
+  prism: false
+  userCDN:
+    d3_js: https://fastly.jsdelivr.net/npm/d3@6
+    markmap_view_js: https://fastly.jsdelivr.net/npm/markmap-view@0.2.7
+    katex_css: https://fastly.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css
+    prism_css: https://fastly.jsdelivr.net/npm/prismjs@1.25.0/themes/prism.css
+  lockView: false
+  fixSVGAttrNaN: false
