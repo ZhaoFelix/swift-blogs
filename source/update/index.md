@@ -31,7 +31,7 @@ date: 2023-09-26 17:10:46
   - TextField
   - ScrollView
   - NavigationStack
-  - Picker、 DatePicker、 ColorPicker
+  - Picker、 DatePicker、 ColorPicker、 PhotosPicker
 - SwiftUI 进阶
   - 形状绘制和自定义形状
   - 内容切换效果
