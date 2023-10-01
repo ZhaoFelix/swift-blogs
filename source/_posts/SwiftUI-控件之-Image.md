@@ -4,7 +4,8 @@ tags:
   - SwiftUI
   - Xcode
   - Image
-  - SF Symbol
+  - SF Symbols
+  - Overlay
 categories:
   - SwiftUI 基础
 abbrlink: 6b844059
@@ -128,4 +129,85 @@ Image(.avatar)
 ```swift
 .clipShape(Circle())
 ```
+
+#### 给图片添加一个 Overlay 
+
+如果我们想要给`Image`添加一个遮罩层可以使用`overlay`修饰器，它的参数是一个`View`类型，这意味这我们可以将任意一个`View`类型的视图作为遮罩层。
+
+```swift
+  .overlay {
+                    Image(systemName: "heart.fill")
+                        .foregroundStyle(.white)
+                        .font(.system(size: 40))
+                        .opacity(0.8)
+                }
+```
+
+效果如下：
+
+<img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310010946106.png" style="zoom:50%"/>
+
+`overlay`也可以通过设置`alignment`参数来设置遮罩层的对齐方式，例如：
+
+```swift
+     .overlay(alignment: .center, content: {
+                    Text("这是用AI生成的一个头像")
+                        .foregroundStyle(.black)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding()
+                        .background(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 8)) // 添加圆角
+                        .opacity(0.8) // 透明度
+                })
+```
+
+#### Image 加载显示 SF Symbols
+
+**SF Symbols** 是 Apple 提供的一套系统内置的常用图标集。在最新的**SF Symbols 5** 中已经提供了总共**5296**个各种各样的图标。
+
+<img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011000319.png" style="zoom:20%"/>
+
+在使用这些系统图标时，只需要使用`Image(systemName:String)`这个方法即可，`systemName`就是图标的名称。
+
+```swift
+Image(systemName: "heart.circle")
+```
+
+需要注意的一点是，<span style="color:red">**SF Symbols** 本质上还是属于字体的一部分，所以很多适用于字体设置的修饰器同样也适用于它。</span>例如，
+
+```swift
+   Image(systemName: "heart.circle")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundStyle(.red)
+```
+
+**SF Symbols**支持多种颜色和多种渲染模式。
+
+<img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011015286.png" style="zoom:30%"/>
+
+通过代码可以这么进行设置：
+
+```swift
+     Image(systemName: "pencil.circle.fill")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .symbolRenderingMode(.palette) // 渲染模式
+                .foregroundStyle(.yellow, .tint, .red) // 颜色设置
+```
+
+对于一些特殊的**Symbols**，它可以设置一个可变的值，根据这个实现不同的样式。例如：
+
+```swift
+Image(systemName: "slowmo", variableValue: 0.2)
+                .font(.system(size: 50))
+                .foregroundStyle(.indigo)
+```
+
+不同值的效果如下：
+
+<img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011023505.png"/>
+
+**在最新的 SwiftUI 和 SF Symbols中还支持添加动画效果，我们将在后续动画部分进行介绍。**
 
