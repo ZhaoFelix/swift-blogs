@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Swift 中的常量和变量</title>
+    <url>/swift-blogs/posts/c6460431.html</url>
+    <content><![CDATA[<h1 id="常量-变量"><a href="#常量-变量" class="headerlink" title="常量 &amp; 变量"></a>常量 &amp; 变量</h1><p>常量一旦被设置就不能被更改，使用关键字<strong>let</strong> 。变量被设置之后是可以被修改的，使用关键字<strong>var</strong>。</p>
+<h2 id="声明常量和变量"><a href="#声明常量和变量" class="headerlink" title="声明常量和变量"></a>声明常量和变量</h2><p>常量和变量之后在被声明后才能使用，声明方式如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">let</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码的意思是：</p>
+<p>“声明一个名为num，数据类型为<strong>Int</strong>，值为8的变量。然后声明一个名为x，数据类型为<strong>Int</strong>，值为10的常量。”</p>
+<p>你可以在一行中声明多个常量或变量，使用逗号隔开：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>,y:<span class="type">Int</span> <span class="operator">=</span> <span class="number">12</span>,z:<span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="类型标注"><a href="#类型标注" class="headerlink" title="类型标注"></a>类型标注</h2><p>在上面常量与变量的声明中，我们标识的常量和变量数据类型均为<strong>Int</strong>类型。这意味着变量num和常量x在进行赋值时只能赋<strong>Int</strong>类型的数值。</p>
+<p>上面的错误显示的是把一个字符串类型的10赋值给了一个指定类型为<strong>Int</strong>的常量，这在Swift中是不被允许的。</p>
+<p>你可以在一行中定义多个相同类型的常量或者变量，只需要在结尾加上数据类型即可：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x,y,z:<span class="type">Int</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="类型安全与类型推断"><a href="#类型安全与类型推断" class="headerlink" title="类型安全与类型推断"></a>类型安全与类型推断</h2><p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚地知道代码可以处理的值的类型。如果你的一部分代码期望获得<strong>String</strong>类型的值，你就不能错误的传给它一个<strong>Int</strong>类型的值。</p>
+<p>因为Swift是类型安全的语言，所以Swift在编译的过程中会进行类型检查，任何不匹配的类型都会被标记为错误。</p>
+<p>类型检查可以帮助我们在对一个已经声明好的常量或者变量进行赋值时，能够准备无误的赋一个指定类型的数据。但是，类型检查并不意味着我们每次声明时都需要明确指定数据类型，我们可以通过Swift中的类型判断来完成数据类型的指定。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> y <span class="operator">=</span> <span class="number">10.0</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中，我们并没有给变量指定数据类型。Swift在编译的过程中通过类型判断推断x为<strong>Int</strong>类型，y为<strong>Double</strong>类型。</p>
+<h2 id="常量与变量的命名"><a href="#常量与变量的命名" class="headerlink" title="常量与变量的命名"></a>常量与变量的命名</h2><p>常量和变量的命名几乎可以使用任何的字符，包括Unicode字符：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 你好 <span class="operator">=</span> <span class="string">&quot;你好&quot;</span></span><br><span class="line"><span class="keyword">var</span> 😃 <span class="operator">=</span>  <span class="string">&quot;😃&quot;</span></span><br><span class="line"><span class="keyword">var</span> `let` <span class="operator">=</span> <span class="string">&quot;let&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，在使用Swift中关键字进行命名是需要添加反引号（&#96;）。</p>
+<p>虽然Swift在命名上可以使用很多字符，但是为了开发的方便与后期维护建议开发者在命名时尽量遵循一些标准化的命名规范，例如驼峰式命名法。</p>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Foundation</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift 中的循环</title>
     <url>/swift-blogs/posts/73894dfa.html</url>
     <content><![CDATA[<p>Swift提供了多样化的控制流语句。包括<strong>while</strong>循环；<strong>for-in</strong>循环；<code>if</code>，<code>guard</code>和<code>switch</code>语句用来基于特定的条件执行不同的代码分支。</p>
@@ -160,47 +198,9 @@
         <category>Swift 基础语法</category>
       </categories>
       <tags>
+        <tag>Foundation</tag>
         <tag>Swift</tag>
-        <tag>Foundation</tag>
         <tag>Xcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 中的常量和变量</title>
-    <url>/swift-blogs/posts/c6460431.html</url>
-    <content><![CDATA[<h1 id="常量-变量"><a href="#常量-变量" class="headerlink" title="常量 &amp; 变量"></a>常量 &amp; 变量</h1><p>常量一旦被设置就不能被更改，使用关键字<strong>let</strong> 。变量被设置之后是可以被修改的，使用关键字<strong>var</strong>。</p>
-<h2 id="声明常量和变量"><a href="#声明常量和变量" class="headerlink" title="声明常量和变量"></a>声明常量和变量</h2><p>常量和变量之后在被声明后才能使用，声明方式如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">let</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
-
-<p>这段代码的意思是：</p>
-<p>“声明一个名为num，数据类型为<strong>Int</strong>，值为8的变量。然后声明一个名为x，数据类型为<strong>Int</strong>，值为10的常量。”</p>
-<p>你可以在一行中声明多个常量或变量，使用逗号隔开：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>,y:<span class="type">Int</span> <span class="operator">=</span> <span class="number">12</span>,z:<span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="类型标注"><a href="#类型标注" class="headerlink" title="类型标注"></a>类型标注</h2><p>在上面常量与变量的声明中，我们标识的常量和变量数据类型均为<strong>Int</strong>类型。这意味着变量num和常量x在进行赋值时只能赋<strong>Int</strong>类型的数值。</p>
-<p>上面的错误显示的是把一个字符串类型的10赋值给了一个指定类型为<strong>Int</strong>的常量，这在Swift中是不被允许的。</p>
-<p>你可以在一行中定义多个相同类型的常量或者变量，只需要在结尾加上数据类型即可：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x,y,z:<span class="type">Int</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="类型安全与类型推断"><a href="#类型安全与类型推断" class="headerlink" title="类型安全与类型推断"></a>类型安全与类型推断</h2><p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚地知道代码可以处理的值的类型。如果你的一部分代码期望获得<strong>String</strong>类型的值，你就不能错误的传给它一个<strong>Int</strong>类型的值。</p>
-<p>因为Swift是类型安全的语言，所以Swift在编译的过程中会进行类型检查，任何不匹配的类型都会被标记为错误。</p>
-<p>类型检查可以帮助我们在对一个已经声明好的常量或者变量进行赋值时，能够准备无误的赋一个指定类型的数据。但是，类型检查并不意味着我们每次声明时都需要明确指定数据类型，我们可以通过Swift中的类型判断来完成数据类型的指定。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> y <span class="operator">=</span> <span class="number">10.0</span></span><br></pre></td></tr></table></figure>
-
-<p>上面的代码中，我们并没有给变量指定数据类型。Swift在编译的过程中通过类型判断推断x为<strong>Int</strong>类型，y为<strong>Double</strong>类型。</p>
-<h2 id="常量与变量的命名"><a href="#常量与变量的命名" class="headerlink" title="常量与变量的命名"></a>常量与变量的命名</h2><p>常量和变量的命名几乎可以使用任何的字符，包括Unicode字符：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 你好 <span class="operator">=</span> <span class="string">&quot;你好&quot;</span></span><br><span class="line"><span class="keyword">var</span> 😃 <span class="operator">=</span>  <span class="string">&quot;😃&quot;</span></span><br><span class="line"><span class="keyword">var</span> `let` <span class="operator">=</span> <span class="string">&quot;let&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，在使用Swift中关键字进行命名是需要添加反引号（&#96;）。</p>
-<p>虽然Swift在命名上可以使用很多字符，但是为了开发的方便与后期维护建议开发者在命名时尽量遵循一些标准化的命名规范，例如驼峰式命名法。</p>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Foundation</tag>
       </tags>
   </entry>
   <entry>
@@ -561,8 +561,8 @@
         <category>Swift 基础语法</category>
       </categories>
       <tags>
-        <tag>Swift</tag>
         <tag>Foundation</tag>
+        <tag>Swift</tag>
         <tag>集合类型</tag>
         <tag>数组</tag>
         <tag>集合</tag>
@@ -863,6 +863,37 @@
 <p>将图片按照形状进行裁切：</p>
 <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.clipShape(<span class="type">Circle</span>())</span><br></pre></td></tr></table></figure>
 
+<h4 id="给图片添加一个-Overlay"><a href="#给图片添加一个-Overlay" class="headerlink" title="给图片添加一个 Overlay"></a>给图片添加一个 Overlay</h4><p>如果我们想要给<code>Image</code>添加一个遮罩层可以使用<code>overlay</code>修饰器，它的参数是一个<code>View</code>类型，这意味这我们可以将任意一个<code>View</code>类型的视图作为遮罩层。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.overlay &#123;</span><br><span class="line">                  <span class="type">Image</span>(systemName: <span class="string">&quot;heart.fill&quot;</span>)</span><br><span class="line">                      .foregroundStyle(.white)</span><br><span class="line">                      .font(.system(size: <span class="number">40</span>))</span><br><span class="line">                      .opacity(<span class="number">0.8</span>)</span><br><span class="line">              &#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310010946106.png" style="zoom:50%"/>
+
+<p><code>overlay</code>也可以通过设置<code>alignment</code>参数来设置遮罩层的对齐方式，例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.overlay(alignment: .center, content: &#123;</span><br><span class="line">               <span class="type">Text</span>(<span class="string">&quot;这是用AI生成的一个头像&quot;</span>)</span><br><span class="line">                   .foregroundStyle(.black)</span><br><span class="line">                   .font(.title)</span><br><span class="line">                   .fontWeight(.bold)</span><br><span class="line">                   .padding()</span><br><span class="line">                   .background(.white)</span><br><span class="line">                   .clipShape(<span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">8</span>)) <span class="comment">// 添加圆角</span></span><br><span class="line">                   .opacity(<span class="number">0.8</span>) <span class="comment">// 透明度</span></span><br><span class="line">           &#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Image-加载显示-SF-Symbols"><a href="#Image-加载显示-SF-Symbols" class="headerlink" title="Image 加载显示 SF Symbols"></a>Image 加载显示 SF Symbols</h4><p><strong>SF Symbols</strong> 是 Apple 提供的一套系统内置的常用图标集。在最新的<strong>SF Symbols 5</strong> 中已经提供了总共<strong>5296</strong>个各种各样的图标。</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011000319.png" style="zoom:20%"/>
+
+<p>在使用这些系统图标时，只需要使用<code>Image(systemName:String)</code>这个方法即可，<code>systemName</code>就是图标的名称。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;heart.circle&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的一点是，<span style="color:red"><strong>SF Symbols</strong> 本质上还是属于字体的一部分，所以很多适用于字体设置的修饰器同样也适用于它。</span>例如，</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;heart.circle&quot;</span>)</span><br><span class="line">             .font(.title)</span><br><span class="line">             .fontWeight(.bold)</span><br><span class="line">             .foregroundStyle(.red)</span><br></pre></td></tr></table></figure>
+
+<p><strong>SF Symbols</strong>支持多种颜色和多种渲染模式。</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011015286.png" style="zoom:30%"/>
+
+<p>通过代码可以这么进行设置：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;pencil.circle.fill&quot;</span>)</span><br><span class="line">           .font(.largeTitle)</span><br><span class="line">           .fontWeight(.bold)</span><br><span class="line">           .symbolRenderingMode(.palette) <span class="comment">// 渲染模式</span></span><br><span class="line">           .foregroundStyle(.yellow, .tint, .red) <span class="comment">// 颜色设置</span></span><br></pre></td></tr></table></figure>
+
+<p>对于一些特殊的<strong>Symbols</strong>，它可以设置一个可变的值，根据这个实现不同的样式。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;slowmo&quot;</span>, variableValue: <span class="number">0.2</span>)</span><br><span class="line">                .font(.system(size: <span class="number">50</span>))</span><br><span class="line">                .foregroundStyle(.indigo)</span><br></pre></td></tr></table></figure>
+
+<p>不同值的效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011023505.png"/>
+
+<p><strong>在最新的 SwiftUI 和 SF Symbols中还支持添加动画效果，我们将在后续动画部分进行介绍。</strong></p>
 ]]></content>
       <categories>
         <category>SwiftUI 基础</category>
@@ -871,7 +902,8 @@
         <tag>Xcode</tag>
         <tag>SwiftUI</tag>
         <tag>Image</tag>
-        <tag>SF Symbol</tag>
+        <tag>SF Symbols</tag>
+        <tag>Overlay</tag>
       </tags>
   </entry>
   <entry>
@@ -1379,42 +1411,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI控件之 Label</title>
-    <url>/swift-blogs/posts/8bd109ea.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>Label</strong> 用来展示一个文本和图标（icon）。</p>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>使用<strong>Assets</strong> 中的图片作为<strong>Label</strong> 的图标：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Label(&quot;avatar&quot;, image: &quot;avatar&quot;)</span><br></pre></td></tr></table></figure>
-
-<p>使用<strong>SF Symbols</strong> 中的图标作为<strong>Label</strong> 的图标：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="设置不同的Label样式"><a href="#设置不同的Label样式" class="headerlink" title="设置不同的Label样式"></a>设置不同的<strong>Label</strong>样式</h4><p>可以使用<code>labelStyle</code> 修饰器来定义 Label 的样式：</p>
-<ul>
-<li><code>iconOnly</code> : 只显示图标；</li>
-<li><code>titleAndIcon</code>: 显示文字和图标，默认样式；</li>
-<li><code>titleOnly</code> ： 只显示文字；</li>
-<li><code>automatic</code>：自动。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br><span class="line">   .labelStyle(.automatic)</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h4 id="使用一个-View作为-Label-的图标"><a href="#使用一个-View作为-Label-的图标" class="headerlink" title="使用一个 View作为 Label 的图标"></a>使用一个 View作为 Label 的图标</h4><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span> &#123;</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Felix&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">        .foregroundStyle(.primary)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Zhao&quot;</span>)</span><br><span class="line">        .font(.subheadline)</span><br><span class="line">        .foregroundStyle(.secondary)</span><br><span class="line">    </span><br><span class="line">&#125; icon: &#123;</span><br><span class="line">    <span class="type">Circle</span>()</span><br><span class="line">        .fill(.red)</span><br><span class="line">        .frame(width: <span class="number">44</span>, height: <span class="number">44</span>)</span><br><span class="line">        .overlay(<span class="type">Text</span>(<span class="string">&quot;F&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的Label 中，我们使用两个不同样式的<code>Text</code> 作为<strong>Label</strong> 要显示的文字内容；使用一个<code>Circle</code> 作为<strong>Label</strong>的自定义图标视图。</p>
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131405868.png"/>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>Label</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SwiftUI控件之 List（一）</title>
     <url>/swift-blogs/posts/57a1224a.html</url>
     <content><![CDATA[<p>在很多 app 中，我们经常能看到上下滚动的列表，在 SwiftUI 中，我们可以使用<strong>List</strong> 实现这样的功能。</p>
@@ -1621,6 +1617,42 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI控件之 Label</title>
+    <url>/swift-blogs/posts/8bd109ea.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>Label</strong> 用来展示一个文本和图标（icon）。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>使用<strong>Assets</strong> 中的图片作为<strong>Label</strong> 的图标：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Label(&quot;avatar&quot;, image: &quot;avatar&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>使用<strong>SF Symbols</strong> 中的图标作为<strong>Label</strong> 的图标：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置不同的Label样式"><a href="#设置不同的Label样式" class="headerlink" title="设置不同的Label样式"></a>设置不同的<strong>Label</strong>样式</h4><p>可以使用<code>labelStyle</code> 修饰器来定义 Label 的样式：</p>
+<ul>
+<li><code>iconOnly</code> : 只显示图标；</li>
+<li><code>titleAndIcon</code>: 显示文字和图标，默认样式；</li>
+<li><code>titleOnly</code> ： 只显示文字；</li>
+<li><code>automatic</code>：自动。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br><span class="line">   .labelStyle(.automatic)</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h4 id="使用一个-View作为-Label-的图标"><a href="#使用一个-View作为-Label-的图标" class="headerlink" title="使用一个 View作为 Label 的图标"></a>使用一个 View作为 Label 的图标</h4><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span> &#123;</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Felix&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">        .foregroundStyle(.primary)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Zhao&quot;</span>)</span><br><span class="line">        .font(.subheadline)</span><br><span class="line">        .foregroundStyle(.secondary)</span><br><span class="line">    </span><br><span class="line">&#125; icon: &#123;</span><br><span class="line">    <span class="type">Circle</span>()</span><br><span class="line">        .fill(.red)</span><br><span class="line">        .frame(width: <span class="number">44</span>, height: <span class="number">44</span>)</span><br><span class="line">        .overlay(<span class="type">Text</span>(<span class="string">&quot;F&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的Label 中，我们使用两个不同样式的<code>Text</code> 作为<strong>Label</strong> 要显示的文字内容；使用一个<code>Circle</code> 作为<strong>Label</strong>的自定义图标视图。</p>
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131405868.png"/>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>Label</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI控件之 Picker</title>
     <url>/swift-blogs/posts/bd95df5.html</url>
     <content><![CDATA[<p>在我们做一些信息表单填写时，经常需要用到<strong>选择器（Picker）</strong>。</p>
@@ -1703,46 +1735,6 @@
         <tag>SwiftUI</tag>
         <tag>TextField</tag>
         <tag>SecureField</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI控件之 ScrollView(二)</title>
-    <url>/swift-blogs/posts/ff84e235.html</url>
-    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
-<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<p>在上面的示例代码中，实现了一下几个步骤：</p>
-<ol>
-<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
-<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
-<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
-<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
-</ol>
-<p>效果如下：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
-<h3 id="实现滚动到指定索引的位置"><a href="#实现滚动到指定索引的位置" class="headerlink" title="实现滚动到指定索引的位置"></a>实现滚动到指定索引的位置</h3><p>创建一个数据结构：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">NameModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">let</span> index: <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>生成一些测试使用的数据源：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"><span class="keyword">var</span> nameDatas:[<span class="type">NameModel</span>] &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        (<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>).map &#123;</span><br><span class="line">            <span class="type">NameModel</span>(name: <span class="string">&quot;我是-<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>, index: <span class="variable">$0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>界面布局：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">           <span class="type">ScrollView</span> &#123;</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   withAnimation &#123;</span><br><span class="line">                       proxy.scrollTo(nameDatas[scrollToIndex].index)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;滚动到索引为<span class="subst">\(scrollToIndex)</span>的地方&quot;</span>)</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="type">ForEach</span>(nameDatas) &#123; data <span class="keyword">in</span></span><br><span class="line">                   <span class="type">Text</span>(data.name)</span><br><span class="line">                       .padding(<span class="number">4</span>)</span><br><span class="line">                       .id(data.index)</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时的效果为当我们点击按钮后，<strong>ScrollView</strong>将滚动到子视图 ID为 70 的位置：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309181236721.mp4" width="30%" height="50%" controls="controls"></video></p>
-<p><span style="color:red"><strong>注意：</strong></span>这里目前依然存在一个问题，当我们使用数据模型的<code>id</code>属性作为<strong>ScrollView</strong>子视图的ID 时，即 <code>.id(data.id)</code>，无法实现类似的效果。</p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>ScrollView</tag>
-        <tag>ScrollViewReader</tag>
       </tags>
   </entry>
   <entry>
@@ -1857,6 +1849,46 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI控件之 ScrollView(二)</title>
+    <url>/swift-blogs/posts/ff84e235.html</url>
+    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
+<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>在上面的示例代码中，实现了一下几个步骤：</p>
+<ol>
+<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
+<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
+<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
+<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
+</ol>
+<p>效果如下：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
+<h3 id="实现滚动到指定索引的位置"><a href="#实现滚动到指定索引的位置" class="headerlink" title="实现滚动到指定索引的位置"></a>实现滚动到指定索引的位置</h3><p>创建一个数据结构：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">NameModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">let</span> index: <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成一些测试使用的数据源：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"><span class="keyword">var</span> nameDatas:[<span class="type">NameModel</span>] &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        (<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>).map &#123;</span><br><span class="line">            <span class="type">NameModel</span>(name: <span class="string">&quot;我是-<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>, index: <span class="variable">$0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">           <span class="type">ScrollView</span> &#123;</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   withAnimation &#123;</span><br><span class="line">                       proxy.scrollTo(nameDatas[scrollToIndex].index)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;滚动到索引为<span class="subst">\(scrollToIndex)</span>的地方&quot;</span>)</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="type">ForEach</span>(nameDatas) &#123; data <span class="keyword">in</span></span><br><span class="line">                   <span class="type">Text</span>(data.name)</span><br><span class="line">                       .padding(<span class="number">4</span>)</span><br><span class="line">                       .id(data.index)</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时的效果为当我们点击按钮后，<strong>ScrollView</strong>将滚动到子视图 ID为 70 的位置：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309181236721.mp4" width="30%" height="50%" controls="controls"></video></p>
+<p><span style="color:red"><strong>注意：</strong></span>这里目前依然存在一个问题，当我们使用数据模型的<code>id</code>属性作为<strong>ScrollView</strong>子视图的ID 时，即 <code>.id(data.id)</code>，无法实现类似的效果。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>ScrollView</tag>
+        <tag>ScrollViewReader</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>工欲善其事，必先利其器（Xcode 常见设置）</title>
     <url>/swift-blogs/posts/b2a2499d.html</url>
     <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h2 id="Xcode-基础设置"><a href="#Xcode-基础设置" class="headerlink" title="Xcode 基础设置"></a>Xcode 基础设置</h2><h3 id="设置代码编辑器的字体和整体样式"><a href="#设置代码编辑器的字体和整体样式" class="headerlink" title="设置代码编辑器的字体和整体样式"></a>设置代码编辑器的字体和整体样式</h3><p>创建好项目之后，使用快捷 <strong><code>Command + ,</code></strong> 或者顶部菜单栏的 <strong>Xcode→Settings</strong> 打开Xcode的偏好设置，在 <strong>Themes</strong> 主题选项部分可以选择或者设置代码编辑器的代码风格和字体大小：</p>
@@ -1924,8 +1956,8 @@
       </categories>
       <tags>
         <tag>SwiftUI</tag>
-        <tag>SF Symbol</tag>
         <tag>动画</tag>
+        <tag>SF Symbol</tag>
       </tags>
   </entry>
 </search>
