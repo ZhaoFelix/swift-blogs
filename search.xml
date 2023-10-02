@@ -39,51 +39,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Swift 中的循环</title>
-    <url>/swift-blogs/posts/73894dfa.html</url>
-    <content><![CDATA[<p>Swift提供了多样化的控制流语句。包括<strong>while</strong>循环；<strong>for-in</strong>循环；<code>if</code>，<code>guard</code>和<code>switch</code>语句用来基于特定的条件执行不同的代码分支。</p>
-<span id="more"></span>
-
-<h4 id="for-in-循环"><a href="#for-in-循环" class="headerlink" title="for-in 循环"></a>for-in 循环</h4><p>使用<strong>for-in</strong>循环来遍历数组，指定范围内的数字或者字符串中的字符。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>,<span class="string">&quot;Rudolf&quot;</span>,<span class="string">&quot;Zora&quot;</span>]</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;你好，<span class="subst">\(name)</span>！&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">你好，<span class="type">Felix！</span></span><br><span class="line">你好，<span class="type">Rudolf！</span></span><br><span class="line">你好，<span class="type">Zora！</span></span><br></pre></td></tr></table></figure>
-
-<p>我们也可以使用<strong>for-in</strong>循环来遍历字典，遍历字典时我们可以同时遍历出字典中的键和值。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> persons <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>:<span class="number">23</span>,<span class="string">&quot;Rudolf&quot;</span>:<span class="number">34</span>,<span class="string">&quot;Zora&quot;</span>:<span class="number">33</span>]</span><br><span class="line"><span class="keyword">for</span> (name,age) <span class="keyword">in</span> persons &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(name)</span> 今年<span class="subst">\(age)</span>岁！&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Rudolf</span> 今年<span class="number">34</span>岁！</span><br><span class="line"><span class="type">Felix</span> 今年<span class="number">23</span>岁！</span><br><span class="line"><span class="type">Zora</span> 今年<span class="number">33</span>岁！</span><br></pre></td></tr></table></figure>
-
-<p>循环打印出指定范围内的数字：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//循环打印出1到5的整数</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">5</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>在上面的数字循环中我们通过<strong>区间运算符</strong>来辅助实现数字的循环。</p>
-</blockquote>
-<p>另外，我们在循环时for后面跟着的是一个被隐式声明的常量，我们不再需要使用let关键字再次进行声明。</p>
-<p>在某些情况下，当我们只需要指定循环的次数，并不需要用到隐式声明的常量时，我们可以使用通配符“_”来省略声明的常量。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//i自加5次</span></span><br><span class="line"><span class="keyword">var</span> i <span class="operator">=</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">_</span> <span class="keyword">in</span> <span class="number">0</span><span class="operator">...</span><span class="number">5</span>&#123;</span><br><span class="line">    i <span class="operator">+=</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(i)</span><br></pre></td></tr></table></figure>
-
-<h4 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h4><p><strong>while</strong>循环通过判断条件执行分支代码。当条件为true时，执行循环内的代码，否则不行。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span> a <span class="operator">&lt;</span> b &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于b&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a小于b</span><br></pre></td></tr></table></figure>
-
-<h5 id="repeat-while"><a href="#repeat-while" class="headerlink" title="repeat-while"></a>repeat-while</h5><p><strong>repeat-while</strong>是while循环的另一种形式，它相当与其他编程语言中的<strong>do-while</strong>循环，在判断循环条件之前它会先去执行一次循环代码块，然后重复循环直到判断条件为false。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">repeat</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于b&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span> a <span class="operator">&lt;</span> b</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>循环</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Swift 中的数据类型</title>
     <url>/swift-blogs/posts/6876d7b8.html</url>
     <content><![CDATA[<h4 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h4><p>整数是没有小数部分的数字。整数可以是有符号的或者无符号。Swift提供来8，16，32和64位编码的有符号和无符号整数，例如UInt8表示8位无符号的整数，Int32表示32有符号整数。</p>
@@ -236,6 +191,51 @@
       <tags>
         <tag>Swift</tag>
         <tag>枚举</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 中的循环</title>
+    <url>/swift-blogs/posts/73894dfa.html</url>
+    <content><![CDATA[<p>Swift提供了多样化的控制流语句。包括<strong>while</strong>循环；<strong>for-in</strong>循环；<code>if</code>，<code>guard</code>和<code>switch</code>语句用来基于特定的条件执行不同的代码分支。</p>
+<span id="more"></span>
+
+<h4 id="for-in-循环"><a href="#for-in-循环" class="headerlink" title="for-in 循环"></a>for-in 循环</h4><p>使用<strong>for-in</strong>循环来遍历数组，指定范围内的数字或者字符串中的字符。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>,<span class="string">&quot;Rudolf&quot;</span>,<span class="string">&quot;Zora&quot;</span>]</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;你好，<span class="subst">\(name)</span>！&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">你好，<span class="type">Felix！</span></span><br><span class="line">你好，<span class="type">Rudolf！</span></span><br><span class="line">你好，<span class="type">Zora！</span></span><br></pre></td></tr></table></figure>
+
+<p>我们也可以使用<strong>for-in</strong>循环来遍历字典，遍历字典时我们可以同时遍历出字典中的键和值。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> persons <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>:<span class="number">23</span>,<span class="string">&quot;Rudolf&quot;</span>:<span class="number">34</span>,<span class="string">&quot;Zora&quot;</span>:<span class="number">33</span>]</span><br><span class="line"><span class="keyword">for</span> (name,age) <span class="keyword">in</span> persons &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(name)</span> 今年<span class="subst">\(age)</span>岁！&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Rudolf</span> 今年<span class="number">34</span>岁！</span><br><span class="line"><span class="type">Felix</span> 今年<span class="number">23</span>岁！</span><br><span class="line"><span class="type">Zora</span> 今年<span class="number">33</span>岁！</span><br></pre></td></tr></table></figure>
+
+<p>循环打印出指定范围内的数字：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//循环打印出1到5的整数</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span><span class="operator">...</span><span class="number">5</span>&#123;</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在上面的数字循环中我们通过<strong>区间运算符</strong>来辅助实现数字的循环。</p>
+</blockquote>
+<p>另外，我们在循环时for后面跟着的是一个被隐式声明的常量，我们不再需要使用let关键字再次进行声明。</p>
+<p>在某些情况下，当我们只需要指定循环的次数，并不需要用到隐式声明的常量时，我们可以使用通配符“_”来省略声明的常量。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//i自加5次</span></span><br><span class="line"><span class="keyword">var</span> i <span class="operator">=</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">_</span> <span class="keyword">in</span> <span class="number">0</span><span class="operator">...</span><span class="number">5</span>&#123;</span><br><span class="line">    i <span class="operator">+=</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(i)</span><br></pre></td></tr></table></figure>
+
+<h4 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h4><p><strong>while</strong>循环通过判断条件执行分支代码。当条件为true时，执行循环内的代码，否则不行。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span> a <span class="operator">&lt;</span> b &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于b&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a小于b</span><br></pre></td></tr></table></figure>
+
+<h5 id="repeat-while"><a href="#repeat-while" class="headerlink" title="repeat-while"></a>repeat-while</h5><p><strong>repeat-while</strong>是while循环的另一种形式，它相当与其他编程语言中的<strong>do-while</strong>循环，在判断循环条件之前它会先去执行一次循环代码块，然后重复循环直到判断条件为false。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">repeat</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于b&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span> a <span class="operator">&lt;</span> b</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>循环</tag>
       </tags>
   </entry>
   <entry>
@@ -1411,6 +1411,42 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI控件之 Label</title>
+    <url>/swift-blogs/posts/8bd109ea.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>Label</strong> 用来展示一个文本和图标（icon）。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>使用<strong>Assets</strong> 中的图片作为<strong>Label</strong> 的图标：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Label(&quot;avatar&quot;, image: &quot;avatar&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>使用<strong>SF Symbols</strong> 中的图标作为<strong>Label</strong> 的图标：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置不同的Label样式"><a href="#设置不同的Label样式" class="headerlink" title="设置不同的Label样式"></a>设置不同的<strong>Label</strong>样式</h4><p>可以使用<code>labelStyle</code> 修饰器来定义 Label 的样式：</p>
+<ul>
+<li><code>iconOnly</code> : 只显示图标；</li>
+<li><code>titleAndIcon</code>: 显示文字和图标，默认样式；</li>
+<li><code>titleOnly</code> ： 只显示文字；</li>
+<li><code>automatic</code>：自动。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br><span class="line">   .labelStyle(.automatic)</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h4 id="使用一个-View作为-Label-的图标"><a href="#使用一个-View作为-Label-的图标" class="headerlink" title="使用一个 View作为 Label 的图标"></a>使用一个 View作为 Label 的图标</h4><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span> &#123;</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Felix&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">        .foregroundStyle(.primary)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Zhao&quot;</span>)</span><br><span class="line">        .font(.subheadline)</span><br><span class="line">        .foregroundStyle(.secondary)</span><br><span class="line">    </span><br><span class="line">&#125; icon: &#123;</span><br><span class="line">    <span class="type">Circle</span>()</span><br><span class="line">        .fill(.red)</span><br><span class="line">        .frame(width: <span class="number">44</span>, height: <span class="number">44</span>)</span><br><span class="line">        .overlay(<span class="type">Text</span>(<span class="string">&quot;F&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的Label 中，我们使用两个不同样式的<code>Text</code> 作为<strong>Label</strong> 要显示的文字内容；使用一个<code>Circle</code> 作为<strong>Label</strong>的自定义图标视图。</p>
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131405868.png"/>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>Label</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI控件之 List（一）</title>
     <url>/swift-blogs/posts/57a1224a.html</url>
     <content><![CDATA[<p>在很多 app 中，我们经常能看到上下滚动的列表，在 SwiftUI 中，我们可以使用<strong>List</strong> 实现这样的功能。</p>
@@ -1617,42 +1653,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI控件之 Label</title>
-    <url>/swift-blogs/posts/8bd109ea.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>Label</strong> 用来展示一个文本和图标（icon）。</p>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>使用<strong>Assets</strong> 中的图片作为<strong>Label</strong> 的图标：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Label(&quot;avatar&quot;, image: &quot;avatar&quot;)</span><br></pre></td></tr></table></figure>
-
-<p>使用<strong>SF Symbols</strong> 中的图标作为<strong>Label</strong> 的图标：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="设置不同的Label样式"><a href="#设置不同的Label样式" class="headerlink" title="设置不同的Label样式"></a>设置不同的<strong>Label</strong>样式</h4><p>可以使用<code>labelStyle</code> 修饰器来定义 Label 的样式：</p>
-<ul>
-<li><code>iconOnly</code> : 只显示图标；</li>
-<li><code>titleAndIcon</code>: 显示文字和图标，默认样式；</li>
-<li><code>titleOnly</code> ： 只显示文字；</li>
-<li><code>automatic</code>：自动。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br><span class="line">   .labelStyle(.automatic)</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h4 id="使用一个-View作为-Label-的图标"><a href="#使用一个-View作为-Label-的图标" class="headerlink" title="使用一个 View作为 Label 的图标"></a>使用一个 View作为 Label 的图标</h4><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span> &#123;</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Felix&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">        .foregroundStyle(.primary)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Zhao&quot;</span>)</span><br><span class="line">        .font(.subheadline)</span><br><span class="line">        .foregroundStyle(.secondary)</span><br><span class="line">    </span><br><span class="line">&#125; icon: &#123;</span><br><span class="line">    <span class="type">Circle</span>()</span><br><span class="line">        .fill(.red)</span><br><span class="line">        .frame(width: <span class="number">44</span>, height: <span class="number">44</span>)</span><br><span class="line">        .overlay(<span class="type">Text</span>(<span class="string">&quot;F&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的Label 中，我们使用两个不同样式的<code>Text</code> 作为<strong>Label</strong> 要显示的文字内容；使用一个<code>Circle</code> 作为<strong>Label</strong>的自定义图标视图。</p>
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131405868.png"/>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>Label</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SwiftUI控件之 Picker</title>
     <url>/swift-blogs/posts/bd95df5.html</url>
     <content><![CDATA[<p>在我们做一些信息表单填写时，经常需要用到<strong>选择器（Picker）</strong>。</p>
@@ -1696,6 +1696,46 @@
       <tags>
         <tag>SwiftUI</tag>
         <tag>Picker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI控件之 ScrollView(二)</title>
+    <url>/swift-blogs/posts/ff84e235.html</url>
+    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
+<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>在上面的示例代码中，实现了一下几个步骤：</p>
+<ol>
+<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
+<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
+<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
+<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
+</ol>
+<p>效果如下：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
+<h3 id="实现滚动到指定索引的位置"><a href="#实现滚动到指定索引的位置" class="headerlink" title="实现滚动到指定索引的位置"></a>实现滚动到指定索引的位置</h3><p>创建一个数据结构：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">NameModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">let</span> index: <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成一些测试使用的数据源：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"><span class="keyword">var</span> nameDatas:[<span class="type">NameModel</span>] &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        (<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>).map &#123;</span><br><span class="line">            <span class="type">NameModel</span>(name: <span class="string">&quot;我是-<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>, index: <span class="variable">$0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">           <span class="type">ScrollView</span> &#123;</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   withAnimation &#123;</span><br><span class="line">                       proxy.scrollTo(nameDatas[scrollToIndex].index)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;滚动到索引为<span class="subst">\(scrollToIndex)</span>的地方&quot;</span>)</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="type">ForEach</span>(nameDatas) &#123; data <span class="keyword">in</span></span><br><span class="line">                   <span class="type">Text</span>(data.name)</span><br><span class="line">                       .padding(<span class="number">4</span>)</span><br><span class="line">                       .id(data.index)</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时的效果为当我们点击按钮后，<strong>ScrollView</strong>将滚动到子视图 ID为 70 的位置：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309181236721.mp4" width="30%" height="50%" controls="controls"></video></p>
+<p><span style="color:red"><strong>注意：</strong></span>这里目前依然存在一个问题，当我们使用数据模型的<code>id</code>属性作为<strong>ScrollView</strong>子视图的ID 时，即 <code>.id(data.id)</code>，无法实现类似的效果。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>ScrollView</tag>
+        <tag>ScrollViewReader</tag>
       </tags>
   </entry>
   <entry>
@@ -1808,87 +1848,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Swift中的条件语句</title>
-    <url>/swift-blogs/posts/964c101d.html</url>
-    <content><![CDATA[<p>Swift提供了<strong>if</strong>和<strong>switch</strong>两种条件语句，<code>if</code>语句用来判断简单的条件，<code>switch</code>语句适合复杂的条件。</p>
-<span id="more"></span>
-
-<h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><p>当只有一个单一的条件时：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>if</strong>语句也提供else分句，当条件为false时使用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于或等于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当需要判断多个条件时，可以使用<strong>else-if</strong>配合if语句使用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a<span class="operator">&gt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;等于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h4><p>每一个 <code>switch</code> 语句都由多个可能的情况组成，每一个情况都以 case 关键字开始。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="type">A</span> <span class="operator">=</span> <span class="string">&quot;a&quot;</span></span><br><span class="line"><span class="keyword">switch</span> <span class="type">A</span> &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;q&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串q&quot;</span>)</span><br><span class="line"><span class="keyword">case</span>  <span class="string">&quot;a&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串a&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;其他字符&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">常量A等于字符串a</span><br></pre></td></tr></table></figure>
-
-<p><code>switch</code>语句要求仅可能的提供所有可能的值，但是当我们无法对所有可能的情况进行判断时，我们可以时关键字<strong>default</strong>进行标记，这表示其他没有提供的情况执行这部分的代码块。</p>
-<h5 id="多条件的匹配："><a href="#多条件的匹配：" class="headerlink" title="多条件的匹配："></a>多条件的匹配：</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="type">A</span> <span class="operator">=</span> <span class="string">&quot;b&quot;</span></span><br><span class="line"><span class="keyword">switch</span> <span class="type">A</span> &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;q&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串q&quot;</span>)</span><br><span class="line"><span class="keyword">case</span>  <span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串a或b&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;其他字符&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们在<code>case</code>后面添加了一个新的条件，条件之间使用逗号隔开。当常量A等于”a”或”b”时执行的结果都是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">常量A等于字符串a或b</span><br></pre></td></tr></table></figure>
-
-<h5 id="区间匹配："><a href="#区间匹配：" class="headerlink" title="区间匹配："></a>区间匹配：</h5><p><code>switch</code>语句也可以配个区间运算符一起使用。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">23</span></span><br><span class="line"><span class="keyword">switch</span> a &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="operator">..&lt;</span><span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于0&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="number">10</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于等于0小于10&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">10</span><span class="operator">..&lt;</span><span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于等于10小于100&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于或等于100&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">a大于等于<span class="number">10</span>小于<span class="number">100</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>条件语句</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI控件之 ScrollView(二)</title>
-    <url>/swift-blogs/posts/ff84e235.html</url>
-    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
-<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<p>在上面的示例代码中，实现了一下几个步骤：</p>
-<ol>
-<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
-<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
-<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
-<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
-</ol>
-<p>效果如下：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
-<h3 id="实现滚动到指定索引的位置"><a href="#实现滚动到指定索引的位置" class="headerlink" title="实现滚动到指定索引的位置"></a>实现滚动到指定索引的位置</h3><p>创建一个数据结构：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">NameModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">let</span> index: <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>生成一些测试使用的数据源：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"><span class="keyword">var</span> nameDatas:[<span class="type">NameModel</span>] &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        (<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>).map &#123;</span><br><span class="line">            <span class="type">NameModel</span>(name: <span class="string">&quot;我是-<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>, index: <span class="variable">$0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>界面布局：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">           <span class="type">ScrollView</span> &#123;</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   withAnimation &#123;</span><br><span class="line">                       proxy.scrollTo(nameDatas[scrollToIndex].index)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;滚动到索引为<span class="subst">\(scrollToIndex)</span>的地方&quot;</span>)</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="type">ForEach</span>(nameDatas) &#123; data <span class="keyword">in</span></span><br><span class="line">                   <span class="type">Text</span>(data.name)</span><br><span class="line">                       .padding(<span class="number">4</span>)</span><br><span class="line">                       .id(data.index)</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时的效果为当我们点击按钮后，<strong>ScrollView</strong>将滚动到子视图 ID为 70 的位置：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309181236721.mp4" width="30%" height="50%" controls="controls"></video></p>
-<p><span style="color:red"><strong>注意：</strong></span>这里目前依然存在一个问题，当我们使用数据模型的<code>id</code>属性作为<strong>ScrollView</strong>子视图的ID 时，即 <code>.id(data.id)</code>，无法实现类似的效果。</p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>ScrollView</tag>
-        <tag>ScrollViewReader</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>工欲善其事，必先利其器（Xcode 常见设置）</title>
     <url>/swift-blogs/posts/b2a2499d.html</url>
     <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h2 id="Xcode-基础设置"><a href="#Xcode-基础设置" class="headerlink" title="Xcode 基础设置"></a>Xcode 基础设置</h2><h3 id="设置代码编辑器的字体和整体样式"><a href="#设置代码编辑器的字体和整体样式" class="headerlink" title="设置代码编辑器的字体和整体样式"></a>设置代码编辑器的字体和整体样式</h3><p>创建好项目之后，使用快捷 <strong><code>Command + ,</code></strong> 或者顶部菜单栏的 <strong>Xcode→Settings</strong> 打开Xcode的偏好设置，在 <strong>Themes</strong> 主题选项部分可以选择或者设置代码编辑器的代码风格和字体大小：</p>
@@ -1958,6 +1917,90 @@
         <tag>SwiftUI</tag>
         <tag>动画</tag>
         <tag>SF Symbol</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift中的条件语句</title>
+    <url>/swift-blogs/posts/964c101d.html</url>
+    <content><![CDATA[<p>Swift提供了<strong>if</strong>和<strong>switch</strong>两种条件语句，<code>if</code>语句用来判断简单的条件，<code>switch</code>语句适合复杂的条件。</p>
+<span id="more"></span>
+
+<h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><p>当只有一个单一的条件时：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>if</strong>语句也提供else分句，当条件为false时使用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于或等于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当需要判断多个条件时，可以使用<strong>else-if</strong>配合if语句使用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">if</span>(a<span class="operator">&lt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a<span class="operator">&gt;</span><span class="number">10</span>)&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于10&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;等于10&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h4><p>每一个 <code>switch</code> 语句都由多个可能的情况组成，每一个情况都以 case 关键字开始。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="type">A</span> <span class="operator">=</span> <span class="string">&quot;a&quot;</span></span><br><span class="line"><span class="keyword">switch</span> <span class="type">A</span> &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;q&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串q&quot;</span>)</span><br><span class="line"><span class="keyword">case</span>  <span class="string">&quot;a&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串a&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;其他字符&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">常量A等于字符串a</span><br></pre></td></tr></table></figure>
+
+<p><code>switch</code>语句要求仅可能的提供所有可能的值，但是当我们无法对所有可能的情况进行判断时，我们可以时关键字<strong>default</strong>进行标记，这表示其他没有提供的情况执行这部分的代码块。</p>
+<h5 id="多条件的匹配："><a href="#多条件的匹配：" class="headerlink" title="多条件的匹配："></a>多条件的匹配：</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="type">A</span> <span class="operator">=</span> <span class="string">&quot;b&quot;</span></span><br><span class="line"><span class="keyword">switch</span> <span class="type">A</span> &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;q&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串q&quot;</span>)</span><br><span class="line"><span class="keyword">case</span>  <span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;常量A等于字符串a或b&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;其他字符&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们在<code>case</code>后面添加了一个新的条件，条件之间使用逗号隔开。当常量A等于”a”或”b”时执行的结果都是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">常量A等于字符串a或b</span><br></pre></td></tr></table></figure>
+
+<h5 id="区间匹配："><a href="#区间匹配：" class="headerlink" title="区间匹配："></a>区间匹配：</h5><p><code>switch</code>语句也可以配个区间运算符一起使用。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="number">23</span></span><br><span class="line"><span class="keyword">switch</span> a &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="operator">..&lt;</span><span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a小于0&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="number">10</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于等于0小于10&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">10</span><span class="operator">..&lt;</span><span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于等于10小于100&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a大于或等于100&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">a大于等于<span class="number">10</span>小于<span class="number">100</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>条件语句</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何让 Text 中的文本内容自动进行调整</title>
+    <url>/swift-blogs/posts/585c3fa7.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，使用<strong>Text</strong> 添加了<code>frame</code>修饰器后文本内容经常出现显示不完整的情况，例如下面的场景：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310021032152.png"/>
+
+<p>如果我们希望在指定控件的范围内让文本内容尽可能地显示完整，我们可以给<code>Text</code>添加 <code>minimumScaleFactor</code>修饰器，即设置<strong>Text</strong>的<strong>最小比例因子</strong>。它的作用就是指定文本内容能按照设定的<code>font</code>原始尺寸缩小的最小比例，从而让文本内容尽可能的显示完整。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span>(spacing:<span class="number">20</span>) &#123;</span><br><span class="line">         <span class="type">Text</span>(<span class="string">&quot;Swift is a powerful and intuitive programming language for all Apple platforms. It’s easy to get started using Swift, with a concise-yet-expressive syntax and modern features you’ll love. Swift code is safe by design and produces software that runs lightning-fast.&quot;</span>)</span><br><span class="line">             .font(.headline)</span><br><span class="line">         </span><br><span class="line">         <span class="type">Text</span>(<span class="string">&quot;Swift is a powerful and intuitive programming language for all Apple platforms. It’s easy to get started using Swift, with a concise-yet-expressive syntax and modern features you’ll love. Swift code is safe by design and produces software that runs lightning-fast.&quot;</span>)</span><br><span class="line">             .font(.headline)</span><br><span class="line">             .minimumScaleFactor(<span class="number">0.5</span>)</span><br><span class="line">     &#125;</span><br><span class="line">     .padding()</span><br><span class="line">     .frame(height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+
+<p>因为我们给<code>HStack</code>设置了<code>frame</code>，并把高度限制为<code>200</code>，所以在这个高度范围内是无法完整显示两个<code>Text</code>内容的。如果不给最后一个<code>Text</code>设置<code>minimumScaleFator</code>，它展示的效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310021040860.png"/>
+
+<p>设置后的效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310021041405.png"/>
+
+<p>通过前后两种效果的比较我们可以发现，在设置了<code>minimumScaleFactor</code>为 <code>0.5</code>后，后一个<code>Text</code>的字体大小在原来设置的<code>font(.headline)</code>的基础上进行缩小操作。</p>
+<span id="more"></span>
+
+<p>注意，<strong>它并不是缩小为原来尺寸的<code>0.5</code>，它只是在能显示完整内容的基础上进行了缩小，只是我们设定了最小能缩小的值为原来的<code>0.5</code>。</strong></p>
+<p>当我们把<code>HStack</code>的<code>frame</code>的<code>height</code>设置能完整显示两个<code>Text</code>时，字体就不会进行缩放了。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.frame(height: <span class="number">500</span>)</span><br></pre></td></tr></table></figure>
+
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310021053426.png"/>
+
+
+
+<p>同样地，如果把<code>height</code>设置的很小，后一个文本字体最小能缩放的范围也只是原来的<code>0.5</code>.</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.frame(height: <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310021055994.png"/>
+
+<p>如果把<code>minimumScaleFactor</code>设置为 <code>0.1</code>，它就可以缩的更小。</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310021056910.png"/>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 技巧</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>Text</tag>
       </tags>
   </entry>
 </search>
