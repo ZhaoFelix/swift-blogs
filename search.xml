@@ -84,6 +84,90 @@
       </tags>
   </entry>
   <entry>
+    <title>Swift 中的枚举</title>
+    <url>/posts/251de72f.html</url>
+    <content><![CDATA[<h3 id="Swift-中的枚举"><a href="#Swift-中的枚举" class="headerlink" title="Swift 中的枚举"></a>Swift 中的枚举</h3><p>在计算机编程中，枚举是一种数据类型，用于定义一定范围内的有名称的值。Swift语言中的枚举是强大且灵活的工具，我们可以在多种场景中使用它们，包括但不限于处理特定类型的数据、创建自定义的错误类型以及实现特定的设计模式。</p>
+<h4 id="定义和基本用法"><a href="#定义和基本用法" class="headerlink" title="定义和基本用法"></a>定义和基本用法</h4><p>在Swift中，我们使用<code>enum</code>关键字来定义枚举。下面是一个简单的例子，展示了如何定义和使用一个名为<code>Weekday</code>的枚举，表示一周中的每一天：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Monday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Tuesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Wednesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Thursday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Friday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Saturday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Sunday</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>我们可以使用这个枚举来处理与一周中的某天相关的数据。例如，我们可以创建一个函数，根据给定的<code>Weekday</code>枚举值返回一周中的相应天数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">dayOfWeek</span>(<span class="keyword">_</span> <span class="params">weekday</span>: <span class="type">Weekday</span>) -&gt; <span class="type">String</span> &#123;  </span><br><span class="line">    <span class="keyword">switch</span> weekday &#123;  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Monday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Tuesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wednesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Thursday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Friday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Saturday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Sunday&quot;</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们可以像下面这样使用这个函数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> monday <span class="operator">=</span> <span class="type">Weekday</span>.<span class="type">Monday</span>  </span><br><span class="line"><span class="built_in">print</span>(dayOfWeek(monday)) <span class="comment">// 输出：Monday</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="关联值"><a href="#关联值" class="headerlink" title="关联值"></a>关联值</h4><p>Swift的枚举还可以定义关联值，这使得枚举能够更丰富地表达信息。例如，我们创建一个枚举表示用户的登录状态，并为其关联一个错误消息：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">UserLoginStatus</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> success(<span class="type">String</span>)  </span><br><span class="line">    <span class="keyword">case</span> failure(<span class="type">String</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>UserLoginStatus</code>枚举有两个cases：<code>success</code>和<code>failure</code>。这两个cases都关联了一个String类型的值，表示成功或失败的状态信息。我们可以像下面这样使用这个枚举：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> successfulLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.success(<span class="string">&quot;登录成功&quot;</span>)  </span><br><span class="line"><span class="keyword">let</span> failedLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.failure(<span class="string">&quot;登录失败，请检查用户名和密码&quot;</span>)  </span><br><span class="line"><span class="built_in">print</span>(successfulLogin) <span class="comment">// 输出：登录成功  </span></span><br><span class="line"><span class="built_in">print</span>(failedLogin) <span class="comment">// 输出：登录失败，请检查用户名和密码</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="在switch语句中使用枚举"><a href="#在switch语句中使用枚举" class="headerlink" title="在switch语句中使用枚举"></a>在switch语句中使用枚举</h4><p>由于Swift的枚举是全特性的，所以在switch语句中可以使用枚举的所有case值。这对于处理多种可能的枚举值非常有用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> someWeekday: <span class="type">Weekday</span> <span class="operator">=</span> .<span class="type">Wednesday</span>  </span><br><span class="line"><span class="keyword">switch</span> someWeekday &#123;  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期一&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期二&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期三&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期四&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期五&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期六&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期日&quot;</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用原始值和匿名枚举"><a href="#使用原始值和匿名枚举" class="headerlink" title="使用原始值和匿名枚举"></a>使用原始值和匿名枚举</h4><p>有时候，我们可能不需要为枚举的每个case关联一个特定的值，或者我们希望将所有值都关联到一个单一的原始值。在这种情况下，我们可以使用原始值和匿名枚举。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span>乏味的颜色: <span class="title class_">Int</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> red <span class="operator">=</span> <span class="number">1</span>, green <span class="operator">=</span> <span class="number">2</span>, blue <span class="operator">=</span> <span class="number">3</span>, yellow <span class="operator">=</span> <span class="number">4</span>, orange <span class="operator">=</span> <span class="number">5</span>,  <span class="comment">// 可以根据需要添加更多颜色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>枚举</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 中的类</title>
+    <url>/posts/338306b2.html</url>
+    <content><![CDATA[<p>在Swift中，类是一种引用类型，用于封装数据和方法。类是面向对象编程的基础，它们允许我们创建具有特定属性和方法的自定义数据类型。在这篇文章中，我们将详细介绍Swift中的类及其使用方法。</p>
+<h2 id="类的定义"><a href="#类的定义" class="headerlink" title="类的定义"></a>类的定义</h2><p>在Swift中，类使用<code>class</code>关键字定义。类的定义包括一个可选的名称、一对大括号<code>&#123;&#125;</code>，以及一个或多个属性和方法的定义。类的属性可以是<span style="color:red"><strong>值类型</strong></span>（例如<code>Int</code>、<code>String</code>等），也可以是<span style="color:red"><strong>引用类型</strong></span>（例如数组、字典等）。方法则包含在一个或多个大括号内，并遵循特定的语法规则。</p>
+<span id="more"></span>
+
+<p>下面是一个简单的类定义示例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们定义了一个名为<code>Person</code>的类，它有两个属性（<code>name</code>和<code>age</code>）和一个方法（<code>sayHello</code>）。<code>init</code>方法是一个特殊的方法，用于初始化类的实例。当创建一个新的<code>Person</code>实例时，我们需要提供一个名字和一个年龄，然后<code>init</code>方法会将这些值分别赋给<code>name</code>和<code>age</code>属性。</p>
+<p>定义好一个类之后，我们可以实例化一个类的对象，然后通过<strong>点语法</strong>去访问类的属性和方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">25</span>)</span><br><span class="line">person.sayHello()</span><br><span class="line">person.age <span class="operator">=</span> <span class="number">26</span> </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="类的构造器和属性访问修饰符"><a href="#类的构造器和属性访问修饰符" class="headerlink" title="类的构造器和属性访问修饰符"></a>类的构造器和属性访问修饰符</h2><p>在Swift中，我们可以使用构造器来初始化类的实例。构造器是一个特殊的函数，它在创建类的实例时被调用。构造器的名称与类名相同，并且没有返回类型。我们可以在构造器中设置实例的属性值。</p>
+<p>在上面的<code>Person</code>类中，我们使用了<code>init</code>方法作为构造器。当我们创建一个新的<code>Person</code>实例时，需要提供名字和年龄参数，如下所示：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Alice&quot;</span>, age: <span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+
+<p>此外，我们还可以使用访问修饰符来控制属性和方法的访问权限。Swift提供了四种访问修饰符：<code>public</code>、<code>protected</code>、<code>internal</code>和默认（即不使用任何修饰符）。<strong>默认情况下，所有属性和方法都是公开的（可以在任何地方访问）</strong>。通过使用不同的访问修饰符，我们可以限制属性和方法的可见性，从而提高代码的安全性和可维护性。</p>
+<p>例如，我们可以将上面的<code>Person</code>类修改为以下形式，将所有属性和方法设置为私有：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am (age) years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当我们再想通过实例化的对象访问 <code>name</code> 和 <code>age</code> 属性时，Xcode 会报以下的错误：</p>
+<p> <span style="color:red"><code>&#39;age&#39; is inaccessible due to &#39;private&#39; protection level </code></span></p>
+<h2 id="类的继承和多态性"><a href="#类的继承和多态性" class="headerlink" title="类的继承和多态性"></a>类的继承和多态性</h2><p>在Swift中，类可以继承自其他类，从而实现代码的重用和扩展。子类可以继承父类的属性和方法，并可以根据需要添加新的属性和方法。此外，Swift还支持多态性，这意味着我们可以使用父类的引用来操作子类的对象。</p>
+<p>下面是一个关于类继承的例子：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="comment">// 子类独有的属性</span></span><br><span class="line">    <span class="keyword">var</span> school: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>, <span class="params">school</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.school <span class="operator">=</span> school</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name, age: age)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">// 子类独有的方法</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">toSchool</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Go to school&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在上面的这个例子中，我们定义了一个<code>Student</code> 子类，这个子类继承了<code>Person</code> 父类。这里的继承意味着<code>Student</code> 子类有父类的<code>age</code> 和<code>name</code>属性以及<code>sayHello</code>方法。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> student <span class="operator">=</span> <span class="type">Student</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">26</span>, school: <span class="string">&quot;SBS&quot;</span>)</span><br><span class="line">student.toSchool() <span class="comment">// 调用字类方法</span></span><br><span class="line">student.sayHello() <span class="comment">// 调用父类方法</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>在子类中，我们还可以重写父类的方法，使用 <code>override</code> 关键字：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 重写父类的方法</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is<span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old. my school is <span class="subst">\(school)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>类</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift 中的数据类型</title>
     <url>/posts/6876d7b8.html</url>
     <content><![CDATA[<h4 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h4><p>整数是没有小数部分的数字。整数可以是有符号的或者无符号。Swift提供来8，16，32和64位编码的有符号和无符号整数，例如UInt8表示8位无符号的整数，Int32表示32有符号整数。</p>
@@ -201,90 +285,6 @@
         <tag>Foundation</tag>
         <tag>Swift</tag>
         <tag>Xcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 中的枚举</title>
-    <url>/posts/251de72f.html</url>
-    <content><![CDATA[<h3 id="Swift-中的枚举"><a href="#Swift-中的枚举" class="headerlink" title="Swift 中的枚举"></a>Swift 中的枚举</h3><p>在计算机编程中，枚举是一种数据类型，用于定义一定范围内的有名称的值。Swift语言中的枚举是强大且灵活的工具，我们可以在多种场景中使用它们，包括但不限于处理特定类型的数据、创建自定义的错误类型以及实现特定的设计模式。</p>
-<h4 id="定义和基本用法"><a href="#定义和基本用法" class="headerlink" title="定义和基本用法"></a>定义和基本用法</h4><p>在Swift中，我们使用<code>enum</code>关键字来定义枚举。下面是一个简单的例子，展示了如何定义和使用一个名为<code>Weekday</code>的枚举，表示一周中的每一天：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Monday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Tuesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Wednesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Thursday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Friday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Saturday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Sunday</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<p>我们可以使用这个枚举来处理与一周中的某天相关的数据。例如，我们可以创建一个函数，根据给定的<code>Weekday</code>枚举值返回一周中的相应天数：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">dayOfWeek</span>(<span class="keyword">_</span> <span class="params">weekday</span>: <span class="type">Weekday</span>) -&gt; <span class="type">String</span> &#123;  </span><br><span class="line">    <span class="keyword">switch</span> weekday &#123;  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Monday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Tuesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wednesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Thursday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Friday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Saturday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Sunday&quot;</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后我们可以像下面这样使用这个函数：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> monday <span class="operator">=</span> <span class="type">Weekday</span>.<span class="type">Monday</span>  </span><br><span class="line"><span class="built_in">print</span>(dayOfWeek(monday)) <span class="comment">// 输出：Monday</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="关联值"><a href="#关联值" class="headerlink" title="关联值"></a>关联值</h4><p>Swift的枚举还可以定义关联值，这使得枚举能够更丰富地表达信息。例如，我们创建一个枚举表示用户的登录状态，并为其关联一个错误消息：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">UserLoginStatus</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> success(<span class="type">String</span>)  </span><br><span class="line">    <span class="keyword">case</span> failure(<span class="type">String</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>UserLoginStatus</code>枚举有两个cases：<code>success</code>和<code>failure</code>。这两个cases都关联了一个String类型的值，表示成功或失败的状态信息。我们可以像下面这样使用这个枚举：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> successfulLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.success(<span class="string">&quot;登录成功&quot;</span>)  </span><br><span class="line"><span class="keyword">let</span> failedLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.failure(<span class="string">&quot;登录失败，请检查用户名和密码&quot;</span>)  </span><br><span class="line"><span class="built_in">print</span>(successfulLogin) <span class="comment">// 输出：登录成功  </span></span><br><span class="line"><span class="built_in">print</span>(failedLogin) <span class="comment">// 输出：登录失败，请检查用户名和密码</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="在switch语句中使用枚举"><a href="#在switch语句中使用枚举" class="headerlink" title="在switch语句中使用枚举"></a>在switch语句中使用枚举</h4><p>由于Swift的枚举是全特性的，所以在switch语句中可以使用枚举的所有case值。这对于处理多种可能的枚举值非常有用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> someWeekday: <span class="type">Weekday</span> <span class="operator">=</span> .<span class="type">Wednesday</span>  </span><br><span class="line"><span class="keyword">switch</span> someWeekday &#123;  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期一&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期二&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期三&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期四&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期五&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期六&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期日&quot;</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="使用原始值和匿名枚举"><a href="#使用原始值和匿名枚举" class="headerlink" title="使用原始值和匿名枚举"></a>使用原始值和匿名枚举</h4><p>有时候，我们可能不需要为枚举的每个case关联一个特定的值，或者我们希望将所有值都关联到一个单一的原始值。在这种情况下，我们可以使用原始值和匿名枚举。例如：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span>乏味的颜色: <span class="title class_">Int</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> red <span class="operator">=</span> <span class="number">1</span>, green <span class="operator">=</span> <span class="number">2</span>, blue <span class="operator">=</span> <span class="number">3</span>, yellow <span class="operator">=</span> <span class="number">4</span>, orange <span class="operator">=</span> <span class="number">5</span>,  <span class="comment">// 可以根据需要添加更多颜色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>枚举</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 中的类</title>
-    <url>/posts/338306b2.html</url>
-    <content><![CDATA[<p>在Swift中，类是一种引用类型，用于封装数据和方法。类是面向对象编程的基础，它们允许我们创建具有特定属性和方法的自定义数据类型。在这篇文章中，我们将详细介绍Swift中的类及其使用方法。</p>
-<h2 id="类的定义"><a href="#类的定义" class="headerlink" title="类的定义"></a>类的定义</h2><p>在Swift中，类使用<code>class</code>关键字定义。类的定义包括一个可选的名称、一对大括号<code>&#123;&#125;</code>，以及一个或多个属性和方法的定义。类的属性可以是<span style="color:red"><strong>值类型</strong></span>（例如<code>Int</code>、<code>String</code>等），也可以是<span style="color:red"><strong>引用类型</strong></span>（例如数组、字典等）。方法则包含在一个或多个大括号内，并遵循特定的语法规则。</p>
-<span id="more"></span>
-
-<p>下面是一个简单的类定义示例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个示例中，我们定义了一个名为<code>Person</code>的类，它有两个属性（<code>name</code>和<code>age</code>）和一个方法（<code>sayHello</code>）。<code>init</code>方法是一个特殊的方法，用于初始化类的实例。当创建一个新的<code>Person</code>实例时，我们需要提供一个名字和一个年龄，然后<code>init</code>方法会将这些值分别赋给<code>name</code>和<code>age</code>属性。</p>
-<p>定义好一个类之后，我们可以实例化一个类的对象，然后通过<strong>点语法</strong>去访问类的属性和方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">25</span>)</span><br><span class="line">person.sayHello()</span><br><span class="line">person.age <span class="operator">=</span> <span class="number">26</span> </span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="类的构造器和属性访问修饰符"><a href="#类的构造器和属性访问修饰符" class="headerlink" title="类的构造器和属性访问修饰符"></a>类的构造器和属性访问修饰符</h2><p>在Swift中，我们可以使用构造器来初始化类的实例。构造器是一个特殊的函数，它在创建类的实例时被调用。构造器的名称与类名相同，并且没有返回类型。我们可以在构造器中设置实例的属性值。</p>
-<p>在上面的<code>Person</code>类中，我们使用了<code>init</code>方法作为构造器。当我们创建一个新的<code>Person</code>实例时，需要提供名字和年龄参数，如下所示：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Alice&quot;</span>, age: <span class="number">30</span>)</span><br></pre></td></tr></table></figure>
-
-<p>此外，我们还可以使用访问修饰符来控制属性和方法的访问权限。Swift提供了四种访问修饰符：<code>public</code>、<code>protected</code>、<code>internal</code>和默认（即不使用任何修饰符）。<strong>默认情况下，所有属性和方法都是公开的（可以在任何地方访问）</strong>。通过使用不同的访问修饰符，我们可以限制属性和方法的可见性，从而提高代码的安全性和可维护性。</p>
-<p>例如，我们可以将上面的<code>Person</code>类修改为以下形式，将所有属性和方法设置为私有：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am (age) years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当我们再想通过实例化的对象访问 <code>name</code> 和 <code>age</code> 属性时，Xcode 会报以下的错误：</p>
-<p> <span style="color:red"><code>&#39;age&#39; is inaccessible due to &#39;private&#39; protection level </code></span></p>
-<h2 id="类的继承和多态性"><a href="#类的继承和多态性" class="headerlink" title="类的继承和多态性"></a>类的继承和多态性</h2><p>在Swift中，类可以继承自其他类，从而实现代码的重用和扩展。子类可以继承父类的属性和方法，并可以根据需要添加新的属性和方法。此外，Swift还支持多态性，这意味着我们可以使用父类的引用来操作子类的对象。</p>
-<p>下面是一个关于类继承的例子：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="comment">// 子类独有的属性</span></span><br><span class="line">    <span class="keyword">var</span> school: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>, <span class="params">school</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.school <span class="operator">=</span> school</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name, age: age)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">// 子类独有的方法</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">toSchool</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Go to school&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在上面的这个例子中，我们定义了一个<code>Student</code> 子类，这个子类继承了<code>Person</code> 父类。这里的继承意味着<code>Student</code> 子类有父类的<code>age</code> 和<code>name</code>属性以及<code>sayHello</code>方法。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> student <span class="operator">=</span> <span class="type">Student</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">26</span>, school: <span class="string">&quot;SBS&quot;</span>)</span><br><span class="line">student.toSchool() <span class="comment">// 调用字类方法</span></span><br><span class="line">student.sayHello() <span class="comment">// 调用父类方法</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>在子类中，我们还可以重写父类的方法，使用 <code>override</code> 关键字：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 重写父类的方法</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is<span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old. my school is <span class="subst">\(school)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>类</tag>
       </tags>
   </entry>
   <entry>
@@ -738,6 +738,14 @@
     <title>SwiftUI 中的基础动画和过渡（二）</title>
     <url>/posts/a0094105.html</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>SwiftUI 进阶</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>withAnimation</tag>
+        <tag>Animation</tag>
+      </tags>
   </entry>
   <entry>
     <title>SwiftUI 之使用 Path 和 Shape 进行形状绘制</title>
