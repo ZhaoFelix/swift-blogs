@@ -77,5 +77,26 @@ Xcode 中有多种添加多光标的方式：
 
 **方式一：Control + Shift + 单击鼠标左键**。
 
-**方式二： Control + Shift + 方向上下键<span style="color:red">(推荐方式)</span>**。
+**方式二： Control + Shift + 方向上下键**<span style="color:red">**(推荐方式)**</span>。
 
+### Xcode 中开启拼写检查
+
+在开发过程中，我们会经常遇到各种命名拼写错误的情况，为了尽量避免这个情况的出现，Xcode 给我们提供了一个**拼写检查**的功能。
+
+开启路径如下：
+
+Xcode 左上角的菜单栏中**Edit -> Format -> Spelling and Grammar -> Check Spelling While Typing**， 勾选住这个设置选项即可。
+
+<img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310151138115.png" style="zoom:20%"/>
+
+开启前的效果：
+
+<img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310151145517.png" style="zoom:30%"/>
+
+开启后的效果：
+
+<img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310151145166.png" style="zoom: 30%"/>
+
+当出现拼写错误的时候，可以选中这个拼写错误的单词，然后鼠标右键就可以看到 Xcode 给我们提供的修改建议和处理方法了。
+
+<img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310151146632.png" style="zoom:20%"/>
