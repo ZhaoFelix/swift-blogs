@@ -3,7 +3,7 @@ title: SwiftUI中的状态管理
 abbrlink: 177cbef
 date: 2023-10-31 15:51:17
 tags: [SwiftUI, State, Binding, StateObject, ObserableObject, ObservedObject]
-categories: [SwiftUI]
+categories: [SwiftUI 基础]
 ---
 
 在 SwiftUI 中，**响应式**是区别于 UIKit 的一大特点。SwiftUI 中的**响应式**主要依赖与数据的状态来进行视图的更新和重绘。
