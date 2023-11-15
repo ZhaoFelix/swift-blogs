@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SceneKit之在SwiftUI中使用SceneKit</title>
+    <url>/posts/54d45a15.html</url>
+    <content><![CDATA[<blockquote>
+<p>SceneKit is a high-level 3D graphics framework that helps you create 3D animated scenes and effects in your apps. It incorporates a physics engine, a particle generator, and easy ways to script the actions of 3D objects so you can describe your scene in terms of its content — geometry, materials, lights, and cameras — then animate it by describing changes to those objects.</p>
+</blockquote>
+<p><a href="https://developer.apple.com/scenekit/">SceneKit - Apple Developer</a></p>
+<p>来自 Apple 的官方文档的说法，SceneKit 是一个面向高层级 3D 图形框架，它可以帮助我们在app中创建一个3D 可变的场景和效果。它包括了物理引擎、粒子生成器以及更简单的给 3D 对象添加动作。</p>
+<span id="more"></span>
+
+<h3 id="创建-SwiftUI项目并布局"><a href="#创建-SwiftUI项目并布局" class="headerlink" title="创建 SwiftUI项目并布局"></a>创建 SwiftUI项目并布局</h3><p>首先，我们现创建一个简单SwiftUI项目，初始的布局代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">30</span>) &#123;</span><br><span class="line">            <span class="comment">// 使用 SceneKit显示的3D场景部分</span></span><br><span class="line">            <span class="type">Color</span>.gray</span><br><span class="line">                .frame(height: <span class="type">UIScreen</span>.main.bounds.height<span class="operator">/</span><span class="number">2</span>)</span><br><span class="line">            <span class="comment">// 左右的切换按钮</span></span><br><span class="line">            <span class="type">HStack</span>(content: &#123;</span><br><span class="line">                <span class="type">Image</span>(systemName: <span class="string">&quot;chevron.left.circle&quot;</span>)</span><br><span class="line">                <span class="type">Spacer</span>()</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;地球&quot;</span>)</span><br><span class="line">                    .bold()</span><br><span class="line">                <span class="type">Spacer</span>()</span><br><span class="line">                <span class="type">Image</span>(systemName: <span class="string">&quot;chevron.right.circle&quot;</span>)</span><br><span class="line">            &#125;).font(.title)</span><br><span class="line">            </span><br><span class="line">            <span class="type">VStack</span>(alignment: .leading, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;简介&quot;</span>)</span><br><span class="line">                    .font(.title2)</span><br><span class="line">                    .bold()</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;地球（英文名：Earth；拉丁文：Terra）是距离太阳的第三颗行星，也是人类已知的唯一孕育和支持生命的天体。地球的表面大约 29.2% 是由大陆和岛屿组成的陆地。剩余的 70.8% 被水覆盖，大部分被海洋、海湾和其他咸水体覆盖，也被湖泊、冰川、河流和其他淡水体覆盖着，尤其冰川覆盖最多,它们共同构成了水圈。&quot;</span>)</span><br><span class="line">                    .font(.body)</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;.padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311151159305.png" style="zoom:10%"/>
+
+<p>接下来，我们使用<strong>SceneKit</strong>创建一个 3D场景用来显示地球、月球或者火星等。</p>
+<h3 id="准备好要在-app-中显示或者加载的-3D-模型"><a href="#准备好要在-app-中显示或者加载的-3D-模型" class="headerlink" title="准备好要在 app 中显示或者加载的 3D 模型"></a>准备好要在 app 中显示或者加载的 3D 模型</h3><p>如果要使用<strong>SceneKit</strong>显示一些 3D 的场景，我们可以使用内置的几何体对象进行创建，也可直接使用其他的软件创建的 3D 模型，例如 Maya、3DS Max、Blender 等。</p>
+<p>不同的 3D 软件创建出来的模型文件格式各有不同，在 <strong>SceneKit</strong>中，Apple 更推荐我们<strong>USDZ</strong>的文件格式。为此，Apple 还提供了用来进行格式转换的<strong>Reality Converter</strong>工具和更专业的<strong>USDZ Tools</strong>，前者直接通过界面操作的方式进行格式转换，后者基于 Python 命令行的方式实现，可操作性更高。</p>
+<p>二者均可在该处<a href="https://developer.apple.com/augmented-reality/tools/">Creation tools for spatial apps - Augmented Reality - Apple Developer</a>下载使用。</p>
+<p>这里，我们直接使用一些网上现成提供的模型：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311151214374.png"/>
+
+<p>在 Mac上，每个这样的模型都可以通过内置的<strong>预览</strong>进行查看，然后通过鼠标或者触控板手势与模型进行交互。</p>
+<p>接着就是将这些模型直接<strong>拖入</strong>到我们的项目中即可。</p>
+<p>拖入到项目中后，每个模型也可以在 Xcode 中进行查看。</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311151217244.png" style="zoom:20%"/>
+
+<h3 id="使用-SceneKit-展示-3D模型"><a href="#使用-SceneKit-展示-3D模型" class="headerlink" title="使用 SceneKit 展示 3D模型"></a>使用 SceneKit 展示 3D模型</h3><p>首先，在头部引入<strong>SceneKit</strong>模块：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> SceneKit</span><br></pre></td></tr></table></figure>
+
+<p>然后，使用<code>SceneView</code>创建一个展示 3D 场景的视图：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">SceneView</span>(scene: <span class="type">SCNScene</span>(named: <span class="string">&quot;Earth.usdz&quot;</span>), options: [.allowsCameraControl, .autoenablesDefaultLighting])</span><br><span class="line"> .frame(height: <span class="number">300</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们配置了<code>SceneView</code>的两个参数，一个是<code>scene</code>场景，另一个是<code>options</code>场景可选配置。前者用来展示一个场景，它是<code>SCNScene</code>类型，后者是<code>SceneView.Options</code>类型。</p>
+<p>我们之前拖入的<code>.usdz</code>格式的 3D 模型在 Xcode 中本身就是一个<code>scene</code>，所以我们这里可以直接加载这个场景即可。对于可选的配置选项<code>options</code>，<code>allowsCameraControl</code>允许场景中的相机可以自由进行切换，即我们可以上下左右旋转查看模型；<code>autoenablesDefaultLighting</code>给场景添加默认的灯光效果。</p>
+<p>此时的效果如下：</p>
+<p><video controls="controls" width="20%" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311151414390.mp4"></video></p>
+<h3 id="场景和内容切换"><a href="#场景和内容切换" class="headerlink" title="场景和内容切换"></a>场景和内容切换</h3><p>接下来，我们来实现让中间的两个按钮可以自由的左右切换不同的场景。</p>
+<p>定义一个结构体类型的模型对象：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SceneModel</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span> <span class="comment">// 星球名称</span></span><br><span class="line">    <span class="keyword">var</span> sceneName: <span class="type">String</span> <span class="comment">// 星球模型场景</span></span><br><span class="line">    <span class="keyword">var</span> introduce:<span class="type">String</span> <span class="comment">//星球简介</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义一个模型数据数组：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> planetModels:[<span class="type">SceneModel</span>] <span class="operator">=</span> [</span><br><span class="line">      .<span class="keyword">init</span>(name: <span class="string">&quot;地球&quot;</span>, sceneName: <span class="string">&quot;Earth.usdz&quot;</span>, introduce: <span class="string">&quot;地球（英文名：Earth；拉丁文：Terra）是距离太阳的第三颗行星，也是人类已知的唯一孕育和支持生命的天体。地球的表面大约 29.2% 是由大陆和岛屿组成的陆地。剩余的 70.8% 被水覆盖，大部分被海洋、海湾和其他咸水体覆盖，也被湖泊、冰川、河流和其他淡水体覆盖着，尤其冰川覆盖最多,它们共同构成了水圈。&quot;</span>),</span><br><span class="line">      .<span class="keyword">init</span>(name: <span class="string">&quot;木星&quot;</span>, sceneName: <span class="string">&quot;Jupiter.usdz&quot;</span>, introduce: <span class="string">&quot;木星为太阳系最大的行星. 木星大到什麽程度呢? 做个比较，如果木星是个中空的球体，那麽其内部大约可以放入1300个地球，可见这颗行星有多巨大. 不过由於木星的密度较地球低，其质量仅为地球的317倍. 左边的图片为木星与地球依照比例呈现的图片。&quot;</span>),</span><br><span class="line">      .<span class="keyword">init</span>(name: <span class="string">&quot;火星&quot;</span>, sceneName: <span class="string">&quot;Mars.usdz&quot;</span>, introduce: <span class="string">&quot;太阳系八大行星的第四颗行星，介於地球与小行星群之间，距离太阳约1.52AU，体积大小仅为地球的1/6，而重量为地球的1/10. 为类地行星中距离太阳最远的. 火星古代又被称为荧惑，而英文Mars的意义为战神的意思.&quot;</span>),</span><br><span class="line">      .<span class="keyword">init</span>(name: <span class="string">&quot;冥王星&quot;</span>, sceneName: <span class="string">&quot;Pluto.usdz&quot;</span>, introduce: <span class="string">&quot;冥王星是太阳系中最後一个较大的行星 ，2006年以前与其他的八大行星并称九大行星，但2006年的天文大会已经将他降级成矮行星。&quot;</span>),</span><br><span class="line">      .<span class="keyword">init</span>(name: <span class="string">&quot;金星&quot;</span>, sceneName: <span class="string">&quot;Venus.usdz&quot;</span>, introduce: <span class="string">&quot;金星是太阳系八大行星的第二颗行星，距离太阳约0.72天文单位，轨道在水星与地球之间。金星的一天相当於地球的２３０天，磁场强度只有地球的 10 万分之一左右。此外金星的自转方向与地球以及其他行星的自转方向相反，十分奇特。&quot;</span>)</span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>@State</code>定义一个响应式变量，用来追踪当前展示的场景索引:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">var</span> index: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span> </span><br></pre></td></tr></table></figure>
+
+<p>修改<code>SceneView</code>的代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">SceneView</span>(scene: <span class="type">SCNScene</span>(named: planetModels[index].sceneName), options: [.allowsCameraControl, .autoenablesDefaultLighting])</span><br></pre></td></tr></table></figure>
+
+<p>名称和简介的<code>Text</code>分别为：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Text</span>(planetModels[index].name)</span><br></pre></td></tr></table></figure>
+
+<p>和</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Text</span>(planetModels[index].introduce)</span><br></pre></td></tr></table></figure>
+
+<p>最后就是给中间的两个<code>Image</code>添加一个点击切换的手势和事件，</p>
+<p>切换到上一个：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;chevron.left.circle&quot;</span>)</span><br><span class="line">                .onTapGesture &#123;</span><br><span class="line">                    withAnimation() &#123;</span><br><span class="line">                        index <span class="operator">=</span> index <span class="operator">==</span> <span class="number">0</span> <span class="operator">?</span> planetModels.count <span class="operator">-</span> <span class="number">1</span> : index <span class="operator">-</span> <span class="number">1</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+
+<p>切换到下一个：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;chevron.right.circle&quot;</span>)</span><br><span class="line">                   .onTapGesture &#123;</span><br><span class="line">                       withAnimation &#123;</span><br><span class="line">                           index <span class="operator">=</span> index <span class="operator">==</span> planetModels.count <span class="operator">-</span> <span class="number">1</span> <span class="operator">?</span> <span class="number">0</span> : index <span class="operator">+</span> <span class="number">1</span></span><br><span class="line">                       &#125;</span><br><span class="line">                       </span><br><span class="line">                   &#125;</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:red"><strong>注意</strong></span>，在通过数组索引访问数组元素时，一定要注意<strong>数组索引越界</strong>的问题。</p>
+<p>此时的效果如下：</p>
+<p><video controls="controls" width="20%" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311151447381.mp4"> </video></p>
+<p>至此，这个简单的项目就完成了。后续我们将逐步深入了解<strong>SceneKit</strong>中的基础元素，包括<strong>场景</strong>、<strong>节点</strong>、<strong>相机</strong>、<strong>灯光</strong>、<strong>物理引擎</strong>、<strong>粒子系统</strong>等。</p>
+]]></content>
+      <categories>
+        <category>SceneKit 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>SceneKit</tag>
+        <tag>Reality Converter</tag>
+        <tag>USDZ</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift 中的常量和变量</title>
     <url>/posts/c6460431.html</url>
     <content><![CDATA[<h1 id="常量-变量"><a href="#常量-变量" class="headerlink" title="常量 &amp; 变量"></a>常量 &amp; 变量</h1><p>常量一旦被设置就不能被更改，使用关键字<strong>let</strong> 。变量被设置之后是可以被修改的，使用关键字<strong>var</strong>。</p>
@@ -81,55 +160,6 @@
       <tags>
         <tag>Swift</tag>
         <tag>循环</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 中的类</title>
-    <url>/posts/338306b2.html</url>
-    <content><![CDATA[<p>在Swift中，类是一种引用类型，用于封装数据和方法。类是面向对象编程的基础，它们允许我们创建具有特定属性和方法的自定义数据类型。在这篇文章中，我们将详细介绍Swift中的类及其使用方法。</p>
-<h2 id="类的定义"><a href="#类的定义" class="headerlink" title="类的定义"></a>类的定义</h2><p>在Swift中，类使用<code>class</code>关键字定义。类的定义包括一个可选的名称、一对大括号<code>&#123;&#125;</code>，以及一个或多个属性和方法的定义。类的属性可以是<span style="color:red"><strong>值类型</strong></span>（例如<code>Int</code>、<code>String</code>等），也可以是<span style="color:red"><strong>引用类型</strong></span>（例如数组、字典等）。方法则包含在一个或多个大括号内，并遵循特定的语法规则。</p>
-<span id="more"></span>
-
-<p>下面是一个简单的类定义示例：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个示例中，我们定义了一个名为<code>Person</code>的类，它有两个属性（<code>name</code>和<code>age</code>）和一个方法（<code>sayHello</code>）。<code>init</code>方法是一个特殊的方法，用于初始化类的实例。当创建一个新的<code>Person</code>实例时，我们需要提供一个名字和一个年龄，然后<code>init</code>方法会将这些值分别赋给<code>name</code>和<code>age</code>属性。</p>
-<p>定义好一个类之后，我们可以实例化一个类的对象，然后通过<strong>点语法</strong>去访问类的属性和方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">25</span>)</span><br><span class="line">person.sayHello()</span><br><span class="line">person.age <span class="operator">=</span> <span class="number">26</span> </span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="类的构造器和属性访问修饰符"><a href="#类的构造器和属性访问修饰符" class="headerlink" title="类的构造器和属性访问修饰符"></a>类的构造器和属性访问修饰符</h2><p>在Swift中，我们可以使用构造器来初始化类的实例。构造器是一个特殊的函数，它在创建类的实例时被调用。构造器的名称与类名相同，并且没有返回类型。我们可以在构造器中设置实例的属性值。</p>
-<p>在上面的<code>Person</code>类中，我们使用了<code>init</code>方法作为构造器。当我们创建一个新的<code>Person</code>实例时，需要提供名字和年龄参数，如下所示：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Alice&quot;</span>, age: <span class="number">30</span>)</span><br></pre></td></tr></table></figure>
-
-<p>此外，我们还可以使用访问修饰符来控制属性和方法的访问权限。Swift提供了四种访问修饰符：<code>public</code>、<code>protected</code>、<code>internal</code>和默认（即不使用任何修饰符）。<strong>默认情况下，所有属性和方法都是公开的（可以在任何地方访问）</strong>。通过使用不同的访问修饰符，我们可以限制属性和方法的可见性，从而提高代码的安全性和可维护性。</p>
-<p>例如，我们可以将上面的<code>Person</code>类修改为以下形式，将所有属性和方法设置为私有：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am (age) years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当我们再想通过实例化的对象访问 <code>name</code> 和 <code>age</code> 属性时，Xcode 会报以下的错误：</p>
-<p> <span style="color:red"><code>&#39;age&#39; is inaccessible due to &#39;private&#39; protection level </code></span></p>
-<h2 id="类的继承和多态性"><a href="#类的继承和多态性" class="headerlink" title="类的继承和多态性"></a>类的继承和多态性</h2><p>在Swift中，类可以继承自其他类，从而实现代码的重用和扩展。子类可以继承父类的属性和方法，并可以根据需要添加新的属性和方法。此外，Swift还支持多态性，这意味着我们可以使用父类的引用来操作子类的对象。</p>
-<p>下面是一个关于类继承的例子：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="comment">// 子类独有的属性</span></span><br><span class="line">    <span class="keyword">var</span> school: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>, <span class="params">school</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.school <span class="operator">=</span> school</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name, age: age)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">// 子类独有的方法</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">toSchool</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Go to school&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在上面的这个例子中，我们定义了一个<code>Student</code> 子类，这个子类继承了<code>Person</code> 父类。这里的继承意味着<code>Student</code> 子类有父类的<code>age</code> 和<code>name</code>属性以及<code>sayHello</code>方法。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> student <span class="operator">=</span> <span class="type">Student</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">26</span>, school: <span class="string">&quot;SBS&quot;</span>)</span><br><span class="line">student.toSchool() <span class="comment">// 调用字类方法</span></span><br><span class="line">student.sayHello() <span class="comment">// 调用父类方法</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>在子类中，我们还可以重写父类的方法，使用 <code>override</code> 关键字：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 重写父类的方法</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is<span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old. my school is <span class="subst">\(school)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>类</tag>
       </tags>
   </entry>
   <entry>
@@ -285,6 +315,55 @@
       <tags>
         <tag>Swift</tag>
         <tag>枚举</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 中的类</title>
+    <url>/posts/338306b2.html</url>
+    <content><![CDATA[<p>在Swift中，类是一种引用类型，用于封装数据和方法。类是面向对象编程的基础，它们允许我们创建具有特定属性和方法的自定义数据类型。在这篇文章中，我们将详细介绍Swift中的类及其使用方法。</p>
+<h2 id="类的定义"><a href="#类的定义" class="headerlink" title="类的定义"></a>类的定义</h2><p>在Swift中，类使用<code>class</code>关键字定义。类的定义包括一个可选的名称、一对大括号<code>&#123;&#125;</code>，以及一个或多个属性和方法的定义。类的属性可以是<span style="color:red"><strong>值类型</strong></span>（例如<code>Int</code>、<code>String</code>等），也可以是<span style="color:red"><strong>引用类型</strong></span>（例如数组、字典等）。方法则包含在一个或多个大括号内，并遵循特定的语法规则。</p>
+<span id="more"></span>
+
+<p>下面是一个简单的类定义示例：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们定义了一个名为<code>Person</code>的类，它有两个属性（<code>name</code>和<code>age</code>）和一个方法（<code>sayHello</code>）。<code>init</code>方法是一个特殊的方法，用于初始化类的实例。当创建一个新的<code>Person</code>实例时，我们需要提供一个名字和一个年龄，然后<code>init</code>方法会将这些值分别赋给<code>name</code>和<code>age</code>属性。</p>
+<p>定义好一个类之后，我们可以实例化一个类的对象，然后通过<strong>点语法</strong>去访问类的属性和方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">25</span>)</span><br><span class="line">person.sayHello()</span><br><span class="line">person.age <span class="operator">=</span> <span class="number">26</span> </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="类的构造器和属性访问修饰符"><a href="#类的构造器和属性访问修饰符" class="headerlink" title="类的构造器和属性访问修饰符"></a>类的构造器和属性访问修饰符</h2><p>在Swift中，我们可以使用构造器来初始化类的实例。构造器是一个特殊的函数，它在创建类的实例时被调用。构造器的名称与类名相同，并且没有返回类型。我们可以在构造器中设置实例的属性值。</p>
+<p>在上面的<code>Person</code>类中，我们使用了<code>init</code>方法作为构造器。当我们创建一个新的<code>Person</code>实例时，需要提供名字和年龄参数，如下所示：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;Alice&quot;</span>, age: <span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+
+<p>此外，我们还可以使用访问修饰符来控制属性和方法的访问权限。Swift提供了四种访问修饰符：<code>public</code>、<code>protected</code>、<code>internal</code>和默认（即不使用任何修饰符）。<strong>默认情况下，所有属性和方法都是公开的（可以在任何地方访问）</strong>。通过使用不同的访问修饰符，我们可以限制属性和方法的可见性，从而提高代码的安全性和可维护性。</p>
+<p>例如，我们可以将上面的<code>Person</code>类修改为以下形式，将所有属性和方法设置为私有：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is <span class="subst">\(name)</span> and I am (age) years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当我们再想通过实例化的对象访问 <code>name</code> 和 <code>age</code> 属性时，Xcode 会报以下的错误：</p>
+<p> <span style="color:red"><code>&#39;age&#39; is inaccessible due to &#39;private&#39; protection level </code></span></p>
+<h2 id="类的继承和多态性"><a href="#类的继承和多态性" class="headerlink" title="类的继承和多态性"></a>类的继承和多态性</h2><p>在Swift中，类可以继承自其他类，从而实现代码的重用和扩展。子类可以继承父类的属性和方法，并可以根据需要添加新的属性和方法。此外，Swift还支持多态性，这意味着我们可以使用父类的引用来操作子类的对象。</p>
+<p>下面是一个关于类继承的例子：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="comment">// 子类独有的属性</span></span><br><span class="line">    <span class="keyword">var</span> school: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">age</span>: <span class="type">Int</span>, <span class="params">school</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.school <span class="operator">=</span> school</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name, age: age)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">// 子类独有的方法</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">toSchool</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Go to school&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在上面的这个例子中，我们定义了一个<code>Student</code> 子类，这个子类继承了<code>Person</code> 父类。这里的继承意味着<code>Student</code> 子类有父类的<code>age</code> 和<code>name</code>属性以及<code>sayHello</code>方法。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> student <span class="operator">=</span> <span class="type">Student</span>(name: <span class="string">&quot;Felix&quot;</span>, age: <span class="number">26</span>, school: <span class="string">&quot;SBS&quot;</span>)</span><br><span class="line">student.toSchool() <span class="comment">// 调用字类方法</span></span><br><span class="line">student.sayHello() <span class="comment">// 调用父类方法</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>在子类中，我们还可以重写父类的方法，使用 <code>override</code> 关键字：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 重写父类的方法</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">sayHello</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, my name is<span class="subst">\(name)</span> and I am <span class="subst">\(age)</span> years old. my school is <span class="subst">\(school)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>类</tag>
       </tags>
   </entry>
   <entry>
@@ -946,9 +1025,9 @@
         <category>SwiftUI 基础</category>
       </categories>
       <tags>
+        <tag>SwiftUI</tag>
         <tag>Swift</tag>
         <tag>Apple</tag>
-        <tag>SwiftUI</tag>
         <tag>WWDC</tag>
       </tags>
   </entry>
@@ -1120,98 +1199,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI 控件之 Image</title>
-    <url>/posts/6b844059.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，我们可以使用<strong>Image</strong>控件来展示一张图片。</p>
-<h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><p>在 SwiftUI中，如果我们需要使用<strong>Image</strong>显示一张图片，首先我们需要先将图片资源拖到蓝色的<span style="color:blue"><strong>Assets</strong></span>文件夹中，然后使用图片的文件名加载显示。</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309081000150.png"/>
-
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(<span class="string">&quot;avatar&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>在最新的<span style="color:red"> <strong>Xcode 15.0</strong></span>中，增加了使用下面的方式加载资源文件夹中的图片的特性：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(.avatar)</span><br></pre></td></tr></table></figure>
-
-<p>上面两种方式的效果是一样的。</p>
-<span id="more"></span>
-
-<h3 id="常用的修饰器"><a href="#常用的修饰器" class="headerlink" title="常用的修饰器"></a>常用的修饰器</h3><h4 id="宽高"><a href="#宽高" class="headerlink" title="宽高"></a>宽高</h4><p>设置图片显示的<code>frame</code>：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(.avatar)</span><br><span class="line">	.frame(width: <span class="number">100</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
-
-<p>当我们设置<strong>Image</strong>的<code>frame</code>后，我们发现它并没有按照我们所给的宽高进行显示，这是因为我们需要先添加 <code>resizzble</code> 修饰器。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(.avatar)</span><br><span class="line">	.resizable()</span><br><span class="line">	.frame(width: <span class="number">100</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="填充"><a href="#填充" class="headerlink" title="填充"></a>填充</h4><p>但是此时我们可能会发现，我们的图片显示<strong>变形</strong> 了，这主要是因为我们的图片宽高比例和所给的<code>frame</code> 的宽高比例并不一致。我们可以通过设置<code>scaledToFill</code>或者<code>scaledToFit</code> 修饰器来修饰图片的填充样式。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">Image</span>(.avatar)</span><br><span class="line">                    .resizable()</span><br><span class="line">                    .scaledToFit()</span><br><span class="line">                    .frame(width: <span class="number">100</span>, height: <span class="number">200</span>)</span><br><span class="line">                    .border(.red)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;scaledToFit&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Divider</span>()</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">Image</span>(.avatar)</span><br><span class="line">                    .resizable()</span><br><span class="line">                    .aspectRatio(contentMode: .fill)</span><br><span class="line">                    .scaledToFill()</span><br><span class="line">                    .frame(width: <span class="number">100</span>, height: <span class="number">200</span>)</span><br><span class="line">                    .border(.red)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;scaledToFill&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309081112939.png" style="zoom:20%"/>
-
-<p>在预览图中，<span style="color:red"><strong>红色</strong></span> 的边框表示我们实际设置的<code>frame</code> 范围。在同一张图片和同样的<code>frame</code>设置下，我们可以很清楚的看到<code>scaledToFit</code>和<code>scaledToFill</code>的区别：</p>
-<ul>
-<li><code>scaledToFit</code> 会优先按照给定的<code>frame</code> <strong>宽度（width）</strong>进行填充；</li>
-<li><code>scaledToFill</code> 会优先按照给定的<code>frame</code> <strong>高度（height）</strong>进行填充。</li>
-</ul>
-<h4 id="对齐方式"><a href="#对齐方式" class="headerlink" title="对齐方式"></a>对齐方式</h4><p>我们可以在通过<code>frame</code>设置宽高的时候来设置图片的对齐方式：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.frame(width: <span class="number">100</span>, height: <span class="number">200</span>,alignment: .center)</span><br></pre></td></tr></table></figure>
-
-<p>默认情况下为居中（center）对齐方式.</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309081120845.png"/>
-
-<h4 id="图片裁切"><a href="#图片裁切" class="headerlink" title="图片裁切"></a>图片裁切</h4><p>当图片超出定义的<code>frame</code>范围时，可以使用<code>clipped</code> 修饰器让图片显示的范围和我们定义的<code>frame</code> 一致：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(.avatar)</span><br><span class="line">     .resizable()</span><br><span class="line">     .scaledToFill()</span><br><span class="line">     .frame(width: <span class="number">100</span>, height: <span class="number">200</span>,alignment: .top)</span><br><span class="line">     .border(.red)</span><br><span class="line">     .clipped()</span><br></pre></td></tr></table></figure>
-
-
-
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309081148253.png" style="zoom:20%"/>
-
-<p>将图片按照形状进行裁切：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.clipShape(<span class="type">Circle</span>())</span><br></pre></td></tr></table></figure>
-
-<h4 id="给图片添加一个-Overlay"><a href="#给图片添加一个-Overlay" class="headerlink" title="给图片添加一个 Overlay"></a>给图片添加一个 Overlay</h4><p>如果我们想要给<code>Image</code>添加一个遮罩层可以使用<code>overlay</code>修饰器，它的参数是一个<code>View</code>类型，这意味这我们可以将任意一个<code>View</code>类型的视图作为遮罩层。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.overlay &#123;</span><br><span class="line">                  <span class="type">Image</span>(systemName: <span class="string">&quot;heart.fill&quot;</span>)</span><br><span class="line">                      .foregroundStyle(.white)</span><br><span class="line">                      .font(.system(size: <span class="number">40</span>))</span><br><span class="line">                      .opacity(<span class="number">0.8</span>)</span><br><span class="line">              &#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310010946106.png" style="zoom:50%"/>
-
-<p><code>overlay</code>也可以通过设置<code>alignment</code>参数来设置遮罩层的对齐方式，例如：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.overlay(alignment: .center, content: &#123;</span><br><span class="line">               <span class="type">Text</span>(<span class="string">&quot;这是用AI生成的一个头像&quot;</span>)</span><br><span class="line">                   .foregroundStyle(.black)</span><br><span class="line">                   .font(.title)</span><br><span class="line">                   .fontWeight(.bold)</span><br><span class="line">                   .padding()</span><br><span class="line">                   .background(.white)</span><br><span class="line">                   .clipShape(<span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">8</span>)) <span class="comment">// 添加圆角</span></span><br><span class="line">                   .opacity(<span class="number">0.8</span>) <span class="comment">// 透明度</span></span><br><span class="line">           &#125;)</span><br></pre></td></tr></table></figure>
-
-<h4 id="Image-加载显示-SF-Symbols"><a href="#Image-加载显示-SF-Symbols" class="headerlink" title="Image 加载显示 SF Symbols"></a>Image 加载显示 SF Symbols</h4><p><strong>SF Symbols</strong> 是 Apple 提供的一套系统内置的常用图标集。在最新的<strong>SF Symbols 5</strong> 中已经提供了总共<strong>5296</strong>个各种各样的图标。</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011000319.png" style="zoom:20%"/>
-
-<p>在使用这些系统图标时，只需要使用<code>Image(systemName:String)</code>这个方法即可，<code>systemName</code>就是图标的名称。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;heart.circle&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的一点是，<span style="color:red"><strong>SF Symbols</strong> 本质上还是属于字体的一部分，所以很多适用于字体设置的修饰器同样也适用于它。</span>例如，</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;heart.circle&quot;</span>)</span><br><span class="line">             .font(.title)</span><br><span class="line">             .fontWeight(.bold)</span><br><span class="line">             .foregroundStyle(.red)</span><br></pre></td></tr></table></figure>
-
-<p><strong>SF Symbols</strong>支持多种颜色和多种渲染模式。</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011015286.png" style="zoom:30%"/>
-
-<p>通过代码可以这么进行设置：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;pencil.circle.fill&quot;</span>)</span><br><span class="line">           .font(.largeTitle)</span><br><span class="line">           .fontWeight(.bold)</span><br><span class="line">           .symbolRenderingMode(.palette) <span class="comment">// 渲染模式</span></span><br><span class="line">           .foregroundStyle(.yellow, .tint, .red) <span class="comment">// 颜色设置</span></span><br></pre></td></tr></table></figure>
-
-<p>对于一些特殊的<strong>Symbols</strong>，它可以设置一个可变的值，根据这个实现不同的样式。例如：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;slowmo&quot;</span>, variableValue: <span class="number">0.2</span>)</span><br><span class="line">                .font(.system(size: <span class="number">50</span>))</span><br><span class="line">                .foregroundStyle(.indigo)</span><br></pre></td></tr></table></figure>
-
-<p>不同值的效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011023505.png"/>
-
-<p><strong>在最新的 SwiftUI 和 SF Symbols中还支持添加动画效果，我们将在后续动画部分进行介绍。</strong></p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>Xcode</tag>
-        <tag>SwiftUI</tag>
-        <tag>Image</tag>
-        <tag>SF Symbols</tag>
-        <tag>Overlay</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SwiftUI 控件之 ScrollView(一)</title>
     <url>/posts/35d3a19e.html</url>
     <content><![CDATA[<p>在 SwiftUI 中，<strong>ScrollView</strong> 是一个可滚动的视图。</p>
@@ -1311,6 +1298,181 @@
         <tag>SwiftUI</tag>
         <tag>withAnimation</tag>
         <tag>Animation</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI 控件之 Image</title>
+    <url>/posts/6b844059.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，我们可以使用<strong>Image</strong>控件来展示一张图片。</p>
+<h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><p>在 SwiftUI中，如果我们需要使用<strong>Image</strong>显示一张图片，首先我们需要先将图片资源拖到蓝色的<span style="color:blue"><strong>Assets</strong></span>文件夹中，然后使用图片的文件名加载显示。</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309081000150.png"/>
+
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(<span class="string">&quot;avatar&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在最新的<span style="color:red"> <strong>Xcode 15.0</strong></span>中，增加了使用下面的方式加载资源文件夹中的图片的特性：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(.avatar)</span><br></pre></td></tr></table></figure>
+
+<p>上面两种方式的效果是一样的。</p>
+<span id="more"></span>
+
+<h3 id="常用的修饰器"><a href="#常用的修饰器" class="headerlink" title="常用的修饰器"></a>常用的修饰器</h3><h4 id="宽高"><a href="#宽高" class="headerlink" title="宽高"></a>宽高</h4><p>设置图片显示的<code>frame</code>：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(.avatar)</span><br><span class="line">	.frame(width: <span class="number">100</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+
+<p>当我们设置<strong>Image</strong>的<code>frame</code>后，我们发现它并没有按照我们所给的宽高进行显示，这是因为我们需要先添加 <code>resizzble</code> 修饰器。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(.avatar)</span><br><span class="line">	.resizable()</span><br><span class="line">	.frame(width: <span class="number">100</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="填充"><a href="#填充" class="headerlink" title="填充"></a>填充</h4><p>但是此时我们可能会发现，我们的图片显示<strong>变形</strong> 了，这主要是因为我们的图片宽高比例和所给的<code>frame</code> 的宽高比例并不一致。我们可以通过设置<code>scaledToFill</code>或者<code>scaledToFit</code> 修饰器来修饰图片的填充样式。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">Image</span>(.avatar)</span><br><span class="line">                    .resizable()</span><br><span class="line">                    .scaledToFit()</span><br><span class="line">                    .frame(width: <span class="number">100</span>, height: <span class="number">200</span>)</span><br><span class="line">                    .border(.red)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;scaledToFit&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Divider</span>()</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">Image</span>(.avatar)</span><br><span class="line">                    .resizable()</span><br><span class="line">                    .aspectRatio(contentMode: .fill)</span><br><span class="line">                    .scaledToFill()</span><br><span class="line">                    .frame(width: <span class="number">100</span>, height: <span class="number">200</span>)</span><br><span class="line">                    .border(.red)</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;scaledToFill&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309081112939.png" style="zoom:20%"/>
+
+<p>在预览图中，<span style="color:red"><strong>红色</strong></span> 的边框表示我们实际设置的<code>frame</code> 范围。在同一张图片和同样的<code>frame</code>设置下，我们可以很清楚的看到<code>scaledToFit</code>和<code>scaledToFill</code>的区别：</p>
+<ul>
+<li><code>scaledToFit</code> 会优先按照给定的<code>frame</code> <strong>宽度（width）</strong>进行填充；</li>
+<li><code>scaledToFill</code> 会优先按照给定的<code>frame</code> <strong>高度（height）</strong>进行填充。</li>
+</ul>
+<h4 id="对齐方式"><a href="#对齐方式" class="headerlink" title="对齐方式"></a>对齐方式</h4><p>我们可以在通过<code>frame</code>设置宽高的时候来设置图片的对齐方式：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.frame(width: <span class="number">100</span>, height: <span class="number">200</span>,alignment: .center)</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下为居中（center）对齐方式.</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309081120845.png"/>
+
+<h4 id="图片裁切"><a href="#图片裁切" class="headerlink" title="图片裁切"></a>图片裁切</h4><p>当图片超出定义的<code>frame</code>范围时，可以使用<code>clipped</code> 修饰器让图片显示的范围和我们定义的<code>frame</code> 一致：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(.avatar)</span><br><span class="line">     .resizable()</span><br><span class="line">     .scaledToFill()</span><br><span class="line">     .frame(width: <span class="number">100</span>, height: <span class="number">200</span>,alignment: .top)</span><br><span class="line">     .border(.red)</span><br><span class="line">     .clipped()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309081148253.png" style="zoom:20%"/>
+
+<p>将图片按照形状进行裁切：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.clipShape(<span class="type">Circle</span>())</span><br></pre></td></tr></table></figure>
+
+<h4 id="给图片添加一个-Overlay"><a href="#给图片添加一个-Overlay" class="headerlink" title="给图片添加一个 Overlay"></a>给图片添加一个 Overlay</h4><p>如果我们想要给<code>Image</code>添加一个遮罩层可以使用<code>overlay</code>修饰器，它的参数是一个<code>View</code>类型，这意味这我们可以将任意一个<code>View</code>类型的视图作为遮罩层。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.overlay &#123;</span><br><span class="line">                  <span class="type">Image</span>(systemName: <span class="string">&quot;heart.fill&quot;</span>)</span><br><span class="line">                      .foregroundStyle(.white)</span><br><span class="line">                      .font(.system(size: <span class="number">40</span>))</span><br><span class="line">                      .opacity(<span class="number">0.8</span>)</span><br><span class="line">              &#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310010946106.png" style="zoom:50%"/>
+
+<p><code>overlay</code>也可以通过设置<code>alignment</code>参数来设置遮罩层的对齐方式，例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.overlay(alignment: .center, content: &#123;</span><br><span class="line">               <span class="type">Text</span>(<span class="string">&quot;这是用AI生成的一个头像&quot;</span>)</span><br><span class="line">                   .foregroundStyle(.black)</span><br><span class="line">                   .font(.title)</span><br><span class="line">                   .fontWeight(.bold)</span><br><span class="line">                   .padding()</span><br><span class="line">                   .background(.white)</span><br><span class="line">                   .clipShape(<span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">8</span>)) <span class="comment">// 添加圆角</span></span><br><span class="line">                   .opacity(<span class="number">0.8</span>) <span class="comment">// 透明度</span></span><br><span class="line">           &#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Image-加载显示-SF-Symbols"><a href="#Image-加载显示-SF-Symbols" class="headerlink" title="Image 加载显示 SF Symbols"></a>Image 加载显示 SF Symbols</h4><p><strong>SF Symbols</strong> 是 Apple 提供的一套系统内置的常用图标集。在最新的<strong>SF Symbols 5</strong> 中已经提供了总共<strong>5296</strong>个各种各样的图标。</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011000319.png" style="zoom:20%"/>
+
+<p>在使用这些系统图标时，只需要使用<code>Image(systemName:String)</code>这个方法即可，<code>systemName</code>就是图标的名称。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;heart.circle&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的一点是，<span style="color:red"><strong>SF Symbols</strong> 本质上还是属于字体的一部分，所以很多适用于字体设置的修饰器同样也适用于它。</span>例如，</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;heart.circle&quot;</span>)</span><br><span class="line">             .font(.title)</span><br><span class="line">             .fontWeight(.bold)</span><br><span class="line">             .foregroundStyle(.red)</span><br></pre></td></tr></table></figure>
+
+<p><strong>SF Symbols</strong>支持多种颜色和多种渲染模式。</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011015286.png" style="zoom:30%"/>
+
+<p>通过代码可以这么进行设置：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;pencil.circle.fill&quot;</span>)</span><br><span class="line">           .font(.largeTitle)</span><br><span class="line">           .fontWeight(.bold)</span><br><span class="line">           .symbolRenderingMode(.palette) <span class="comment">// 渲染模式</span></span><br><span class="line">           .foregroundStyle(.yellow, .tint, .red) <span class="comment">// 颜色设置</span></span><br></pre></td></tr></table></figure>
+
+<p>对于一些特殊的<strong>Symbols</strong>，它可以设置一个可变的值，根据这个实现不同的样式。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;slowmo&quot;</span>, variableValue: <span class="number">0.2</span>)</span><br><span class="line">                .font(.system(size: <span class="number">50</span>))</span><br><span class="line">                .foregroundStyle(.indigo)</span><br></pre></td></tr></table></figure>
+
+<p>不同值的效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310011023505.png"/>
+
+<p><strong>在最新的 SwiftUI 和 SF Symbols中还支持添加动画效果，我们将在后续动画部分进行介绍。</strong></p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>Xcode</tag>
+        <tag>Image</tag>
+        <tag>SF Symbols</tag>
+        <tag>Overlay</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI之 VStack、 HStack、 ZStack</title>
+    <url>/posts/e7687e8f.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，我们会经常使用到 <strong>VStack</strong>、<strong>HStack</strong>、<strong>ZStack</strong> 来帮助我们进行布局。</p>
+<h4 id="VStack"><a href="#VStack" class="headerlink" title="VStack"></a>VStack</h4><p>在<strong>VStack</strong>中的子视图都将按照<strong>垂直方向</strong>进行排列。</p>
+<p>例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">    <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时的布局效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090914844.png"/>
+
+<span id="more"></span>
+
+<h4 id="HStack"><a href="#HStack" class="headerlink" title="HStack"></a>HStack</h4><p>和<strong>VStack</strong> 类似，不过 <strong>HStack</strong>是将子视图按照<strong>水平方向</strong> 进行排列。</p>
+<p> 类似地，将上面示例代码中的<strong>VStack</strong> 改为<strong>HStack</strong> :</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">HStack</span> &#123;</span><br><span class="line">    <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090918393.png"/>
+
+<p>对于 <strong>VStack</strong> 和 <strong>HStack</strong> 而言，都可以设置它们子视图之前的间距<code>spacing</code> 和对齐方式<code>alignment</code> 。</p>
+<p>区别在于，<strong>VStack</strong> 的对齐方式有：</p>
+<ul>
+<li><code>center</code>：居中对齐；</li>
+<li><code>leading</code> ：左对齐；</li>
+<li><code>trailing</code> ： 右对齐。</li>
+</ul>
+<p><strong>HStack</strong> 的对齐方式有：</p>
+<ul>
+<li><code>center</code> ：居中对齐；</li>
+<li><code>top</code> ：顶部对齐；</li>
+<li><code>bottom</code>：底部对齐。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span>(alignment: .leading, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">                .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">HStack</span>(alignment: .top, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">                .font(.body)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="ZStack"><a href="#ZStack" class="headerlink" title="ZStack"></a>ZStack</h4><p><strong>ZStack</strong> 是让子视图按照<strong>Z轴方向</strong> 堆叠排列。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ZStack</span> &#123;</span><br><span class="line">        <span class="type">Image</span>(<span class="string">&quot;avatar&quot;</span>)</span><br><span class="line">            .resizable()</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">            .font(.body)</span><br><span class="line">            .foregroundStyle(.white)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090942670.png"/>
+
+<p><strong>ZStack</strong> 只能设置对齐方式<code>alignment</code>，它的对齐方式包括：</p>
+<ul>
+<li><code>top</code>：顶部对齐；</li>
+<li><code>bottom</code>：底部对齐；</li>
+<li><code>center</code>：居中对齐；</li>
+<li><code>leading</code>：左对齐；</li>
+<li><code>trailing</code>: 右对齐；</li>
+<li><code>topLeading</code>：左上角对齐；</li>
+<li><code>topTrailing</code>：右上角对齐；</li>
+<li><code>bottomLeading</code>：左下角对齐；</li>
+<li><code>bottomTrailing</code>: 右下角对齐。</li>
+</ul>
+<h4 id="布局示例"><a href="#布局示例" class="headerlink" title="布局示例"></a>布局示例</h4><h5 id="VStack-1"><a href="#VStack-1" class="headerlink" title="VStack"></a>VStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">VStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="comment">// 左对齐，上下间距为10</span></span><br><span class="line">        <span class="type">VStack</span>(alignment: .leading, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">...</span><span class="number">10</span>, id: \.<span class="keyword">self</span>) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;选项<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line">                <span class="type">Divider</span>()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.padding(<span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="HStack-1"><a href="#HStack-1" class="headerlink" title="HStack"></a>HStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">HStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> title: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;朋友圈&quot;</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">HStack</span>(alignment: .center, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Text</span>(title)</span><br><span class="line">            <span class="type">Spacer</span>()</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;chevron.right&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(<span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="ZStack-1"><a href="#ZStack-1" class="headerlink" title="ZStack"></a>ZStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ZStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="comment">// ZStack 实现头像置于背景之上的效果</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ZStack</span> &#123;</span><br><span class="line">            <span class="type">Image</span>(<span class="string">&quot;bg&quot;</span>)</span><br><span class="line">                .resizable()</span><br><span class="line">                .scaledToFit()</span><br><span class="line">                .frame(height: <span class="number">300</span>)</span><br><span class="line">            <span class="type">Image</span>(<span class="string">&quot;avatar&quot;</span>)</span><br><span class="line">                .resizable()</span><br><span class="line">                .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br><span class="line">                .clipShape(<span class="type">Circle</span>()) <span class="comment">// 圆形头像设置</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="VStack、-HStack和-ZStack-一起使用"><a href="#VStack、-HStack和-ZStack-一起使用" class="headerlink" title="VStack、 HStack和 ZStack 一起使用"></a>VStack、 HStack和 ZStack 一起使用</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">LayoutDemo</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> options <span class="operator">=</span> [<span class="string">&quot;朋友圈&quot;</span>, <span class="string">&quot;发现&quot;</span>, <span class="string">&quot;游戏&quot;</span>, <span class="string">&quot;更多&quot;</span>]</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">ZStackContentView</span>()</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(options, id: \.<span class="keyword">self</span>) &#123; title <span class="keyword">in</span></span><br><span class="line">                    <span class="type">HStackContentView</span>(title: title)</span><br><span class="line">                    <span class="type">Divider</span>()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="ContentView"><a href="#ContentView" class="headerlink" title="ContentView"></a>ContentView</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> selectedSeg:<span class="type">Int</span> <span class="operator">=</span> <span class="number">3</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">let</span> segmentArr <span class="operator">=</span> [<span class="string">&quot;VStack&quot;</span>, <span class="string">&quot;HStack&quot;</span>, <span class="string">&quot;ZStack&quot;</span>, <span class="string">&quot;Layout&quot;</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Picker</span>(selection: <span class="variable">$selectedSeg</span>) &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span> <span class="operator">..&lt;</span> segmentArr.count) &#123;</span><br><span class="line">                    <span class="type">Text</span>(segmentArr[<span class="variable">$0</span>]).tag(<span class="variable">$0</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            .pickerStyle(.segmented) <span class="comment">//设置选择器的样式</span></span><br><span class="line">            <span class="comment">// 根据选择器绑定值的变化不同，显示不同的布局视图</span></span><br><span class="line">            <span class="keyword">switch</span> selectedSeg &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                <span class="type">VStackContentView</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                <span class="type">HStackContentView</span>()</span><br><span class="line">                <span class="type">Divider</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                <span class="type">ZStackContentView</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">                <span class="type">LayoutDemo</span>()</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="type">Spacer</span>()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Spacer</span>()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<video type="video/mp4"  width="30%" height="50%" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090955427.mp4" controls="controls"/>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>VStack</tag>
+        <tag>HStack</tag>
+        <tag>ZStack</tag>
       </tags>
   </entry>
   <entry>
@@ -1428,86 +1590,65 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI之 VStack、 HStack、 ZStack</title>
-    <url>/posts/e7687e8f.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，我们会经常使用到 <strong>VStack</strong>、<strong>HStack</strong>、<strong>ZStack</strong> 来帮助我们进行布局。</p>
-<h4 id="VStack"><a href="#VStack" class="headerlink" title="VStack"></a>VStack</h4><p>在<strong>VStack</strong>中的子视图都将按照<strong>垂直方向</strong>进行排列。</p>
-<p>例如：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">    <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>SwiftUI之形状绘制</title>
+    <url>/posts/69def74.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，可以使用内置的形状或者根据路径自定义形状。</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308261003030.png" style="zoom:20%;" />
 
-<p>此时的布局效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090914844.png"/>
-
+<h3 id="SwiftUI-中内置的形状"><a href="#SwiftUI-中内置的形状" class="headerlink" title="SwiftUI 中内置的形状"></a>SwiftUI 中内置的形状</h3><p>SwiftUI 中给我们提供了五种常用内置形状：矩形，圆角矩形，圆形，椭圆形和胶囊形状。</p>
 <span id="more"></span>
 
-<h4 id="HStack"><a href="#HStack" class="headerlink" title="HStack"></a>HStack</h4><p>和<strong>VStack</strong> 类似，不过 <strong>HStack</strong>是将子视图按照<strong>水平方向</strong> 进行排列。</p>
-<p> 类似地，将上面示例代码中的<strong>VStack</strong> 改为<strong>HStack</strong> :</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">HStack</span> &#123;</span><br><span class="line">    <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="矩形"><a href="#矩形" class="headerlink" title="矩形"></a>矩形</h4><p>在 SwiftUI 中使用<span style="color:red"> <strong><code>Rectangle</code></strong></span> 类创建一个矩形。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Rectangle</span>()</span><br><span class="line">      .fill(.gray) <span class="comment">// 矩形填充的颜色</span></span><br><span class="line">      .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
 
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090918393.png"/>
+<h4 id="圆角矩形"><a href="#圆角矩形" class="headerlink" title="圆角矩形"></a>圆角矩形</h4><p>在 SwiftUI 中使用<span style="color:red"> <strong><code>RoundedRectangle</code></strong></span> 类创建一个圆角矩形，不过它的初始化方法给我们提供了两个属性， <code>cornerSize</code> 和 <code>cornerRadius</code> 。通过配置这两个属性我们都可以创建一个圆角矩形。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 通过圆角尺寸创建圆角矩形</span></span><br><span class="line"><span class="type">RoundedRectangle</span>(cornerSize: <span class="type">CGSize</span>(width: <span class="number">8</span>, height: <span class="number">8</span>))</span><br><span class="line">          .fill(.red)</span><br><span class="line">          .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过圆角半径创建圆角矩形</span></span><br><span class="line"><span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">8</span>)</span><br><span class="line">           .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
 
-<p>对于 <strong>VStack</strong> 和 <strong>HStack</strong> 而言，都可以设置它们子视图之前的间距<code>spacing</code> 和对齐方式<code>alignment</code> 。</p>
-<p>区别在于，<strong>VStack</strong> 的对齐方式有：</p>
-<ul>
-<li><code>center</code>：居中对齐；</li>
-<li><code>leading</code> ：左对齐；</li>
-<li><code>trailing</code> ： 右对齐。</li>
-</ul>
-<p><strong>HStack</strong> 的对齐方式有：</p>
-<ul>
-<li><code>center</code> ：居中对齐；</li>
-<li><code>top</code> ：顶部对齐；</li>
-<li><code>bottom</code>：底部对齐。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span>(alignment: .leading, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">                .font(.body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上两中方式创建出来的圆角矩形形状是一样的。</p>
+<h4 id="胶囊形"><a href="#胶囊形" class="headerlink" title="胶囊形"></a>胶囊形</h4><p>创建一个胶囊形状使用 <span style="color:red"> <strong><code>Capsule</code></strong> </span>类。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Capsule</span>()</span><br><span class="line">    .fill(.orange)</span><br><span class="line">    .frame(width: <span class="number">100</span>, height: <span class="number">60</span>)</span><br></pre></td></tr></table></figure>
 
+<p>这里需要注意的一点是，当我们不添加 <code>frame</code> 修饰器时，默认情况下为一个圆形。胶囊的最终形状根据给<code>frame</code> 修饰器的<code>width</code>和<code>height</code> 两个属性决定。</p>
+<h4 id="椭圆形"><a href="#椭圆形" class="headerlink" title="椭圆形"></a>椭圆形</h4><p>创建一个椭圆形状使用 <span style="color:red"> <strong><code>Ellipse</code></strong> </span>类。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Ellipse</span>()</span><br><span class="line">     .frame(width: <span class="number">100</span>, height: <span class="number">60</span>)</span><br></pre></td></tr></table></figure>
 
+<p>同样地，当 <code>frame</code> 修饰器中的<code>width</code> 和 <code>height</code> 两个属性值一样时，椭圆形状会变成一个圆形。</p>
+<h4 id="圆形"><a href="#圆形" class="headerlink" title="圆形"></a>圆形</h4><p>创建一个圆形状使用 <span style="color:red"> <strong><code>Circle</code></strong> </span>类。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Circle</span>()</span><br><span class="line">      .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">HStack</span>(alignment: .top, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;globe&quot;</span>)</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">                .font(.body)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="ZStack"><a href="#ZStack" class="headerlink" title="ZStack"></a>ZStack</h4><p><strong>ZStack</strong> 是让子视图按照<strong>Z轴方向</strong> 堆叠排列。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ZStack</span> &#123;</span><br><span class="line">        <span class="type">Image</span>(<span class="string">&quot;avatar&quot;</span>)</span><br><span class="line">            .resizable()</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;Hello, World!&quot;</span>)</span><br><span class="line">            .font(.body)</span><br><span class="line">            .foregroundStyle(.white)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090942670.png"/>
-
-<p><strong>ZStack</strong> 只能设置对齐方式<code>alignment</code>，它的对齐方式包括：</p>
-<ul>
-<li><code>top</code>：顶部对齐；</li>
-<li><code>bottom</code>：底部对齐；</li>
-<li><code>center</code>：居中对齐；</li>
-<li><code>leading</code>：左对齐；</li>
-<li><code>trailing</code>: 右对齐；</li>
-<li><code>topLeading</code>：左上角对齐；</li>
-<li><code>topTrailing</code>：右上角对齐；</li>
-<li><code>bottomLeading</code>：左下角对齐；</li>
-<li><code>bottomTrailing</code>: 右下角对齐。</li>
-</ul>
-<h4 id="布局示例"><a href="#布局示例" class="headerlink" title="布局示例"></a>布局示例</h4><h5 id="VStack-1"><a href="#VStack-1" class="headerlink" title="VStack"></a>VStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">VStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="comment">// 左对齐，上下间距为10</span></span><br><span class="line">        <span class="type">VStack</span>(alignment: .leading, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">...</span><span class="number">10</span>, id: \.<span class="keyword">self</span>) &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;选项<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line">                <span class="type">Divider</span>()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.padding(<span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="HStack-1"><a href="#HStack-1" class="headerlink" title="HStack"></a>HStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">HStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> title: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;朋友圈&quot;</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">HStack</span>(alignment: .center, spacing: <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="type">Text</span>(title)</span><br><span class="line">            <span class="type">Spacer</span>()</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;chevron.right&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        .padding(<span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="ZStack-1"><a href="#ZStack-1" class="headerlink" title="ZStack"></a>ZStack</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ZStackContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="comment">// ZStack 实现头像置于背景之上的效果</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ZStack</span> &#123;</span><br><span class="line">            <span class="type">Image</span>(<span class="string">&quot;bg&quot;</span>)</span><br><span class="line">                .resizable()</span><br><span class="line">                .scaledToFit()</span><br><span class="line">                .frame(height: <span class="number">300</span>)</span><br><span class="line">            <span class="type">Image</span>(<span class="string">&quot;avatar&quot;</span>)</span><br><span class="line">                .resizable()</span><br><span class="line">                .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br><span class="line">                .clipShape(<span class="type">Circle</span>()) <span class="comment">// 圆形头像设置</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="VStack、-HStack和-ZStack-一起使用"><a href="#VStack、-HStack和-ZStack-一起使用" class="headerlink" title="VStack、 HStack和 ZStack 一起使用"></a>VStack、 HStack和 ZStack 一起使用</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">LayoutDemo</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> options <span class="operator">=</span> [<span class="string">&quot;朋友圈&quot;</span>, <span class="string">&quot;发现&quot;</span>, <span class="string">&quot;游戏&quot;</span>, <span class="string">&quot;更多&quot;</span>]</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">ZStackContentView</span>()</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(options, id: \.<span class="keyword">self</span>) &#123; title <span class="keyword">in</span></span><br><span class="line">                    <span class="type">HStackContentView</span>(title: title)</span><br><span class="line">                    <span class="type">Divider</span>()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="ContentView"><a href="#ContentView" class="headerlink" title="ContentView"></a>ContentView</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> selectedSeg:<span class="type">Int</span> <span class="operator">=</span> <span class="number">3</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">let</span> segmentArr <span class="operator">=</span> [<span class="string">&quot;VStack&quot;</span>, <span class="string">&quot;HStack&quot;</span>, <span class="string">&quot;ZStack&quot;</span>, <span class="string">&quot;Layout&quot;</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Picker</span>(selection: <span class="variable">$selectedSeg</span>) &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span> <span class="operator">..&lt;</span> segmentArr.count) &#123;</span><br><span class="line">                    <span class="type">Text</span>(segmentArr[<span class="variable">$0</span>]).tag(<span class="variable">$0</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            .pickerStyle(.segmented) <span class="comment">//设置选择器的样式</span></span><br><span class="line">            <span class="comment">// 根据选择器绑定值的变化不同，显示不同的布局视图</span></span><br><span class="line">            <span class="keyword">switch</span> selectedSeg &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                <span class="type">VStackContentView</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                <span class="type">HStackContentView</span>()</span><br><span class="line">                <span class="type">Divider</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                <span class="type">ZStackContentView</span>()</span><br><span class="line">            <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">                <span class="type">LayoutDemo</span>()</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="type">Spacer</span>()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Spacer</span>()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<video type="video/mp4"  width="30%" height="50%" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309090955427.mp4" controls="controls"/>
-
+<h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><p><a href="https://developer.apple.com/documentation/swiftui/shapes">Shapes | Apple Developer Documentation</a></p>
 ]]></content>
       <categories>
-        <category>SwiftUI 基础</category>
+        <category>SwiftUI 进阶</category>
       </categories>
       <tags>
         <tag>SwiftUI</tag>
-        <tag>VStack</tag>
-        <tag>HStack</tag>
-        <tag>ZStack</tag>
+        <tag>形状</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI之绘制自定义形状</title>
+    <url>/posts/8c78197a.html</url>
+    <content><![CDATA[<p>在之前一片文章中，我们介绍了 SwiftUI 中内置的一些图形形状。在一些特殊的工能需求下，我们需要自定义去绘制一些形状，例如五角星⭐️，多边形。</p>
+<h3 id="自定义路径"><a href="#自定义路径" class="headerlink" title="自定义路径"></a>自定义路径</h3><p>在 SwiftUI 中可以使用 <span style="color:red"><code>Shape</code></span>协议自定义路径。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 自定义一个结构体，实现 Shape 协议</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DrawRectangleShape</span>: <span class="title class_">Shape</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">path</span>(<span class="params">in</span> <span class="params">rect</span>: <span class="type">CGRect</span>) -&gt; <span class="type">Path</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> path <span class="operator">=</span> <span class="type">Path</span>()</span><br><span class="line">        path.addRect(rect)</span><br><span class="line">        <span class="keyword">return</span> path</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们自定义了一个实现 <code>Shape</code> 协议的结构体类型，在这个自定义的结构体中我们需要实现一个 <code>path(in:)</code>的协议方法，这个方法要求我们返回一个 <code>Path</code>对象，即我们要绘制的形状路径。</p>
+ <span id="more"></span>
+
+<p>在上面的这个例子中，我们直接将传进来的 <code>rect</code> 添加到绘制的路径中。具体表现为下面的代码绘制的是一个红色矩形：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以及下面的代码绘制结果看起来像是一根红色的线，因为绘制的图像的形状高度为 1。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 进阶</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>自定义形状</tag>
       </tags>
   </entry>
   <entry>
@@ -1606,68 +1747,6 @@
         <tag>Combine</tag>
         <tag>MMVM</tag>
         <tag>Form</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI之绘制自定义形状</title>
-    <url>/posts/8c78197a.html</url>
-    <content><![CDATA[<p>在之前一片文章中，我们介绍了 SwiftUI 中内置的一些图形形状。在一些特殊的工能需求下，我们需要自定义去绘制一些形状，例如五角星⭐️，多边形。</p>
-<h3 id="自定义路径"><a href="#自定义路径" class="headerlink" title="自定义路径"></a>自定义路径</h3><p>在 SwiftUI 中可以使用 <span style="color:red"><code>Shape</code></span>协议自定义路径。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 自定义一个结构体，实现 Shape 协议</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DrawRectangleShape</span>: <span class="title class_">Shape</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">path</span>(<span class="params">in</span> <span class="params">rect</span>: <span class="type">CGRect</span>) -&gt; <span class="type">Path</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> path <span class="operator">=</span> <span class="type">Path</span>()</span><br><span class="line">        path.addRect(rect)</span><br><span class="line">        <span class="keyword">return</span> path</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们自定义了一个实现 <code>Shape</code> 协议的结构体类型，在这个自定义的结构体中我们需要实现一个 <code>path(in:)</code>的协议方法，这个方法要求我们返回一个 <code>Path</code>对象，即我们要绘制的形状路径。</p>
- <span id="more"></span>
-
-<p>在上面的这个例子中，我们直接将传进来的 <code>rect</code> 添加到绘制的路径中。具体表现为下面的代码绘制的是一个红色矩形：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
-
-<p>以及下面的代码绘制结果看起来像是一根红色的线，因为绘制的图像的形状高度为 1。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 进阶</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>自定义形状</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI之形状绘制</title>
-    <url>/posts/69def74.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，可以使用内置的形状或者根据路径自定义形状。</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308261003030.png" style="zoom:20%;" />
-
-<h3 id="SwiftUI-中内置的形状"><a href="#SwiftUI-中内置的形状" class="headerlink" title="SwiftUI 中内置的形状"></a>SwiftUI 中内置的形状</h3><p>SwiftUI 中给我们提供了五种常用内置形状：矩形，圆角矩形，圆形，椭圆形和胶囊形状。</p>
-<span id="more"></span>
-
-<h4 id="矩形"><a href="#矩形" class="headerlink" title="矩形"></a>矩形</h4><p>在 SwiftUI 中使用<span style="color:red"> <strong><code>Rectangle</code></strong></span> 类创建一个矩形。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Rectangle</span>()</span><br><span class="line">      .fill(.gray) <span class="comment">// 矩形填充的颜色</span></span><br><span class="line">      .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="圆角矩形"><a href="#圆角矩形" class="headerlink" title="圆角矩形"></a>圆角矩形</h4><p>在 SwiftUI 中使用<span style="color:red"> <strong><code>RoundedRectangle</code></strong></span> 类创建一个圆角矩形，不过它的初始化方法给我们提供了两个属性， <code>cornerSize</code> 和 <code>cornerRadius</code> 。通过配置这两个属性我们都可以创建一个圆角矩形。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 通过圆角尺寸创建圆角矩形</span></span><br><span class="line"><span class="type">RoundedRectangle</span>(cornerSize: <span class="type">CGSize</span>(width: <span class="number">8</span>, height: <span class="number">8</span>))</span><br><span class="line">          .fill(.red)</span><br><span class="line">          .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过圆角半径创建圆角矩形</span></span><br><span class="line"><span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">8</span>)</span><br><span class="line">           .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
-
-<p>以上两中方式创建出来的圆角矩形形状是一样的。</p>
-<h4 id="胶囊形"><a href="#胶囊形" class="headerlink" title="胶囊形"></a>胶囊形</h4><p>创建一个胶囊形状使用 <span style="color:red"> <strong><code>Capsule</code></strong> </span>类。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Capsule</span>()</span><br><span class="line">    .fill(.orange)</span><br><span class="line">    .frame(width: <span class="number">100</span>, height: <span class="number">60</span>)</span><br></pre></td></tr></table></figure>
-
-<p>这里需要注意的一点是，当我们不添加 <code>frame</code> 修饰器时，默认情况下为一个圆形。胶囊的最终形状根据给<code>frame</code> 修饰器的<code>width</code>和<code>height</code> 两个属性决定。</p>
-<h4 id="椭圆形"><a href="#椭圆形" class="headerlink" title="椭圆形"></a>椭圆形</h4><p>创建一个椭圆形状使用 <span style="color:red"> <strong><code>Ellipse</code></strong> </span>类。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Ellipse</span>()</span><br><span class="line">     .frame(width: <span class="number">100</span>, height: <span class="number">60</span>)</span><br></pre></td></tr></table></figure>
-
-<p>同样地，当 <code>frame</code> 修饰器中的<code>width</code> 和 <code>height</code> 两个属性值一样时，椭圆形状会变成一个圆形。</p>
-<h4 id="圆形"><a href="#圆形" class="headerlink" title="圆形"></a>圆形</h4><p>创建一个圆形状使用 <span style="color:red"> <strong><code>Circle</code></strong> </span>类。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Circle</span>()</span><br><span class="line">      .frame(width: <span class="number">100</span>, height: <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><p><a href="https://developer.apple.com/documentation/swiftui/shapes">Shapes | Apple Developer Documentation</a></p>
-]]></content>
-      <categories>
-        <category>SwiftUI 进阶</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>形状</tag>
       </tags>
   </entry>
   <entry>
@@ -2272,6 +2351,46 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI控件之 ScrollView(二)</title>
+    <url>/posts/ff84e235.html</url>
+    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
+<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>在上面的示例代码中，实现了一下几个步骤：</p>
+<ol>
+<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
+<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
+<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
+<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
+</ol>
+<p>效果如下：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
+<h3 id="实现滚动到指定索引的位置"><a href="#实现滚动到指定索引的位置" class="headerlink" title="实现滚动到指定索引的位置"></a>实现滚动到指定索引的位置</h3><p>创建一个数据结构：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">NameModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">let</span> index: <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成一些测试使用的数据源：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"><span class="keyword">var</span> nameDatas:[<span class="type">NameModel</span>] &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        (<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>).map &#123;</span><br><span class="line">            <span class="type">NameModel</span>(name: <span class="string">&quot;我是-<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>, index: <span class="variable">$0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">           <span class="type">ScrollView</span> &#123;</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   withAnimation &#123;</span><br><span class="line">                       proxy.scrollTo(nameDatas[scrollToIndex].index)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;滚动到索引为<span class="subst">\(scrollToIndex)</span>的地方&quot;</span>)</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="type">ForEach</span>(nameDatas) &#123; data <span class="keyword">in</span></span><br><span class="line">                   <span class="type">Text</span>(data.name)</span><br><span class="line">                       .padding(<span class="number">4</span>)</span><br><span class="line">                       .id(data.index)</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时的效果为当我们点击按钮后，<strong>ScrollView</strong>将滚动到子视图 ID为 70 的位置：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309181236721.mp4" width="30%" height="50%" controls="controls"></video></p>
+<p><span style="color:red"><strong>注意：</strong></span>这里目前依然存在一个问题，当我们使用数据模型的<code>id</code>属性作为<strong>ScrollView</strong>子视图的ID 时，即 <code>.id(data.id)</code>，无法实现类似的效果。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>ScrollView</tag>
+        <tag>ScrollViewReader</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI控件之 Picker</title>
     <url>/posts/bd95df5.html</url>
     <content><![CDATA[<p>在我们做一些信息表单填写时，经常需要用到<strong>选择器（Picker）</strong>。</p>
@@ -2315,46 +2434,6 @@
       <tags>
         <tag>SwiftUI</tag>
         <tag>Picker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI控件之 ScrollView(二)</title>
-    <url>/posts/ff84e235.html</url>
-    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
-<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<p>在上面的示例代码中，实现了一下几个步骤：</p>
-<ol>
-<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
-<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
-<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
-<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
-</ol>
-<p>效果如下：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
-<h3 id="实现滚动到指定索引的位置"><a href="#实现滚动到指定索引的位置" class="headerlink" title="实现滚动到指定索引的位置"></a>实现滚动到指定索引的位置</h3><p>创建一个数据结构：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">NameModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">let</span> index: <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>生成一些测试使用的数据源：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"><span class="keyword">var</span> nameDatas:[<span class="type">NameModel</span>] &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        (<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>).map &#123;</span><br><span class="line">            <span class="type">NameModel</span>(name: <span class="string">&quot;我是-<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>, index: <span class="variable">$0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>界面布局：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">           <span class="type">ScrollView</span> &#123;</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   withAnimation &#123;</span><br><span class="line">                       proxy.scrollTo(nameDatas[scrollToIndex].index)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;滚动到索引为<span class="subst">\(scrollToIndex)</span>的地方&quot;</span>)</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="type">ForEach</span>(nameDatas) &#123; data <span class="keyword">in</span></span><br><span class="line">                   <span class="type">Text</span>(data.name)</span><br><span class="line">                       .padding(<span class="number">4</span>)</span><br><span class="line">                       .id(data.index)</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时的效果为当我们点击按钮后，<strong>ScrollView</strong>将滚动到子视图 ID为 70 的位置：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309181236721.mp4" width="30%" height="50%" controls="controls"></video></p>
-<p><span style="color:red"><strong>注意：</strong></span>这里目前依然存在一个问题，当我们使用数据模型的<code>id</code>属性作为<strong>ScrollView</strong>子视图的ID 时，即 <code>.id(data.id)</code>，无法实现类似的效果。</p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>ScrollView</tag>
-        <tag>ScrollViewReader</tag>
       </tags>
   </entry>
   <entry>
@@ -2508,41 +2587,37 @@
       </tags>
   </entry>
   <entry>
-    <title>工欲善其事，必先利其器（Xcode 常见设置）</title>
-    <url>/posts/b2a2499d.html</url>
-    <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h2 id="Xcode-基础设置"><a href="#Xcode-基础设置" class="headerlink" title="Xcode 基础设置"></a>Xcode 基础设置</h2><h3 id="设置代码编辑器的字体和整体样式"><a href="#设置代码编辑器的字体和整体样式" class="headerlink" title="设置代码编辑器的字体和整体样式"></a>设置代码编辑器的字体和整体样式</h3><p>创建好项目之后，使用快捷 <strong><code>Command + ,</code></strong> 或者顶部菜单栏的 <strong>Xcode→Settings</strong> 打开Xcode的偏好设置，在 <strong>Themes</strong> 主题选项部分可以选择或者设置代码编辑器的代码风格和字体大小：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061748945.png" style="zoom:30%"/>
+    <title>在SwiftUI 中创建一个内容切换效果</title>
+    <url>/posts/d4605c9a.html</url>
+    <content><![CDATA[<h3 id="文字内容切换效果"><a href="#文字内容切换效果" class="headerlink" title="文字内容切换效果"></a>文字内容切换效果</h3><p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> text: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;$<span class="subst">\(text)</span>&quot;</span>)</span><br><span class="line">                .font(.largeTitle.bold())</span><br><span class="line">                .contentTransition(.numericText(value: <span class="type">Double</span>(text)))</span><br><span class="line">            <span class="type">Button</span> &#123;</span><br><span class="line">                withAnimation(.bouncy) &#123;</span><br><span class="line">                    text <span class="operator">=</span> .random(in: <span class="number">100</span><span class="operator">...</span><span class="number">10000</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Update&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
+<p>效果如下：</p>
+<p><img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308291020904.mp4" style="zoom:20%"></img></p>
+<span id="more"></span> 
 
-<p>另外一个常用的设置是 <strong>显示&#x2F;隐藏</strong> 文件的扩展名，也可以根据需要指定需要隐藏&#x2F;显示 的文件类型：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061749630.png" style="zoom:80%"/>
+<p><span style="color:red"><strong>注意</strong></span>：<code>contentTransition</code> 修饰器的系统要求为： <code>@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)</code>。</p>
+<h3 id="SF-Symbol-切换效果"><a href="#SF-Symbol-切换效果" class="headerlink" title="SF Symbol 切换效果"></a>SF Symbol 切换效果</h3><p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> sfImage: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;house.fill&quot;</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> sfCount: <span class="type">Int</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: sfImage)</span><br><span class="line">                .font(.largeTitle.bold())</span><br><span class="line">                .contentTransition(.symbolEffect(.automatic))</span><br><span class="line">            <span class="type">Button</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> images:[<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;suit.heart.fill&quot;</span>, <span class="string">&quot;house.fill&quot;</span>, <span class="string">&quot;gearshape&quot;</span>, <span class="string">&quot;person.circle.fill&quot;</span>, <span class="string">&quot;iphone&quot;</span>, <span class="string">&quot;macbook&quot;</span>]</span><br><span class="line">                withAnimation(.bouncy) &#123;</span><br><span class="line">                   sfCount <span class="operator">+=</span> <span class="number">1</span></span><br><span class="line">                    sfImage <span class="operator">=</span> images[sfCount <span class="operator">%</span> images.count]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Update&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>显示文件扩展名：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061750955.png"/>
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308291039418.mp4"  style="zoom:20%"/>
 
-<p> 隐藏文件扩展名：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061751694.png"/>
-
-<h3 id="Xcode-整体布局设置"><a href="#Xcode-整体布局设置" class="headerlink" title="Xcode 整体布局设置"></a>Xcode 整体布局设置</h3><p><strong>显示&#x2F;隐藏</strong> SwiftUI项目的预览区：</p>
-<p>在Xcode的右上角部分，点击从右往左数的第二个图标，<strong>选中&#x2F;取消选中</strong> <strong>Canvas  选项即可显示或关闭预览区：</strong></p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061752415.png" style="zoom:30%"/>
-
-<p>另一个比较常用的设置是代码区域的预览小地图，按照上面的方式勾选 <strong>Minimap</strong> 即可在代码编辑区域的右上角显示代码预览，当一个代码文件的代码行数很多时，我们可以通过快速点击预览到达指定的代码位置。</p>
-<p>上面的设置是我们比较常用，同时也是能极大提升我们开发效率的设置，随着对Xcode越来越熟悉也可以逐渐了解Xcode中更多的使用技巧。</p>
-<p>除了上面的一些基础设置，接着我们来介绍几个Xcode中常用的快捷键：</p>
+<p><span style="color:red"><strong>注意</strong></span>：</p>
 <ul>
-<li><code>Command + B</code> ： 快速进行项目的编译，可以在不运行的情况下检查我们的代码编写是否存在错误；</li>
-<li><code>Command + R</code> ： 在指定模拟下运行项目；</li>
-<li><code>Command + N</code> ： 在项目中创建一个文件；</li>
-<li><code>Command + Option + P</code> ：重新加载SwiftUI的预览界面。在默认情况下，我们在代码区域编写完成SwiftUI的代码后，右边的预览区域会自动进行加载，但是当我们的SwiftUI代码很多或者自动加载失败时就可以使用这个快捷方式重新快速加载预览而无须通过鼠标点击的方式进行。</li>
+<li><p><code>contentTransition</code> 修饰器的系统要求为： <code>@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)</code>;</p>
+</li>
+<li><p><code>symbolEffect</code> 修饰器的系统要求为：<code>@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)</code>。</p>
+</li>
 </ul>
 ]]></content>
       <categories>
-        <category>Xcode 使用技巧</category>
+        <category>SwiftUI 进阶</category>
       </categories>
       <tags>
-        <tag>Xcode</tag>
+        <tag>SwiftUI</tag>
+        <tag>动画</tag>
+        <tag>SF Symbol</tag>
       </tags>
   </entry>
   <entry>
@@ -2612,37 +2687,41 @@
       </tags>
   </entry>
   <entry>
-    <title>在SwiftUI 中创建一个内容切换效果</title>
-    <url>/posts/d4605c9a.html</url>
-    <content><![CDATA[<h3 id="文字内容切换效果"><a href="#文字内容切换效果" class="headerlink" title="文字内容切换效果"></a>文字内容切换效果</h3><p>界面布局：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> text: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;$<span class="subst">\(text)</span>&quot;</span>)</span><br><span class="line">                .font(.largeTitle.bold())</span><br><span class="line">                .contentTransition(.numericText(value: <span class="type">Double</span>(text)))</span><br><span class="line">            <span class="type">Button</span> &#123;</span><br><span class="line">                withAnimation(.bouncy) &#123;</span><br><span class="line">                    text <span class="operator">=</span> .random(in: <span class="number">100</span><span class="operator">...</span><span class="number">10000</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Update&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>工欲善其事，必先利其器（Xcode 常见设置）</title>
+    <url>/posts/b2a2499d.html</url>
+    <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h2 id="Xcode-基础设置"><a href="#Xcode-基础设置" class="headerlink" title="Xcode 基础设置"></a>Xcode 基础设置</h2><h3 id="设置代码编辑器的字体和整体样式"><a href="#设置代码编辑器的字体和整体样式" class="headerlink" title="设置代码编辑器的字体和整体样式"></a>设置代码编辑器的字体和整体样式</h3><p>创建好项目之后，使用快捷 <strong><code>Command + ,</code></strong> 或者顶部菜单栏的 <strong>Xcode→Settings</strong> 打开Xcode的偏好设置，在 <strong>Themes</strong> 主题选项部分可以选择或者设置代码编辑器的代码风格和字体大小：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061748945.png" style="zoom:30%"/>
 
-<p>效果如下：</p>
-<p><img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308291020904.mp4" style="zoom:20%"></img></p>
-<span id="more"></span> 
+<span id="more"></span>
 
-<p><span style="color:red"><strong>注意</strong></span>：<code>contentTransition</code> 修饰器的系统要求为： <code>@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)</code>。</p>
-<h3 id="SF-Symbol-切换效果"><a href="#SF-Symbol-切换效果" class="headerlink" title="SF Symbol 切换效果"></a>SF Symbol 切换效果</h3><p>界面布局：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> sfImage: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;house.fill&quot;</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> sfCount: <span class="type">Int</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">            <span class="type">Image</span>(systemName: sfImage)</span><br><span class="line">                .font(.largeTitle.bold())</span><br><span class="line">                .contentTransition(.symbolEffect(.automatic))</span><br><span class="line">            <span class="type">Button</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> images:[<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;suit.heart.fill&quot;</span>, <span class="string">&quot;house.fill&quot;</span>, <span class="string">&quot;gearshape&quot;</span>, <span class="string">&quot;person.circle.fill&quot;</span>, <span class="string">&quot;iphone&quot;</span>, <span class="string">&quot;macbook&quot;</span>]</span><br><span class="line">                withAnimation(.bouncy) &#123;</span><br><span class="line">                   sfCount <span class="operator">+=</span> <span class="number">1</span></span><br><span class="line">                    sfImage <span class="operator">=</span> images[sfCount <span class="operator">%</span> images.count]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; label: &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Update&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .padding()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外一个常用的设置是 <strong>显示&#x2F;隐藏</strong> 文件的扩展名，也可以根据需要指定需要隐藏&#x2F;显示 的文件类型：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061749630.png" style="zoom:80%"/>
 
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202308291039418.mp4"  style="zoom:20%"/>
+<p>显示文件扩展名：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061750955.png"/>
 
-<p><span style="color:red"><strong>注意</strong></span>：</p>
+<p> 隐藏文件扩展名：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061751694.png"/>
+
+<h3 id="Xcode-整体布局设置"><a href="#Xcode-整体布局设置" class="headerlink" title="Xcode 整体布局设置"></a>Xcode 整体布局设置</h3><p><strong>显示&#x2F;隐藏</strong> SwiftUI项目的预览区：</p>
+<p>在Xcode的右上角部分，点击从右往左数的第二个图标，<strong>选中&#x2F;取消选中</strong> <strong>Canvas  选项即可显示或关闭预览区：</strong></p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309061752415.png" style="zoom:30%"/>
+
+<p>另一个比较常用的设置是代码区域的预览小地图，按照上面的方式勾选 <strong>Minimap</strong> 即可在代码编辑区域的右上角显示代码预览，当一个代码文件的代码行数很多时，我们可以通过快速点击预览到达指定的代码位置。</p>
+<p>上面的设置是我们比较常用，同时也是能极大提升我们开发效率的设置，随着对Xcode越来越熟悉也可以逐渐了解Xcode中更多的使用技巧。</p>
+<p>除了上面的一些基础设置，接着我们来介绍几个Xcode中常用的快捷键：</p>
 <ul>
-<li><p><code>contentTransition</code> 修饰器的系统要求为： <code>@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)</code>;</p>
-</li>
-<li><p><code>symbolEffect</code> 修饰器的系统要求为：<code>@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)</code>。</p>
-</li>
+<li><code>Command + B</code> ： 快速进行项目的编译，可以在不运行的情况下检查我们的代码编写是否存在错误；</li>
+<li><code>Command + R</code> ： 在指定模拟下运行项目；</li>
+<li><code>Command + N</code> ： 在项目中创建一个文件；</li>
+<li><code>Command + Option + P</code> ：重新加载SwiftUI的预览界面。在默认情况下，我们在代码区域编写完成SwiftUI的代码后，右边的预览区域会自动进行加载，但是当我们的SwiftUI代码很多或者自动加载失败时就可以使用这个快捷方式重新快速加载预览而无须通过鼠标点击的方式进行。</li>
 </ul>
 ]]></content>
       <categories>
-        <category>SwiftUI 进阶</category>
+        <category>Xcode 使用技巧</category>
       </categories>
       <tags>
-        <tag>SwiftUI</tag>
-        <tag>动画</tag>
-        <tag>SF Symbol</tag>
+        <tag>Xcode</tag>
       </tags>
   </entry>
   <entry>
