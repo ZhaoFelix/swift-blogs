@@ -80,6 +80,60 @@
       </tags>
   </entry>
   <entry>
+    <title>SceneKit基础之实现一个太阳系场景(二)</title>
+    <url>/posts/75fc57c3.html</url>
+    <content><![CDATA[<p>在上一篇文章中，我们已经通过<strong>Scene Editor</strong>实现了场景的布局。接下来我们将通过代码的方式来给节点添加图片材质、场景背景以及切换相机的视角。</p>
+<h3 id="定义模型和实现切换"><a href="#定义模型和实现切换" class="headerlink" title="定义模型和实现切换"></a>定义模型和实现切换</h3><p>定义一个名为<strong>Planet</strong>的枚举用来管理节点数据：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Planet</span>: <span class="title class_">String</span>, <span class="title class_">CaseIterable</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> mercury</span><br><span class="line">    <span class="keyword">case</span> venus</span><br><span class="line">    <span class="keyword">case</span> earth</span><br><span class="line">    <span class="keyword">case</span> mars</span><br><span class="line">    <span class="keyword">case</span> saturn</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> name:<span class="type">String</span> &#123;</span><br><span class="line">        <span class="comment">// 名字为首字母大写</span></span><br><span class="line">        rawValue.prefix(<span class="number">1</span>).capitalized <span class="operator">+</span> rawValue.dropFirst()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>定义一个名<strong>ViewModel</strong>的类用来管理场景中选中的节点以及节点的切换事件：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ViewModel</span>: <span class="title class_">NSObject</span>,<span class="title class_">ObservableObject</span> &#123;</span><br><span class="line">    <span class="meta">@Published</span> <span class="keyword">var</span> selectedPlanet: <span class="type">Planet</span>?  <span class="comment">// 当前选中的节点</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 当前选中的节点名称</span></span><br><span class="line">    <span class="keyword">var</span> title:<span class="type">String</span> &#123;</span><br><span class="line">        selectedPlanet<span class="operator">?</span>.name <span class="operator">??</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 选择下一个</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">selectedNextPlanet</span>() &#123;</span><br><span class="line">        changeSelection(offset: <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 选择上一个</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">selectedPreviousPlanet</span>() &#123;</span><br><span class="line">        changeSelection(offset: <span class="operator">-</span><span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 清空选择</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">clearSelection</span>() &#123;</span><br><span class="line">        selectedPlanet <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 节点改变</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">changeSelection</span>(<span class="params">offset</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> selectedPlanet <span class="operator">=</span> selectedPlanet, <span class="keyword">let</span> index <span class="operator">=</span> <span class="type">Planet</span>.allCases.firstIndex(of: selectedPlanet) <span class="keyword">else</span> &#123;</span><br><span class="line">            selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases.first</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> newIndex <span class="operator">=</span> index <span class="operator">+</span> offset</span><br><span class="line">        <span class="keyword">if</span> newIndex <span class="operator">&lt;</span> <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">self</span>.selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases.last</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> newIndex <span class="operator">&lt;</span> <span class="type">Planet</span>.allCases.count &#123;</span><br><span class="line">            <span class="keyword">self</span>.selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases[newIndex]</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">self</span>.selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases.first</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>回到<strong>ContentView</strong>文件中，实例化一个<strong>ViewModel</strong>的对象：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ObservedObject</span> <span class="keyword">var</span> viewModel <span class="operator">=</span> <span class="type">ViewModel</span>()</span><br></pre></td></tr></table></figure>
+
+<p>然后在 <code>body</code>部分实现界面的完全布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ZStack</span> &#123;</span><br><span class="line">           <span class="type">SceneView</span>(scene: scene,</span><br><span class="line">                     pointOfView:setupCamera(planet: viewModel.selectedPlanet),</span><br><span class="line">                     options: [.allowsCameraControl, .autoenablesDefaultLighting])</span><br><span class="line">           .background(.secondary)</span><br><span class="line">           </span><br><span class="line">           <span class="type">VStack</span> &#123;</span><br><span class="line">               <span class="type">Spacer</span>()</span><br><span class="line">               <span class="type">HStack</span> &#123;</span><br><span class="line">                   <span class="type">HStack</span> &#123;</span><br><span class="line">                       <span class="type">HStack</span> &#123;</span><br><span class="line">                           <span class="type">Button</span>(action: &#123;</span><br><span class="line">                               viewModel.selectedPreviousPlanet()</span><br><span class="line">                           &#125;, label: &#123;</span><br><span class="line">                               <span class="type">Image</span>(systemName: <span class="string">&quot;arrow.backward.circle.fill&quot;</span>)</span><br><span class="line">                           &#125;)</span><br><span class="line">                           <span class="type">Button</span>(action: &#123;</span><br><span class="line">                               viewModel.selectedPreviousPlanet()</span><br><span class="line">                           &#125;, label: &#123;</span><br><span class="line">                               <span class="type">Image</span>(systemName: <span class="string">&quot;arrow.forward.circle.fill&quot;</span>)</span><br><span class="line">                           &#125;)</span><br><span class="line">                       &#125;</span><br><span class="line">                       <span class="type">Spacer</span>()</span><br><span class="line">                       <span class="type">Text</span>(viewModel.title)</span><br><span class="line">                           .foregroundStyle(.black)</span><br><span class="line">                       <span class="type">Spacer</span>()</span><br><span class="line">                       <span class="comment">// 不为空时显示清除按钮</span></span><br><span class="line">                       <span class="keyword">if</span> viewModel.selectedPlanet <span class="operator">!=</span> <span class="literal">nil</span> &#123;</span><br><span class="line">                           <span class="type">Button</span>(action: &#123;</span><br><span class="line">                               viewModel.clearSelection()</span><br><span class="line">                           &#125;, label: &#123;</span><br><span class="line">                               <span class="type">Image</span>(systemName: <span class="string">&quot;xmark.circle.fill&quot;</span>)</span><br><span class="line">                           &#125;)</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               .padding(<span class="number">8</span>)</span><br><span class="line">               .background(.white)</span><br><span class="line">               .clipShape(<span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">14</span>))</span><br><span class="line">               .padding(<span class="number">20</span>)</span><br><span class="line">           &#125;</span><br><span class="line">           </span><br><span class="line">       &#125;</span><br><span class="line">       .ignoresSafeArea(.all)</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，<code>SceneView</code>多了一个<code>pointOfView</code>参数，它是一个<code>SCNNode</code>类型，它表示的是当前场景渲染时的<strong>视角点</strong>。我们可以通过切换视角点来切换当前场景中可见的内容。<code>setupCamera</code>函数的实现如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 根据选中的节点，改变相机的视点</span></span><br><span class="line">   <span class="keyword">func</span> <span class="title function_">setupCamera</span>(<span class="params">planet</span>: <span class="type">Planet</span>?) -&gt; <span class="type">SCNNode</span>? &#123;</span><br><span class="line">       <span class="comment">// 获取场景中的相机节点</span></span><br><span class="line">       <span class="keyword">let</span> cameraNode <span class="operator">=</span> scene<span class="operator">?</span>.rootNode.childNode(withName: <span class="string">&quot;camera&quot;</span>, recursively: <span class="literal">false</span>)</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">if</span> <span class="keyword">let</span> planet <span class="operator">=</span> planet,  <span class="keyword">let</span> planetNode <span class="operator">=</span> scene<span class="operator">?</span>.rootNode.childNode(withName: planet.rawValue, recursively: <span class="literal">false</span>) &#123;</span><br><span class="line">           <span class="keyword">let</span> constraint <span class="operator">=</span> <span class="type">SCNLookAtConstraint</span>(target: planetNode)</span><br><span class="line">           cameraNode<span class="operator">?</span>.constraints <span class="operator">=</span> [constraint]</span><br><span class="line">           <span class="keyword">let</span> globalPosition <span class="operator">=</span> planetNode.convertPosition(<span class="type">SCNVector3</span>(<span class="number">50</span>, <span class="number">10</span>, <span class="number">0</span>), to: <span class="literal">nil</span>)</span><br><span class="line">           <span class="keyword">let</span> move <span class="operator">=</span> <span class="type">SCNAction</span>.move(to: globalPosition, duration: <span class="number">1.0</span>)</span><br><span class="line">           cameraNode<span class="operator">?</span>.runAction(move)</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> cameraNode</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>它的实现如下：</p>
+<ol>
+<li>根据节点名<code>camera</code>获取相机节点<code>cameraNode</code>；</li>
+<li>根据传进来的<code>planet</code>的<code>rawValue</code>获取当前选中的节点<code>planetNode</code>；</li>
+<li>然后设置<code>cameraNode</code>的<code>constraints</code>；</li>
+<li>给<code>cameraNode</code>添加一个移动的<code>action</code>；</li>
+<li>然后新的相机节点<code>cameraNode</code>作为场景的<code>pointOfView</code>。</li>
+</ol>
+<h3 id="给星球节点添加图片材质"><a href="#给星球节点添加图片材质" class="headerlink" title="给星球节点添加图片材质"></a>给星球节点添加图片材质</h3><p>将准备好的星球图片素材拖入到<strong>Assets</strong>素材文件夹下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311221022305.png" style="zoom:20%"/>
+
+<p>同理，拖入准备好的场景背景素材添加到这个文件夹下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311221056208.png" style="zoom:20%"/>
+
+<p><strong>注意</strong>，这里的场景背景图片需要放入六张图片。因为给 3D 场景背景添加背景图片需要同时设置 6 个方向，即 XYZ 三个轴的正负方向。</p>
+<p>接着定义一个名为<code>applyTextures</code>的方法来添加材质和背景：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 给场景添加材质</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">applyTextures</span>(<span class="params">to</span> <span class="params">scene</span>: <span class="type">SCNScene</span>?) &#123;</span><br><span class="line">      <span class="keyword">guard</span> <span class="keyword">let</span> scene <span class="operator">=</span> scene <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">      <span class="comment">// 给每个星球添加图片材质</span></span><br><span class="line">      <span class="keyword">for</span> planet <span class="keyword">in</span> <span class="type">Planet</span>.allCases &#123;</span><br><span class="line">          <span class="keyword">let</span> identifier <span class="operator">=</span> planet.rawValue</span><br><span class="line">          <span class="keyword">let</span> node <span class="operator">=</span> scene.rootNode.childNode(withName: identifier, recursively: <span class="literal">false</span>)</span><br><span class="line">          <span class="keyword">let</span> texture <span class="operator">=</span> <span class="type">UIImage</span>(named: identifier)</span><br><span class="line">          node<span class="operator">?</span>.geometry<span class="operator">?</span>.firstMaterial<span class="operator">?</span>.diffuse.contents <span class="operator">=</span> texture</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 给整个场景添加背景材质</span></span><br><span class="line">      <span class="keyword">let</span> skyboxImages <span class="operator">=</span> (<span class="number">1</span><span class="operator">...</span><span class="number">6</span>).map &#123; <span class="type">UIImage</span>(named: <span class="string">&quot;skybox<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>) &#125;</span><br><span class="line">      scene.background.contents <span class="operator">=</span> skyboxImages</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>给节点添加材质通过设置节点的<code>geometry?.firstMaterial</code>或者<code>geometry?.materials</code>。前者是只添加一个材质；后者添加多个材质。</p>
+<p>给场景添加添加背景通过设置场景的<code>background.contents</code>。</p>
+<p>最后，别忘了在<code>makeScene</code>方法中调用这个方法。</p>
+]]></content>
+      <categories>
+        <category>SceneKit 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>SceneKit</tag>
+        <tag>SCNScene</tag>
+        <tag>SCNLight</tag>
+        <tag>SCNNode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SceneKit基础之实现一个太阳系场景(一)</title>
     <url>/posts/24c195ec.html</url>
     <content><![CDATA[<p>在这篇博文中，我们将实现下面这样的一个效果：</p>
@@ -216,8 +270,46 @@
         <tag>SwiftUI</tag>
         <tag>SceneKit</tag>
         <tag>SCNScene</tag>
-        <tag>SCNNode</tag>
         <tag>SCNLight</tag>
+        <tag>SCNNode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 中的常量和变量</title>
+    <url>/posts/c6460431.html</url>
+    <content><![CDATA[<h1 id="常量-变量"><a href="#常量-变量" class="headerlink" title="常量 &amp; 变量"></a>常量 &amp; 变量</h1><p>常量一旦被设置就不能被更改，使用关键字<strong>let</strong> 。变量被设置之后是可以被修改的，使用关键字<strong>var</strong>。</p>
+<h2 id="声明常量和变量"><a href="#声明常量和变量" class="headerlink" title="声明常量和变量"></a>声明常量和变量</h2><p>常量和变量之后在被声明后才能使用，声明方式如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">let</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码的意思是：</p>
+<p>“声明一个名为num，数据类型为<strong>Int</strong>，值为8的变量。然后声明一个名为x，数据类型为<strong>Int</strong>，值为10的常量。”</p>
+<p>你可以在一行中声明多个常量或变量，使用逗号隔开：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>,y:<span class="type">Int</span> <span class="operator">=</span> <span class="number">12</span>,z:<span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="类型标注"><a href="#类型标注" class="headerlink" title="类型标注"></a>类型标注</h2><p>在上面常量与变量的声明中，我们标识的常量和变量数据类型均为<strong>Int</strong>类型。这意味着变量num和常量x在进行赋值时只能赋<strong>Int</strong>类型的数值。</p>
+<p>上面的错误显示的是把一个字符串类型的10赋值给了一个指定类型为<strong>Int</strong>的常量，这在Swift中是不被允许的。</p>
+<p>你可以在一行中定义多个相同类型的常量或者变量，只需要在结尾加上数据类型即可：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x,y,z:<span class="type">Int</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="类型安全与类型推断"><a href="#类型安全与类型推断" class="headerlink" title="类型安全与类型推断"></a>类型安全与类型推断</h2><p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚地知道代码可以处理的值的类型。如果你的一部分代码期望获得<strong>String</strong>类型的值，你就不能错误的传给它一个<strong>Int</strong>类型的值。</p>
+<p>因为Swift是类型安全的语言，所以Swift在编译的过程中会进行类型检查，任何不匹配的类型都会被标记为错误。</p>
+<p>类型检查可以帮助我们在对一个已经声明好的常量或者变量进行赋值时，能够准备无误的赋一个指定类型的数据。但是，类型检查并不意味着我们每次声明时都需要明确指定数据类型，我们可以通过Swift中的类型判断来完成数据类型的指定。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> y <span class="operator">=</span> <span class="number">10.0</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中，我们并没有给变量指定数据类型。Swift在编译的过程中通过类型判断推断x为<strong>Int</strong>类型，y为<strong>Double</strong>类型。</p>
+<h2 id="常量与变量的命名"><a href="#常量与变量的命名" class="headerlink" title="常量与变量的命名"></a>常量与变量的命名</h2><p>常量和变量的命名几乎可以使用任何的字符，包括Unicode字符：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 你好 <span class="operator">=</span> <span class="string">&quot;你好&quot;</span></span><br><span class="line"><span class="keyword">var</span> 😃 <span class="operator">=</span>  <span class="string">&quot;😃&quot;</span></span><br><span class="line"><span class="keyword">var</span> `let` <span class="operator">=</span> <span class="string">&quot;let&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，在使用Swift中关键字进行命名是需要添加反引号（&#96;）。</p>
+<p>虽然Swift在命名上可以使用很多字符，但是为了开发的方便与后期维护建议开发者在命名时尽量遵循一些标准化的命名规范，例如驼峰式命名法。</p>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Foundation</tag>
       </tags>
   </entry>
   <entry>
@@ -263,44 +355,6 @@
       <tags>
         <tag>Swift</tag>
         <tag>循环</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 中的常量和变量</title>
-    <url>/posts/c6460431.html</url>
-    <content><![CDATA[<h1 id="常量-变量"><a href="#常量-变量" class="headerlink" title="常量 &amp; 变量"></a>常量 &amp; 变量</h1><p>常量一旦被设置就不能被更改，使用关键字<strong>let</strong> 。变量被设置之后是可以被修改的，使用关键字<strong>var</strong>。</p>
-<h2 id="声明常量和变量"><a href="#声明常量和变量" class="headerlink" title="声明常量和变量"></a>声明常量和变量</h2><p>常量和变量之后在被声明后才能使用，声明方式如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> <span class="operator">=</span> <span class="number">8</span></span><br><span class="line"><span class="keyword">let</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
-
-<p>这段代码的意思是：</p>
-<p>“声明一个名为num，数据类型为<strong>Int</strong>，值为8的变量。然后声明一个名为x，数据类型为<strong>Int</strong>，值为10的常量。”</p>
-<p>你可以在一行中声明多个常量或变量，使用逗号隔开：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x:<span class="type">Int</span> <span class="operator">=</span> <span class="number">10</span>,y:<span class="type">Int</span> <span class="operator">=</span> <span class="number">12</span>,z:<span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="类型标注"><a href="#类型标注" class="headerlink" title="类型标注"></a>类型标注</h2><p>在上面常量与变量的声明中，我们标识的常量和变量数据类型均为<strong>Int</strong>类型。这意味着变量num和常量x在进行赋值时只能赋<strong>Int</strong>类型的数值。</p>
-<p>上面的错误显示的是把一个字符串类型的10赋值给了一个指定类型为<strong>Int</strong>的常量，这在Swift中是不被允许的。</p>
-<p>你可以在一行中定义多个相同类型的常量或者变量，只需要在结尾加上数据类型即可：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x,y,z:<span class="type">Int</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="类型安全与类型推断"><a href="#类型安全与类型推断" class="headerlink" title="类型安全与类型推断"></a>类型安全与类型推断</h2><p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚地知道代码可以处理的值的类型。如果你的一部分代码期望获得<strong>String</strong>类型的值，你就不能错误的传给它一个<strong>Int</strong>类型的值。</p>
-<p>因为Swift是类型安全的语言，所以Swift在编译的过程中会进行类型检查，任何不匹配的类型都会被标记为错误。</p>
-<p>类型检查可以帮助我们在对一个已经声明好的常量或者变量进行赋值时，能够准备无误的赋一个指定类型的数据。但是，类型检查并不意味着我们每次声明时都需要明确指定数据类型，我们可以通过Swift中的类型判断来完成数据类型的指定。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> y <span class="operator">=</span> <span class="number">10.0</span></span><br></pre></td></tr></table></figure>
-
-<p>上面的代码中，我们并没有给变量指定数据类型。Swift在编译的过程中通过类型判断推断x为<strong>Int</strong>类型，y为<strong>Double</strong>类型。</p>
-<h2 id="常量与变量的命名"><a href="#常量与变量的命名" class="headerlink" title="常量与变量的命名"></a>常量与变量的命名</h2><p>常量和变量的命名几乎可以使用任何的字符，包括Unicode字符：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 你好 <span class="operator">=</span> <span class="string">&quot;你好&quot;</span></span><br><span class="line"><span class="keyword">var</span> 😃 <span class="operator">=</span>  <span class="string">&quot;😃&quot;</span></span><br><span class="line"><span class="keyword">var</span> `let` <span class="operator">=</span> <span class="string">&quot;let&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，在使用Swift中关键字进行命名是需要添加反引号（&#96;）。</p>
-<p>虽然Swift在命名上可以使用很多字符，但是为了开发的方便与后期维护建议开发者在命名时尽量遵循一些标准化的命名规范，例如驼峰式命名法。</p>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Foundation</tag>
       </tags>
   </entry>
   <entry>
@@ -418,43 +472,44 @@
         <category>Swift 基础语法</category>
       </categories>
       <tags>
-        <tag>Swift</tag>
         <tag>Foundation</tag>
+        <tag>Swift</tag>
         <tag>Xcode</tag>
       </tags>
   </entry>
   <entry>
-    <title>Swift 中的结构体</title>
-    <url>/posts/8745e5a7.html</url>
-    <content><![CDATA[<h3 id="结构体的定义"><a href="#结构体的定义" class="headerlink" title="结构体的定义"></a>结构体的定义</h3><p>在Swift中，结构体是一种值类型，用于组合不同类型的值。它们可以被视为小型的数据模型，用于存储一组相关的数据。</p>
-<h3 id="结构体的主要特点"><a href="#结构体的主要特点" class="headerlink" title="结构体的主要特点"></a>结构体的主要特点</h3><ol>
-<li><strong>数据组合</strong>：结构体可以将不同类型的值组合在一起，形成一个有意义的数据结构。这使得结构体非常适合用于描述现实世界中的对象或数据模型。</li>
-<li><strong>封装</strong>：结构体可以将数据封装在一起，形成一个单一的、可操作的数据单元。这有助于隐藏内部实现细节，提高代码的可读性和可维护性。</li>
-<li><strong>代码复用</strong>：结构体可以通过定义公共的属性和方法，实现代码的复用。这可以在不同的代码片段中重复使用相同的结构体定义，提高代码的效率和可读性。</li>
-<li><strong>数据类型安全</strong>：结构体是类型安全的，这意味着在编译时可以检测到类型错误。这有助于减少运行时错误，提高代码的稳定性和安全性。</li>
-</ol>
+    <title>Swift 中的枚举</title>
+    <url>/posts/251de72f.html</url>
+    <content><![CDATA[<h3 id="Swift-中的枚举"><a href="#Swift-中的枚举" class="headerlink" title="Swift 中的枚举"></a>Swift 中的枚举</h3><p>在计算机编程中，枚举是一种数据类型，用于定义一定范围内的有名称的值。Swift语言中的枚举是强大且灵活的工具，我们可以在多种场景中使用它们，包括但不限于处理特定类型的数据、创建自定义的错误类型以及实现特定的设计模式。</p>
+<h4 id="定义和基本用法"><a href="#定义和基本用法" class="headerlink" title="定义和基本用法"></a>定义和基本用法</h4><p>在Swift中，我们使用<code>enum</code>关键字来定义枚举。下面是一个简单的例子，展示了如何定义和使用一个名为<code>Weekday</code>的枚举，表示一周中的每一天：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Monday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Tuesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Wednesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Thursday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Friday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Saturday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Sunday</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <span id="more"></span>
 
-<p>此外，结构体还具有以下特点：</p>
-<ol>
-<li><strong>值类型</strong>：结构体是值类型，这意味着当我们将一个结构体赋值给一个变量或者作为函数的参数时，它会进行一次深复制。这意味着修改一个结构体的副本不会影响原始结构体。</li>
-<li><strong>语法简单</strong>：在Swift中定义结构体的语法非常简单。我们只需要使用<code>struct</code>关键字，后面跟着结构体的名称和定义它的变量和方法。</li>
-<li><strong>内存管理简单</strong>：由于结构体通常存储的是基本数据类型和其他结构体，因此它们的内存管理相对简单。这使得使用结构体比使用类更加高效，尤其是在处理大量数据时。</li>
-<li><strong>适用于小型对象</strong>：由于结构体的内存占用较小，因此它们更适合用于描述小型对象或数据模型。对于大型对象或需要复杂行为的数据类型，类可能是更好的选择。</li>
-</ol>
-<h3 id="定义一个结构体"><a href="#定义一个结构体" class="headerlink" title="定义一个结构体"></a>定义一个结构体</h3><p>让我们通过一个示例来深入理解结构体的使用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> grade: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">updateAge</span>(<span class="params">newAge</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        age <span class="operator">=</span> newAge</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的示例中，我们定义了一个名为<code>Student</code>的结构体，它包含三个属性：<code>name</code>、<code>age</code>和<code>grade</code>，分别表示学生的姓名、年龄和年级。我们还定义了一个名为<code>updateAge</code>的方法，用于更新学生的年龄。</p>
-<p>我们可以像下面这样创建一个<code>Student</code>实例并设置它的属性值：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> student1 <span class="operator">=</span> <span class="type">Student</span>(name: <span class="string">&quot;张三&quot;</span>, age: <span class="number">20</span>, grade: <span class="string">&quot;大一&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(student1.name) <span class="comment">// 输出 &quot;张三&quot;</span></span><br><span class="line"><span class="built_in">print</span>(student1.age) <span class="comment">// 输出 &quot;20&quot;</span></span><br><span class="line"><span class="built_in">print</span>(student1.grade) <span class="comment">// 输出 &quot;大一&quot;</span></span><br><span class="line"></span><br><span class="line">student1.updateAge(newAge: <span class="number">21</span>) <span class="comment">// 更新学生年龄为21</span></span><br><span class="line"><span class="built_in">print</span>(student1.age) <span class="comment">// 输出 &quot;21&quot;</span></span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，我们通过创建<code>Student</code>实例并设置它的属性值来描述一个学生对象。然后，我们使用<code>updateAge</code>方法来更新学生的年龄。请注意，由于<code>updateAge</code>方法修改了结构体的属性值，因此它被标记为<code>mutating</code>。这是因为在Swift中，非变异方法不能修改结构体的属性值。</p>
+<p>我们可以使用这个枚举来处理与一周中的某天相关的数据。例如，我们可以创建一个函数，根据给定的<code>Weekday</code>枚举值返回一周中的相应天数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">dayOfWeek</span>(<span class="keyword">_</span> <span class="params">weekday</span>: <span class="type">Weekday</span>) -&gt; <span class="type">String</span> &#123;  </span><br><span class="line">    <span class="keyword">switch</span> weekday &#123;  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Monday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Tuesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wednesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Thursday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Friday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Saturday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Sunday&quot;</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们可以像下面这样使用这个函数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> monday <span class="operator">=</span> <span class="type">Weekday</span>.<span class="type">Monday</span>  </span><br><span class="line"><span class="built_in">print</span>(dayOfWeek(monday)) <span class="comment">// 输出：Monday</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="关联值"><a href="#关联值" class="headerlink" title="关联值"></a>关联值</h4><p>Swift的枚举还可以定义关联值，这使得枚举能够更丰富地表达信息。例如，我们创建一个枚举表示用户的登录状态，并为其关联一个错误消息：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">UserLoginStatus</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> success(<span class="type">String</span>)  </span><br><span class="line">    <span class="keyword">case</span> failure(<span class="type">String</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>UserLoginStatus</code>枚举有两个cases：<code>success</code>和<code>failure</code>。这两个cases都关联了一个String类型的值，表示成功或失败的状态信息。我们可以像下面这样使用这个枚举：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> successfulLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.success(<span class="string">&quot;登录成功&quot;</span>)  </span><br><span class="line"><span class="keyword">let</span> failedLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.failure(<span class="string">&quot;登录失败，请检查用户名和密码&quot;</span>)  </span><br><span class="line"><span class="built_in">print</span>(successfulLogin) <span class="comment">// 输出：登录成功  </span></span><br><span class="line"><span class="built_in">print</span>(failedLogin) <span class="comment">// 输出：登录失败，请检查用户名和密码</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="在switch语句中使用枚举"><a href="#在switch语句中使用枚举" class="headerlink" title="在switch语句中使用枚举"></a>在switch语句中使用枚举</h4><p>由于Swift的枚举是全特性的，所以在switch语句中可以使用枚举的所有case值。这对于处理多种可能的枚举值非常有用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> someWeekday: <span class="type">Weekday</span> <span class="operator">=</span> .<span class="type">Wednesday</span>  </span><br><span class="line"><span class="keyword">switch</span> someWeekday &#123;  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期一&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期二&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期三&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期四&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期五&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期六&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期日&quot;</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用原始值和匿名枚举"><a href="#使用原始值和匿名枚举" class="headerlink" title="使用原始值和匿名枚举"></a>使用原始值和匿名枚举</h4><p>有时候，我们可能不需要为枚举的每个case关联一个特定的值，或者我们希望将所有值都关联到一个单一的原始值。在这种情况下，我们可以使用原始值和匿名枚举。例如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span>乏味的颜色: <span class="title class_">Int</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> red <span class="operator">=</span> <span class="number">1</span>, green <span class="operator">=</span> <span class="number">2</span>, blue <span class="operator">=</span> <span class="number">3</span>, yellow <span class="operator">=</span> <span class="number">4</span>, orange <span class="operator">=</span> <span class="number">5</span>,  <span class="comment">// 可以根据需要添加更多颜色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Swift 基础语法</category>
       </categories>
       <tags>
         <tag>Swift</tag>
-        <tag>结构体</tag>
+        <tag>枚举</tag>
       </tags>
   </entry>
   <entry>
@@ -507,189 +562,37 @@
       </tags>
   </entry>
   <entry>
-    <title>Swift 中的枚举</title>
-    <url>/posts/251de72f.html</url>
-    <content><![CDATA[<h3 id="Swift-中的枚举"><a href="#Swift-中的枚举" class="headerlink" title="Swift 中的枚举"></a>Swift 中的枚举</h3><p>在计算机编程中，枚举是一种数据类型，用于定义一定范围内的有名称的值。Swift语言中的枚举是强大且灵活的工具，我们可以在多种场景中使用它们，包括但不限于处理特定类型的数据、创建自定义的错误类型以及实现特定的设计模式。</p>
-<h4 id="定义和基本用法"><a href="#定义和基本用法" class="headerlink" title="定义和基本用法"></a>定义和基本用法</h4><p>在Swift中，我们使用<code>enum</code>关键字来定义枚举。下面是一个简单的例子，展示了如何定义和使用一个名为<code>Weekday</code>的枚举，表示一周中的每一天：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Monday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Tuesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Wednesday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Thursday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Friday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Saturday</span>  </span><br><span class="line">    <span class="keyword">case</span> <span class="type">Sunday</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+    <title>Swift 中的结构体</title>
+    <url>/posts/8745e5a7.html</url>
+    <content><![CDATA[<h3 id="结构体的定义"><a href="#结构体的定义" class="headerlink" title="结构体的定义"></a>结构体的定义</h3><p>在Swift中，结构体是一种值类型，用于组合不同类型的值。它们可以被视为小型的数据模型，用于存储一组相关的数据。</p>
+<h3 id="结构体的主要特点"><a href="#结构体的主要特点" class="headerlink" title="结构体的主要特点"></a>结构体的主要特点</h3><ol>
+<li><strong>数据组合</strong>：结构体可以将不同类型的值组合在一起，形成一个有意义的数据结构。这使得结构体非常适合用于描述现实世界中的对象或数据模型。</li>
+<li><strong>封装</strong>：结构体可以将数据封装在一起，形成一个单一的、可操作的数据单元。这有助于隐藏内部实现细节，提高代码的可读性和可维护性。</li>
+<li><strong>代码复用</strong>：结构体可以通过定义公共的属性和方法，实现代码的复用。这可以在不同的代码片段中重复使用相同的结构体定义，提高代码的效率和可读性。</li>
+<li><strong>数据类型安全</strong>：结构体是类型安全的，这意味着在编译时可以检测到类型错误。这有助于减少运行时错误，提高代码的稳定性和安全性。</li>
+</ol>
 <span id="more"></span>
 
-<p>我们可以使用这个枚举来处理与一周中的某天相关的数据。例如，我们可以创建一个函数，根据给定的<code>Weekday</code>枚举值返回一周中的相应天数：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">dayOfWeek</span>(<span class="keyword">_</span> <span class="params">weekday</span>: <span class="type">Weekday</span>) -&gt; <span class="type">String</span> &#123;  </span><br><span class="line">    <span class="keyword">switch</span> weekday &#123;  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Monday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Tuesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wednesday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Thursday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Friday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Saturday&quot;</span>  </span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Sunday&quot;</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后我们可以像下面这样使用这个函数：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> monday <span class="operator">=</span> <span class="type">Weekday</span>.<span class="type">Monday</span>  </span><br><span class="line"><span class="built_in">print</span>(dayOfWeek(monday)) <span class="comment">// 输出：Monday</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="关联值"><a href="#关联值" class="headerlink" title="关联值"></a>关联值</h4><p>Swift的枚举还可以定义关联值，这使得枚举能够更丰富地表达信息。例如，我们创建一个枚举表示用户的登录状态，并为其关联一个错误消息：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">UserLoginStatus</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> success(<span class="type">String</span>)  </span><br><span class="line">    <span class="keyword">case</span> failure(<span class="type">String</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>UserLoginStatus</code>枚举有两个cases：<code>success</code>和<code>failure</code>。这两个cases都关联了一个String类型的值，表示成功或失败的状态信息。我们可以像下面这样使用这个枚举：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> successfulLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.success(<span class="string">&quot;登录成功&quot;</span>)  </span><br><span class="line"><span class="keyword">let</span> failedLogin <span class="operator">=</span> <span class="type">UserLoginStatus</span>.failure(<span class="string">&quot;登录失败，请检查用户名和密码&quot;</span>)  </span><br><span class="line"><span class="built_in">print</span>(successfulLogin) <span class="comment">// 输出：登录成功  </span></span><br><span class="line"><span class="built_in">print</span>(failedLogin) <span class="comment">// 输出：登录失败，请检查用户名和密码</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="在switch语句中使用枚举"><a href="#在switch语句中使用枚举" class="headerlink" title="在switch语句中使用枚举"></a>在switch语句中使用枚举</h4><p>由于Swift的枚举是全特性的，所以在switch语句中可以使用枚举的所有case值。这对于处理多种可能的枚举值非常有用：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> someWeekday: <span class="type">Weekday</span> <span class="operator">=</span> .<span class="type">Wednesday</span>  </span><br><span class="line"><span class="keyword">switch</span> someWeekday &#123;  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Monday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期一&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Tuesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期二&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Wednesday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期三&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Thursday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期四&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Friday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期五&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Saturday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期六&quot;</span>)  </span><br><span class="line"><span class="keyword">case</span> .<span class="type">Sunday</span>:  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;今天是星期日&quot;</span>)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="使用原始值和匿名枚举"><a href="#使用原始值和匿名枚举" class="headerlink" title="使用原始值和匿名枚举"></a>使用原始值和匿名枚举</h4><p>有时候，我们可能不需要为枚举的每个case关联一个特定的值，或者我们希望将所有值都关联到一个单一的原始值。在这种情况下，我们可以使用原始值和匿名枚举。例如：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span>乏味的颜色: <span class="title class_">Int</span> &#123;  </span><br><span class="line">    <span class="keyword">case</span> red <span class="operator">=</span> <span class="number">1</span>, green <span class="operator">=</span> <span class="number">2</span>, blue <span class="operator">=</span> <span class="number">3</span>, yellow <span class="operator">=</span> <span class="number">4</span>, orange <span class="operator">=</span> <span class="number">5</span>,  <span class="comment">// 可以根据需要添加更多颜色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>枚举</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 中的集合类型</title>
-    <url>/posts/5f278529.html</url>
-    <content><![CDATA[<p>Swift 语言提供 <code>Arrays</code>、<code>Sets</code> 和 <code>Dictionaries</code> 三种基本的集合类型用来存储集合数据。<strong>数组（Arrays）</strong>是有序数据的集。<strong>集合（Sets）</strong>是无序无重复数据的集。<strong>字典（Dictionaries）</strong>是无序的键值对的集。</p>
-<p>Swift 语言中的 <code>Arrays</code>、<code>Sets</code> 和 <code>Dictionaries</code> 中存储的数据值<strong>类型必须明确</strong>。这意味着我们不能把错误的数据类型插入其中。</p>
-<span id="more"></span>
-
-<h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><p>数组使用有序列表存储同一类型的多个值。相同的值可以多次出现在一个数组的不同位置中，这意味着数组中的元素是可以重复的。</p>
-<h5 id="创建一个空数组"><a href="#创建一个空数组" class="headerlink" title="创建一个空数组"></a>创建一个空数组</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> someInts <span class="operator">=</span> [<span class="type">Int</span>]()</span><br><span class="line"><span class="keyword">var</span> someStr:[<span class="type">String</span>] <span class="operator">=</span> []</span><br></pre></td></tr></table></figure>
-
-<h5 id="创建一个带有默认值的数组"><a href="#创建一个带有默认值的数组" class="headerlink" title="创建一个带有默认值的数组"></a>创建一个带有默认值的数组</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> threeDouble <span class="operator">=</span> <span class="type">Array</span>(repeating: <span class="number">0.3</span>, count: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(threeDouble)</span><br></pre></td></tr></table></figure>
-
-<p>这里我们使用<code>Array</code>默认构造方法创建了一个长度大小为3，初始元素值为0.3的双精度类型的数组。参数说明：</p>
-<ul>
-<li>repeating:初始时元素的值</li>
-<li>count：元素的个数或者数组的长度</li>
-</ul>
-<p>此时，打印数组的显示如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[0.3, 0.3, 0.3]</span><br></pre></td></tr></table></figure>
-
-<h5 id="访问数组"><a href="#访问数组" class="headerlink" title="访问数组"></a>访问数组</h5><p>我们可以根据数组的索引来访问数组中的元素，不过需要注意的一点是数组的索引是从0开始的。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nameArr <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>,<span class="string">&quot;Zhao&quot;</span>,<span class="string">&quot;Rudolf&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第一个元素<span class="subst">\(nameArr[<span class="number">0</span>])</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第二个元素<span class="subst">\(nameArr[<span class="number">1</span>])</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第三个元素<span class="subst">\(nameArr[<span class="number">1</span>])</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h5 id="修改数组"><a href="#修改数组" class="headerlink" title="修改数组"></a>修改数组</h5><h6 id="添加数组元素"><a href="#添加数组元素" class="headerlink" title="添加数组元素"></a>添加数组元素</h6><p>我们可以使用<code>append</code>方法或者赋值运算符<code>+=</code>将一个元素添加到数组的末尾。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">nameArr.append(<span class="string">&quot;Wells&quot;</span>)</span><br><span class="line">nameArr <span class="operator">+=</span> [<span class="string">&quot;Wells&quot;</span>]</span><br></pre></td></tr></table></figure>
-
-<p>此时的数组为：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;Felix&quot;</span>, <span class="string">&quot;Zhao&quot;</span>, <span class="string">&quot;Rudolf&quot;</span>, <span class="string">&quot;Wells&quot;</span>, <span class="string">&quot;Wells&quot;</span>]</span><br></pre></td></tr></table></figure>
-
-<h5 id="循环遍历数组"><a href="#循环遍历数组" class="headerlink" title="循环遍历数组"></a>循环遍历数组</h5><p>我们可以使用<code>for-in</code>循环来遍历数组中的每一个元素。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> nameArr &#123;</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果我们同时需要每个元素的值和对应的索引，我们可以使用<code>enumerate()</code>方法来遍历数组。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (index,name) <span class="keyword">in</span> nameArr.enumerated() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;当前索引:<span class="subst">\(index)</span>,当前值：<span class="subst">\(name)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">当前索引:<span class="number">0</span>,当前值：<span class="type">Felix</span></span><br><span class="line">当前索引:<span class="number">1</span>,当前值：<span class="type">Zhao</span></span><br><span class="line">当前索引:<span class="number">2</span>,当前值：<span class="type">Rudolf</span></span><br><span class="line">当前索引:<span class="number">3</span>,当前值：<span class="type">Wells</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="数组合并"><a href="#数组合并" class="headerlink" title="数组合并"></a>数组合并</h5><p>当我们有两个数据类型相同数组需要合并时，可以使用<code>+</code>运算符来合并数组。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nameArr <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>,<span class="string">&quot;Zhao&quot;</span>,<span class="string">&quot;Rudolf&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> newNameArr <span class="operator">=</span> [<span class="string">&quot;Lily&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> newArr <span class="operator">=</span> newNameArr <span class="operator">+</span> nameArr</span><br></pre></td></tr></table></figure>
-
-<p>此时，newArr的元素为：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;Lily&quot;</span>, <span class="string">&quot;Felix&quot;</span>, <span class="string">&quot;Zhao&quot;</span>, <span class="string">&quot;Rudolf&quot;</span>]</span><br></pre></td></tr></table></figure>
-
-<h5 id="数组相关属性"><a href="#数组相关属性" class="headerlink" title="数组相关属性"></a>数组相关属性</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(nameArr.count) </span><br><span class="line"><span class="built_in">print</span>(nameArr.isEmpty) </span><br></pre></td></tr></table></figure>
-
-<p><code>.count</code>用来获取数组元素的个数；<code>.isEmpty</code>判断数组是否为空，返回值为布尔值。</p>
-<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><p>Swift中的字典是一个用来存储无序的相同类型数据的集合。字典中每个值(value)对应一个唯一的键(key)，键被作为值在这个字典里的标识符。字典里的数据是没有具体顺序的，我们只能通过值对应的键来访问到这个数据。另外，字典中的键可以是整型或者字符串类型，但是一个字典里键的类型必须是唯一的。</p>
-<h5 id="创建字典"><a href="#创建字典" class="headerlink" title="创建字典"></a>创建字典</h5><p>Swift中的字典使用<code>Dictionary&lt;Key,Value&gt;</code>的形式定义，其中<code>Key</code>是字典中键的数据类型，<code>Value</code>是字典中值的数据类型。我们使用这样形式来定义一个空的字典：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptyDcit <span class="operator">=</span> <span class="type">Dictionary</span>&lt;<span class="type">String</span>,<span class="type">String</span>&gt;()</span><br></pre></td></tr></table></figure>
-
-<p>Swift中也给我们提供了一种简化的语法来定义字典：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptyDcit <span class="operator">=</span> [<span class="type">String</span>:<span class="type">String</span>]()</span><br></pre></td></tr></table></figure>
-
-<p>两种方式都是定义了一个键和值都为字符串类型的空字典，在实际使用过程中，我们更多的是使用后面简化的定义方法。</p>
-<p>在项目开发中，如果我们只需要定义一个字典，但是不需要对它进行初始化操作的话，我们可以使用下面的这中方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> dic:[<span class="type">String</span>:<span class="type">String</span>]<span class="operator">!</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="字典的访问与修改"><a href="#字典的访问与修改" class="headerlink" title="字典的访问与修改"></a>字典的访问与修改</h5><p>我们可以根据键来修改字典中对应的值，我们也可以使用一些内置的方法来添加、删除元素。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> countryDic:[<span class="type">String</span>:<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;JP&quot;</span>:<span class="string">&quot;日本&quot;</span>,<span class="string">&quot;CN&quot;</span>:<span class="string">&quot;中国&quot;</span>,<span class="string">&quot;UK&quot;</span>:<span class="string">&quot;英国&quot;</span>,<span class="string">&quot;FR&quot;</span>:<span class="string">&quot;法国&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(countryDic[<span class="string">&quot;CN&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(countryDic[<span class="string">&quot;JP&quot;</span>])</span><br></pre></td></tr></table></figure>
-
-<p>在上面的实例代码中，我们定义了一个键为国家英文缩写，值为国家的中文简写。我们分别使用键<code>CN</code>和<code>JP</code>访问字典。</p>
-<p>当我们需要字典中添加一个新的元素时候，可以使用以下方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic[<span class="string">&quot;IN&quot;</span>] <span class="operator">=</span> <span class="string">&quot;印度&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>我们需要修改字典中的某个元素的值，使用以下方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic[<span class="string">&quot;CN&quot;</span>] <span class="operator">=</span> <span class="string">&quot;中华人民共和国&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>我们发现，我们添加新的元素和修改原有元素的值的方法是一样的。这是因为当我们通过键去修改字典的时候，会根据键名先去查询字典中是否包含对应的键名，如果包含的话就修改对应的值，如果不包含就添加新的元素。</p>
-<p>经过上面的添加和修改之后，此时的字典元素如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;UK&quot;</span>: <span class="string">&quot;英国&quot;</span>, <span class="string">&quot;JP&quot;</span>: <span class="string">&quot;日本&quot;</span>, <span class="string">&quot;FR&quot;</span>: <span class="string">&quot;法国&quot;</span>, <span class="string">&quot;CN&quot;</span>: <span class="string">&quot;中华人民共和国&quot;</span>, <span class="string">&quot;IN&quot;</span>: <span class="string">&quot;印度&quot;</span>]</span><br></pre></td></tr></table></figure>
-
-<p>我们经常会遇到根据键名去删除字典中对应的元素，这时，我们可以使用以下方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic.removeValue(forKey: <span class="string">&quot;CN&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>我们经常会使用到的方法还有：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> index <span class="operator">=</span> countryDic.index(countryDic.startIndex, offsetBy: <span class="number">1</span>)</span><br><span class="line">countryDic.remove(at: index)  <span class="comment">//根据指定的索引删除元素</span></span><br><span class="line">countryDic.removeAll() <span class="comment">//清空字典</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="字典的遍历"><a href="#字典的遍历" class="headerlink" title="字典的遍历"></a>字典的遍历</h5><p>在之前的学习中，我们使用了<code>for-in</code>循环来遍历数组，同样的我们也可以使用<code>for-in</code>来遍历字典，不同的是遍历字典返回的是每个元素对应的键和值。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (key,value) <span class="keyword">in</span> countryDic &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;键：<span class="subst">\(key)</span>,值：<span class="subst">\(value)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当然，我们也可以值循环遍历出字典的键或者值。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> countryDic.keys &#123;</span><br><span class="line">    <span class="built_in">print</span>(key)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span>  countryDic.values &#123;</span><br><span class="line">    <span class="built_in">print</span>(value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>另外，在学习数组的时候，我们使用<code>isEmpty</code>属性来判断一个数组是否为空，我们同样可以使用这个方法来判断字典是否为空。</p>
-<h4 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h4><p>Swift 中的集合（Set）是一种无序的、不重复的数据结构，它允许你存储不同类型的元素。集合的主要用途是检查元素是否存在于集合中，因为集合中的<strong>元素是唯一</strong>的，所以当你尝试添加一个已经存在的元素时，集合不会发生变化。</p>
-<h5 id="创建一个集合"><a href="#创建一个集合" class="headerlink" title="创建一个集合"></a>创建一个集合</h5><p>创建集合的常见方法是使用字面量语法或者初始化器（initializer）。下面是一些关于如何创建和使用集合的示例：</p>
+<p>此外，结构体还具有以下特点：</p>
 <ol>
-<li>使用字面量语法创建集合：</li>
+<li><strong>值类型</strong>：结构体是值类型，这意味着当我们将一个结构体赋值给一个变量或者作为函数的参数时，它会进行一次深复制。这意味着修改一个结构体的副本不会影响原始结构体。</li>
+<li><strong>语法简单</strong>：在Swift中定义结构体的语法非常简单。我们只需要使用<code>struct</code>关键字，后面跟着结构体的名称和定义它的变量和方法。</li>
+<li><strong>内存管理简单</strong>：由于结构体通常存储的是基本数据类型和其他结构体，因此它们的内存管理相对简单。这使得使用结构体比使用类更加高效，尤其是在处理大量数据时。</li>
+<li><strong>适用于小型对象</strong>：由于结构体的内存占用较小，因此它们更适合用于描述小型对象或数据模型。对于大型对象或需要复杂行为的数据类型，类可能是更好的选择。</li>
 </ol>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> numbers <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">Int</span>&gt;() <span class="comment">// 创建一个空的整数集合</span></span><br><span class="line"><span class="keyword">let</span> fruits <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">String</span>&gt;(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>) <span class="comment">// 创建一个包含三个字符串元素的集合</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>使用初始化器创建集合：</li>
-</ol>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptySet: <span class="type">Set</span>&lt;<span class="type">Int</span>&gt; <span class="operator">=</span> [] <span class="comment">// 创建一个空的整数集合</span></span><br><span class="line"><span class="keyword">var</span> fruitsSet <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>]) <span class="comment">// 创建一个包含三个字符串元素的集合</span></span><br><span class="line"><span class="keyword">var</span> mixedSet: <span class="type">Set</span>&lt;<span class="keyword">Any</span>&gt; <span class="operator">=</span> [<span class="number">1</span>, <span class="string">&quot;apple&quot;</span>, <span class="number">3.14</span>] <span class="comment">// 创建一个包含整数和浮点数的混合类型集合</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="集合中元素的访问、修改和删除"><a href="#集合中元素的访问、修改和删除" class="headerlink" title="集合中元素的访问、修改和删除"></a>集合中元素的访问、修改和删除</h5><p>向集合中添加新的元素使用<code>insert</code> 方法：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">numbers.insert(<span class="number">1</span>) <span class="comment">// 添加一个元素到集合中</span></span><br><span class="line">fruits.insert(<span class="string">&quot;grape&quot;</span>) <span class="comment">// 向集合中添加一个元素，如果元素已经存在，则不会改变集合</span></span><br></pre></td></tr></table></figure>
-
-<p>使用<code>remove</code> 方法移除集合中的元素：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">numbers.remove(<span class="number">1</span>) <span class="comment">// 从集合中移除一个元素，如果元素不存在，则不会改变集合</span></span><br><span class="line">fruits.remove(<span class="string">&quot;banana&quot;</span>) <span class="comment">// 从集合中移除一个元素，如果元素不存在，则不会改变集合</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="集合的遍历"><a href="#集合的遍历" class="headerlink" title="集合的遍历"></a>集合的遍历</h5><p>集合的遍历和数组的遍历类似，使用 <code>for-in</code>循环语句。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> number <span class="keyword">in</span> numbers &#123;</span><br><span class="line">    <span class="built_in">print</span>(number) <span class="comment">// 输出集合中的每个元素</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> fruit <span class="keyword">in</span> fruits &#123;</span><br><span class="line">    <span class="built_in">print</span>(fruit) <span class="comment">// 输出集合中的每个元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="检查元素是否存在于集合中"><a href="#检查元素是否存在于集合中" class="headerlink" title="检查元素是否存在于集合中"></a>检查元素是否存在于集合中</h5><p>判断一个元素是否存在于集合中可以使用<code>contains</code> 方法。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> fruits.contains(<span class="string">&quot;apple&quot;</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;苹果存在于集合中&quot;</span>) <span class="comment">// 如果集合包含指定的元素，则输出相应的信息</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;苹果不存在于集合中&quot;</span>) <span class="comment">// 如果集合不包含指定的元素，则输出相应的信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="获取集合的大小"><a href="#获取集合的大小" class="headerlink" title="获取集合的大小"></a>获取集合的大小</h5><p>获取集合的大小或元素的数量使用<code>count</code> 属性。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> size <span class="operator">=</span> fruits.count <span class="comment">// 获取集合中的元素个数</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="判断两个集合是否相等（即它们包含相同的元素）"><a href="#判断两个集合是否相等（即它们包含相同的元素）" class="headerlink" title="判断两个集合是否相等（即它们包含相同的元素）"></a>判断两个集合是否相等（即它们包含相同的元素）</h5><p>判断两个集合是否相等可以使用<code>==</code> 运算符。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> setA <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>])</span><br><span class="line"><span class="keyword">let</span> setB <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>])</span><br><span class="line"><span class="keyword">let</span> isEqual <span class="operator">=</span> setA <span class="operator">==</span> setB <span class="comment">// 判断两个集合是否相等，如果相等则返回 true，否则返回 false</span></span><br></pre></td></tr></table></figure>
+<h3 id="定义一个结构体"><a href="#定义一个结构体" class="headerlink" title="定义一个结构体"></a>定义一个结构体</h3><p>让我们通过一个示例来深入理解结构体的使用：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> grade: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">updateAge</span>(<span class="params">newAge</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        age <span class="operator">=</span> newAge</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的示例中，我们定义了一个名为<code>Student</code>的结构体，它包含三个属性：<code>name</code>、<code>age</code>和<code>grade</code>，分别表示学生的姓名、年龄和年级。我们还定义了一个名为<code>updateAge</code>的方法，用于更新学生的年龄。</p>
+<p>我们可以像下面这样创建一个<code>Student</code>实例并设置它的属性值：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> student1 <span class="operator">=</span> <span class="type">Student</span>(name: <span class="string">&quot;张三&quot;</span>, age: <span class="number">20</span>, grade: <span class="string">&quot;大一&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(student1.name) <span class="comment">// 输出 &quot;张三&quot;</span></span><br><span class="line"><span class="built_in">print</span>(student1.age) <span class="comment">// 输出 &quot;20&quot;</span></span><br><span class="line"><span class="built_in">print</span>(student1.grade) <span class="comment">// 输出 &quot;大一&quot;</span></span><br><span class="line"></span><br><span class="line">student1.updateAge(newAge: <span class="number">21</span>) <span class="comment">// 更新学生年龄为21</span></span><br><span class="line"><span class="built_in">print</span>(student1.age) <span class="comment">// 输出 &quot;21&quot;</span></span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们通过创建<code>Student</code>实例并设置它的属性值来描述一个学生对象。然后，我们使用<code>updateAge</code>方法来更新学生的年龄。请注意，由于<code>updateAge</code>方法修改了结构体的属性值，因此它被标记为<code>mutating</code>。这是因为在Swift中，非变异方法不能修改结构体的属性值。</p>
 ]]></content>
       <categories>
         <category>Swift 基础语法</category>
       </categories>
       <tags>
         <tag>Swift</tag>
-        <tag>Foundation</tag>
-        <tag>集合类型</tag>
-        <tag>数组</tag>
-        <tag>集合</tag>
-        <tag>字典</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swift 介绍</title>
-    <url>/posts/ea0a67e1.html</url>
-    <content><![CDATA[<h1 id="Swift-编程语言介绍"><a href="#Swift-编程语言介绍" class="headerlink" title="Swift 编程语言介绍"></a>Swift 编程语言介绍</h1><p>Swift 是一种强大且直观的编程语言，由 Apple Inc. 开发，用于 iOS, macOS, watchOS 和 tvOS 的应用开发。Swift 结合了 C 和 Objective-C 的优点，并且支持函数式编程，面向对象编程和泛型编程。它的目标是提供一种安全、高效、灵活和现代化的编程语言，可以让开发者创造出更快、更稳定、更易用的应用程序。</p>
-<span id="more"></span>
-
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>Swift 强调类型安全和内存管理。它不允许隐式转换到不安全的类型，这可以防止许多常见的编程错误。此外，Swift 使用自动引用计数（ARC）来管理内存，减少了内存泄露的可能性。</p>
-<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>Swift 旨在提供高性能的应用程序。它的编译器进行了优化，以提高运行速度和减少能源消耗。Swift 的语法糖也有助于编写简洁且高效的代码。</p>
-<h3 id="易用性"><a href="#易用性" class="headerlink" title="易用性"></a>易用性</h3><p>Swift 的语法清晰简洁，易于学习和使用。它的设计哲学是“简单就是美”，使得 Swift 代码既美观又易读。</p>
-<h3 id="开源"><a href="#开源" class="headerlink" title="开源"></a>开源</h3><p>Swift 是开源的，这意味着开发者可以查看和修改其源代码。这使得 Swift 成为一个活跃的社区项目，不断有新的功能和改进加入其中。</p>
-<h2 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h2><h3 id="类型系统"><a href="#类型系统" class="headerlink" title="类型系统"></a>类型系统</h3><p>Swift 是一种静态类型语言，这意味着你在编写代码时必须为每个变量明确指定类型。这可以避免许多类型错误，并使得代码更加易于理解和维护。</p>
-<h3 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h3><p>Swift 完全支持面向对象编程，包括类、结构体、协议、继承和多态等概念。它也支持协议扩展，这使得你可以向现有类添加新的方法或者属性，而无需改变原有的代码。</p>
-<h3 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h3><p>Swift 同时支持函数式编程和面向对象编程。你可以在函数中使用闭包，这为处理异步事件或者创建高阶函数提供了强大的工具。</p>
-<h3 id="Playgrounds"><a href="#Playgrounds" class="headerlink" title="Playgrounds"></a>Playgrounds</h3><p>Xcode 集成了一个强大的交互式编程环境——Playgrounds。你可以在 Playgrounds 中尝试 Swift 的各种特性，而无需创建完整的项目。</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Swift 是一种强大、直观且安全的编程语言，它专注于提供最好的用户体验和性能。无论你是初学者还是有经验的开发者，Swift 都能帮助你更有效地编写代码。</p>
-]]></content>
-      <categories>
-        <category>Swift 基础语法</category>
-      </categories>
-      <tags>
-        <tag>Swift</tag>
-        <tag>Apple</tag>
+        <tag>结构体</tag>
       </tags>
   </entry>
   <entry>
@@ -814,6 +717,157 @@
       </tags>
   </entry>
   <entry>
+    <title>Swift 中的集合类型</title>
+    <url>/posts/5f278529.html</url>
+    <content><![CDATA[<p>Swift 语言提供 <code>Arrays</code>、<code>Sets</code> 和 <code>Dictionaries</code> 三种基本的集合类型用来存储集合数据。<strong>数组（Arrays）</strong>是有序数据的集。<strong>集合（Sets）</strong>是无序无重复数据的集。<strong>字典（Dictionaries）</strong>是无序的键值对的集。</p>
+<p>Swift 语言中的 <code>Arrays</code>、<code>Sets</code> 和 <code>Dictionaries</code> 中存储的数据值<strong>类型必须明确</strong>。这意味着我们不能把错误的数据类型插入其中。</p>
+<span id="more"></span>
+
+<h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><p>数组使用有序列表存储同一类型的多个值。相同的值可以多次出现在一个数组的不同位置中，这意味着数组中的元素是可以重复的。</p>
+<h5 id="创建一个空数组"><a href="#创建一个空数组" class="headerlink" title="创建一个空数组"></a>创建一个空数组</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> someInts <span class="operator">=</span> [<span class="type">Int</span>]()</span><br><span class="line"><span class="keyword">var</span> someStr:[<span class="type">String</span>] <span class="operator">=</span> []</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建一个带有默认值的数组"><a href="#创建一个带有默认值的数组" class="headerlink" title="创建一个带有默认值的数组"></a>创建一个带有默认值的数组</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> threeDouble <span class="operator">=</span> <span class="type">Array</span>(repeating: <span class="number">0.3</span>, count: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(threeDouble)</span><br></pre></td></tr></table></figure>
+
+<p>这里我们使用<code>Array</code>默认构造方法创建了一个长度大小为3，初始元素值为0.3的双精度类型的数组。参数说明：</p>
+<ul>
+<li>repeating:初始时元素的值</li>
+<li>count：元素的个数或者数组的长度</li>
+</ul>
+<p>此时，打印数组的显示如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[0.3, 0.3, 0.3]</span><br></pre></td></tr></table></figure>
+
+<h5 id="访问数组"><a href="#访问数组" class="headerlink" title="访问数组"></a>访问数组</h5><p>我们可以根据数组的索引来访问数组中的元素，不过需要注意的一点是数组的索引是从0开始的。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nameArr <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>,<span class="string">&quot;Zhao&quot;</span>,<span class="string">&quot;Rudolf&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第一个元素<span class="subst">\(nameArr[<span class="number">0</span>])</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第二个元素<span class="subst">\(nameArr[<span class="number">1</span>])</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;第三个元素<span class="subst">\(nameArr[<span class="number">1</span>])</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="修改数组"><a href="#修改数组" class="headerlink" title="修改数组"></a>修改数组</h5><h6 id="添加数组元素"><a href="#添加数组元素" class="headerlink" title="添加数组元素"></a>添加数组元素</h6><p>我们可以使用<code>append</code>方法或者赋值运算符<code>+=</code>将一个元素添加到数组的末尾。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">nameArr.append(<span class="string">&quot;Wells&quot;</span>)</span><br><span class="line">nameArr <span class="operator">+=</span> [<span class="string">&quot;Wells&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>此时的数组为：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;Felix&quot;</span>, <span class="string">&quot;Zhao&quot;</span>, <span class="string">&quot;Rudolf&quot;</span>, <span class="string">&quot;Wells&quot;</span>, <span class="string">&quot;Wells&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h5 id="循环遍历数组"><a href="#循环遍历数组" class="headerlink" title="循环遍历数组"></a>循环遍历数组</h5><p>我们可以使用<code>for-in</code>循环来遍历数组中的每一个元素。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> nameArr &#123;</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们同时需要每个元素的值和对应的索引，我们可以使用<code>enumerate()</code>方法来遍历数组。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (index,name) <span class="keyword">in</span> nameArr.enumerated() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;当前索引:<span class="subst">\(index)</span>,当前值：<span class="subst">\(name)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">当前索引:<span class="number">0</span>,当前值：<span class="type">Felix</span></span><br><span class="line">当前索引:<span class="number">1</span>,当前值：<span class="type">Zhao</span></span><br><span class="line">当前索引:<span class="number">2</span>,当前值：<span class="type">Rudolf</span></span><br><span class="line">当前索引:<span class="number">3</span>,当前值：<span class="type">Wells</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="数组合并"><a href="#数组合并" class="headerlink" title="数组合并"></a>数组合并</h5><p>当我们有两个数据类型相同数组需要合并时，可以使用<code>+</code>运算符来合并数组。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> nameArr <span class="operator">=</span> [<span class="string">&quot;Felix&quot;</span>,<span class="string">&quot;Zhao&quot;</span>,<span class="string">&quot;Rudolf&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> newNameArr <span class="operator">=</span> [<span class="string">&quot;Lily&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> newArr <span class="operator">=</span> newNameArr <span class="operator">+</span> nameArr</span><br></pre></td></tr></table></figure>
+
+<p>此时，newArr的元素为：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;Lily&quot;</span>, <span class="string">&quot;Felix&quot;</span>, <span class="string">&quot;Zhao&quot;</span>, <span class="string">&quot;Rudolf&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h5 id="数组相关属性"><a href="#数组相关属性" class="headerlink" title="数组相关属性"></a>数组相关属性</h5><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(nameArr.count) </span><br><span class="line"><span class="built_in">print</span>(nameArr.isEmpty) </span><br></pre></td></tr></table></figure>
+
+<p><code>.count</code>用来获取数组元素的个数；<code>.isEmpty</code>判断数组是否为空，返回值为布尔值。</p>
+<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><p>Swift中的字典是一个用来存储无序的相同类型数据的集合。字典中每个值(value)对应一个唯一的键(key)，键被作为值在这个字典里的标识符。字典里的数据是没有具体顺序的，我们只能通过值对应的键来访问到这个数据。另外，字典中的键可以是整型或者字符串类型，但是一个字典里键的类型必须是唯一的。</p>
+<h5 id="创建字典"><a href="#创建字典" class="headerlink" title="创建字典"></a>创建字典</h5><p>Swift中的字典使用<code>Dictionary&lt;Key,Value&gt;</code>的形式定义，其中<code>Key</code>是字典中键的数据类型，<code>Value</code>是字典中值的数据类型。我们使用这样形式来定义一个空的字典：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptyDcit <span class="operator">=</span> <span class="type">Dictionary</span>&lt;<span class="type">String</span>,<span class="type">String</span>&gt;()</span><br></pre></td></tr></table></figure>
+
+<p>Swift中也给我们提供了一种简化的语法来定义字典：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptyDcit <span class="operator">=</span> [<span class="type">String</span>:<span class="type">String</span>]()</span><br></pre></td></tr></table></figure>
+
+<p>两种方式都是定义了一个键和值都为字符串类型的空字典，在实际使用过程中，我们更多的是使用后面简化的定义方法。</p>
+<p>在项目开发中，如果我们只需要定义一个字典，但是不需要对它进行初始化操作的话，我们可以使用下面的这中方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> dic:[<span class="type">String</span>:<span class="type">String</span>]<span class="operator">!</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="字典的访问与修改"><a href="#字典的访问与修改" class="headerlink" title="字典的访问与修改"></a>字典的访问与修改</h5><p>我们可以根据键来修改字典中对应的值，我们也可以使用一些内置的方法来添加、删除元素。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> countryDic:[<span class="type">String</span>:<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;JP&quot;</span>:<span class="string">&quot;日本&quot;</span>,<span class="string">&quot;CN&quot;</span>:<span class="string">&quot;中国&quot;</span>,<span class="string">&quot;UK&quot;</span>:<span class="string">&quot;英国&quot;</span>,<span class="string">&quot;FR&quot;</span>:<span class="string">&quot;法国&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(countryDic[<span class="string">&quot;CN&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(countryDic[<span class="string">&quot;JP&quot;</span>])</span><br></pre></td></tr></table></figure>
+
+<p>在上面的实例代码中，我们定义了一个键为国家英文缩写，值为国家的中文简写。我们分别使用键<code>CN</code>和<code>JP</code>访问字典。</p>
+<p>当我们需要字典中添加一个新的元素时候，可以使用以下方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic[<span class="string">&quot;IN&quot;</span>] <span class="operator">=</span> <span class="string">&quot;印度&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们需要修改字典中的某个元素的值，使用以下方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic[<span class="string">&quot;CN&quot;</span>] <span class="operator">=</span> <span class="string">&quot;中华人民共和国&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们发现，我们添加新的元素和修改原有元素的值的方法是一样的。这是因为当我们通过键去修改字典的时候，会根据键名先去查询字典中是否包含对应的键名，如果包含的话就修改对应的值，如果不包含就添加新的元素。</p>
+<p>经过上面的添加和修改之后，此时的字典元素如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;UK&quot;</span>: <span class="string">&quot;英国&quot;</span>, <span class="string">&quot;JP&quot;</span>: <span class="string">&quot;日本&quot;</span>, <span class="string">&quot;FR&quot;</span>: <span class="string">&quot;法国&quot;</span>, <span class="string">&quot;CN&quot;</span>: <span class="string">&quot;中华人民共和国&quot;</span>, <span class="string">&quot;IN&quot;</span>: <span class="string">&quot;印度&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>我们经常会遇到根据键名去删除字典中对应的元素，这时，我们可以使用以下方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">countryDic.removeValue(forKey: <span class="string">&quot;CN&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我们经常会使用到的方法还有：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> index <span class="operator">=</span> countryDic.index(countryDic.startIndex, offsetBy: <span class="number">1</span>)</span><br><span class="line">countryDic.remove(at: index)  <span class="comment">//根据指定的索引删除元素</span></span><br><span class="line">countryDic.removeAll() <span class="comment">//清空字典</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="字典的遍历"><a href="#字典的遍历" class="headerlink" title="字典的遍历"></a>字典的遍历</h5><p>在之前的学习中，我们使用了<code>for-in</code>循环来遍历数组，同样的我们也可以使用<code>for-in</code>来遍历字典，不同的是遍历字典返回的是每个元素对应的键和值。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (key,value) <span class="keyword">in</span> countryDic &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;键：<span class="subst">\(key)</span>,值：<span class="subst">\(value)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，我们也可以值循环遍历出字典的键或者值。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> countryDic.keys &#123;</span><br><span class="line">    <span class="built_in">print</span>(key)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span>  countryDic.values &#123;</span><br><span class="line">    <span class="built_in">print</span>(value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外，在学习数组的时候，我们使用<code>isEmpty</code>属性来判断一个数组是否为空，我们同样可以使用这个方法来判断字典是否为空。</p>
+<h4 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h4><p>Swift 中的集合（Set）是一种无序的、不重复的数据结构，它允许你存储不同类型的元素。集合的主要用途是检查元素是否存在于集合中，因为集合中的<strong>元素是唯一</strong>的，所以当你尝试添加一个已经存在的元素时，集合不会发生变化。</p>
+<h5 id="创建一个集合"><a href="#创建一个集合" class="headerlink" title="创建一个集合"></a>创建一个集合</h5><p>创建集合的常见方法是使用字面量语法或者初始化器（initializer）。下面是一些关于如何创建和使用集合的示例：</p>
+<ol>
+<li>使用字面量语法创建集合：</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> numbers <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">Int</span>&gt;() <span class="comment">// 创建一个空的整数集合</span></span><br><span class="line"><span class="keyword">let</span> fruits <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">String</span>&gt;(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>) <span class="comment">// 创建一个包含三个字符串元素的集合</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用初始化器创建集合：</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> emptySet: <span class="type">Set</span>&lt;<span class="type">Int</span>&gt; <span class="operator">=</span> [] <span class="comment">// 创建一个空的整数集合</span></span><br><span class="line"><span class="keyword">var</span> fruitsSet <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>]) <span class="comment">// 创建一个包含三个字符串元素的集合</span></span><br><span class="line"><span class="keyword">var</span> mixedSet: <span class="type">Set</span>&lt;<span class="keyword">Any</span>&gt; <span class="operator">=</span> [<span class="number">1</span>, <span class="string">&quot;apple&quot;</span>, <span class="number">3.14</span>] <span class="comment">// 创建一个包含整数和浮点数的混合类型集合</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="集合中元素的访问、修改和删除"><a href="#集合中元素的访问、修改和删除" class="headerlink" title="集合中元素的访问、修改和删除"></a>集合中元素的访问、修改和删除</h5><p>向集合中添加新的元素使用<code>insert</code> 方法：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">numbers.insert(<span class="number">1</span>) <span class="comment">// 添加一个元素到集合中</span></span><br><span class="line">fruits.insert(<span class="string">&quot;grape&quot;</span>) <span class="comment">// 向集合中添加一个元素，如果元素已经存在，则不会改变集合</span></span><br></pre></td></tr></table></figure>
+
+<p>使用<code>remove</code> 方法移除集合中的元素：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">numbers.remove(<span class="number">1</span>) <span class="comment">// 从集合中移除一个元素，如果元素不存在，则不会改变集合</span></span><br><span class="line">fruits.remove(<span class="string">&quot;banana&quot;</span>) <span class="comment">// 从集合中移除一个元素，如果元素不存在，则不会改变集合</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="集合的遍历"><a href="#集合的遍历" class="headerlink" title="集合的遍历"></a>集合的遍历</h5><p>集合的遍历和数组的遍历类似，使用 <code>for-in</code>循环语句。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> number <span class="keyword">in</span> numbers &#123;</span><br><span class="line">    <span class="built_in">print</span>(number) <span class="comment">// 输出集合中的每个元素</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> fruit <span class="keyword">in</span> fruits &#123;</span><br><span class="line">    <span class="built_in">print</span>(fruit) <span class="comment">// 输出集合中的每个元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="检查元素是否存在于集合中"><a href="#检查元素是否存在于集合中" class="headerlink" title="检查元素是否存在于集合中"></a>检查元素是否存在于集合中</h5><p>判断一个元素是否存在于集合中可以使用<code>contains</code> 方法。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> fruits.contains(<span class="string">&quot;apple&quot;</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;苹果存在于集合中&quot;</span>) <span class="comment">// 如果集合包含指定的元素，则输出相应的信息</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;苹果不存在于集合中&quot;</span>) <span class="comment">// 如果集合不包含指定的元素，则输出相应的信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="获取集合的大小"><a href="#获取集合的大小" class="headerlink" title="获取集合的大小"></a>获取集合的大小</h5><p>获取集合的大小或元素的数量使用<code>count</code> 属性。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> size <span class="operator">=</span> fruits.count <span class="comment">// 获取集合中的元素个数</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="判断两个集合是否相等（即它们包含相同的元素）"><a href="#判断两个集合是否相等（即它们包含相同的元素）" class="headerlink" title="判断两个集合是否相等（即它们包含相同的元素）"></a>判断两个集合是否相等（即它们包含相同的元素）</h5><p>判断两个集合是否相等可以使用<code>==</code> 运算符。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> setA <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>])</span><br><span class="line"><span class="keyword">let</span> setB <span class="operator">=</span> <span class="type">Set</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;orange&quot;</span>])</span><br><span class="line"><span class="keyword">let</span> isEqual <span class="operator">=</span> setA <span class="operator">==</span> setB <span class="comment">// 判断两个集合是否相等，如果相等则返回 true，否则返回 false</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Foundation</tag>
+        <tag>Swift</tag>
+        <tag>集合类型</tag>
+        <tag>数组</tag>
+        <tag>集合</tag>
+        <tag>字典</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift 介绍</title>
+    <url>/posts/ea0a67e1.html</url>
+    <content><![CDATA[<h1 id="Swift-编程语言介绍"><a href="#Swift-编程语言介绍" class="headerlink" title="Swift 编程语言介绍"></a>Swift 编程语言介绍</h1><p>Swift 是一种强大且直观的编程语言，由 Apple Inc. 开发，用于 iOS, macOS, watchOS 和 tvOS 的应用开发。Swift 结合了 C 和 Objective-C 的优点，并且支持函数式编程，面向对象编程和泛型编程。它的目标是提供一种安全、高效、灵活和现代化的编程语言，可以让开发者创造出更快、更稳定、更易用的应用程序。</p>
+<span id="more"></span>
+
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>Swift 强调类型安全和内存管理。它不允许隐式转换到不安全的类型，这可以防止许多常见的编程错误。此外，Swift 使用自动引用计数（ARC）来管理内存，减少了内存泄露的可能性。</p>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>Swift 旨在提供高性能的应用程序。它的编译器进行了优化，以提高运行速度和减少能源消耗。Swift 的语法糖也有助于编写简洁且高效的代码。</p>
+<h3 id="易用性"><a href="#易用性" class="headerlink" title="易用性"></a>易用性</h3><p>Swift 的语法清晰简洁，易于学习和使用。它的设计哲学是“简单就是美”，使得 Swift 代码既美观又易读。</p>
+<h3 id="开源"><a href="#开源" class="headerlink" title="开源"></a>开源</h3><p>Swift 是开源的，这意味着开发者可以查看和修改其源代码。这使得 Swift 成为一个活跃的社区项目，不断有新的功能和改进加入其中。</p>
+<h2 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h2><h3 id="类型系统"><a href="#类型系统" class="headerlink" title="类型系统"></a>类型系统</h3><p>Swift 是一种静态类型语言，这意味着你在编写代码时必须为每个变量明确指定类型。这可以避免许多类型错误，并使得代码更加易于理解和维护。</p>
+<h3 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h3><p>Swift 完全支持面向对象编程，包括类、结构体、协议、继承和多态等概念。它也支持协议扩展，这使得你可以向现有类添加新的方法或者属性，而无需改变原有的代码。</p>
+<h3 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h3><p>Swift 同时支持函数式编程和面向对象编程。你可以在函数中使用闭包，这为处理异步事件或者创建高阶函数提供了强大的工具。</p>
+<h3 id="Playgrounds"><a href="#Playgrounds" class="headerlink" title="Playgrounds"></a>Playgrounds</h3><p>Xcode 集成了一个强大的交互式编程环境——Playgrounds。你可以在 Playgrounds 中尝试 Swift 的各种特性，而无需创建完整的项目。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Swift 是一种强大、直观且安全的编程语言，它专注于提供最好的用户体验和性能。无论你是初学者还是有经验的开发者，Swift 都能帮助你更有效地编写代码。</p>
+]]></content>
+      <categories>
+        <category>Swift 基础语法</category>
+      </categories>
+      <tags>
+        <tag>Swift</tag>
+        <tag>Apple</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift 控件之 Text</title>
     <url>/posts/c90f7d11.html</url>
     <content><![CDATA[<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>在 SwiftUI 中，如果我们想要显示文本内容，可以使用 <strong>Text</strong> 控件。</p>
@@ -902,6 +956,59 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI 中的基础动画和过渡（一）</title>
+    <url>/posts/b2c22197.html</url>
+    <content><![CDATA[<p>SwiftUI 给我们提供了两种动画的实现方式： <strong>隐式(implicit)动画</strong> 和<strong>显式(explicit)动画</strong>。这两种动画方式都可以让我们给视图添加动画和过渡。<strong>隐式动画</strong>通过修饰器<code>animation</code>给视图添加动画效果，<strong>显式动画</strong>则是使用<code>withAnimation</code>代码块的方式添加到视图。</p>
+<h3 id="隐式动画"><a href="#隐式动画" class="headerlink" title="隐式动画"></a>隐式动画</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> circleColor: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> heartColor: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> heartSize: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ZStack</span>() &#123;</span><br><span class="line">            <span class="type">Circle</span>()</span><br><span class="line">                .frame(width: <span class="number">150</span>, height: <span class="number">150</span>)</span><br><span class="line">                .foregroundStyle(circleColor <span class="operator">?</span>  <span class="type">Color</span>(.systemGray5) : .red)</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;heart.fill&quot;</span>)</span><br><span class="line">                .foregroundStyle(heartColor <span class="operator">?</span>  .red : .white)</span><br><span class="line">                .font(.system(size: <span class="number">80</span>))</span><br><span class="line">                .scaleEffect(heartSize <span class="operator">?</span> <span class="number">1.0</span> : <span class="number">0.5</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        .onTapGesture &#123;</span><br><span class="line">            <span class="comment">// 每次点击之后，三个状态值都进行取反操作</span></span><br><span class="line">            circleColor.toggle()</span><br><span class="line">            heartColor.toggle()</span><br><span class="line">            heartSize.toggle()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们实现了：</p>
+<ol>
+<li>使用<code>@State</code>定义了三个状态变量，用来控制圆的颜色、❤️的颜色以及大小；</li>
+<li>使用<code>Circle</code>绘制了一个圆，然后在这个圆显示一个系统的图标，将二者使用<code>ZStack</code>进行组合；</li>
+<li>给<code>ZStack</code>添加 一个点击手势<code>onTapGesture</code>，每次点击都对三个状态值进行取反操作，即<code>toggle</code>；</li>
+<li>运用<strong>三目运算符</strong> 根据不同的状态值显式不同的颜色和大小。</li>
+</ol>
+<span id="more"></span>
+
+<p>具体效果如下：</p>
+<p><video width="20%" height="50%" controls="controls" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310141544030.mp4"> </video></p>
+<p>通过上面的效果我们会发现，每次点击之后对应视图的颜色和大小都会发生变化，但是这个变化是比较生硬的，这是因为我们没有给视图添加动画的原因。接着我们就分别给<code>Circle</code>和<code>Image</code>添加一个隐式的动画效果，即给每一个视图添加一个<code>animation</code>修饰器。</p>
+<p><code>Circle</code>的动画如下 ：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.animation(.easeInOut, value: circleColor)</span><br></pre></td></tr></table></figure>
+
+<p><code>Image</code>的动画如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.animation(.easeInOut, value: heartColor)</span><br></pre></td></tr></table></figure>
+
+<p>这里我们使用的<code>animation</code>修饰器需要两个参数，一个是动画类型，另一个是对应的一个动态变量的值。它的含义是当对应状态变量的值发生变化时，实现相关的动画效果。</p>
+<p>此时的点击切换效果如下：</p>
+<p><video width="20%" controls="controls" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310141554539.mp4"></video></p>
+<p>SwiftUI 中给我们提供了很多种的动画类型，包括各种的<code>ease</code>、<code>linear</code>、<code>spring</code>等。关于不同的<code>ease</code>动画，可以到<a href="https://easings.net/">Easing Functions Cheat Sheet (easings.net)</a> 查看。</p>
+<h3 id="显式动画"><a href="#显式动画" class="headerlink" title="显式动画"></a>显式动画</h3><p>上面的动画效果，我们同样可以使用<strong>显式动画</strong>来实现，在<code>onTapGesture</code>中将三个状态值的取反操作包裹在一个<code>withAnimation</code>代码块中，即：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">withAnimation &#123;</span><br><span class="line">                circleColor.toggle()</span><br><span class="line">                heartColor.toggle()</span><br><span class="line">                heartSize.toggle()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时点击，视图已经有了一个默认的动画效果。当然，我们也可以去定义动画的类型：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">withAnimation(.spring(duration: <span class="number">1.2</span>, bounce: <span class="number">1</span>, blendDuration: <span class="number">3</span>) &#123;</span><br><span class="line">               circleColor.toggle()</span><br><span class="line">               heartColor.toggle()</span><br><span class="line">               heartSize.toggle()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><video width="20%" controls="controls" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310141628100.mp4"> </video></p>
+<p>在显式动画中，我们能很好的控制视图的动画效果。例如，如果我们不希望给❤️图标的大小变化添加任何的动画效果，只需要把<code>heartSize.toggle()</code>这行代码移到<code>withAnimation</code>代码块外面即可。如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">withAnimation(.spring(duration: <span class="number">1.2</span>, bounce: <span class="number">1</span>, blendDuration: <span class="number">3</span>) &#123;</span><br><span class="line">                circleColor.toggle()</span><br><span class="line">                heartColor.toggle()</span><br><span class="line">            &#125;</span><br><span class="line">heartSize.toggle()</span><br></pre></td></tr></table></figure>
+
+<p>如果我们想要在<strong>隐式动画</strong> 中实现和上面同样的效果，我们可以通过重新排序修饰器的方式来进行。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> circleColor: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> heartColor: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> heartSize: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ZStack</span>() &#123;</span><br><span class="line">            <span class="type">Circle</span>()</span><br><span class="line">                .frame(width: <span class="number">150</span>, height: <span class="number">150</span>)</span><br><span class="line">                .foregroundStyle(circleColor <span class="operator">?</span>  <span class="type">Color</span>(.systemGray5) : .red)</span><br><span class="line">                .animation(.spring(duration: <span class="number">1.0</span>, bounce: <span class="number">1</span>,blendDuration: <span class="number">3</span>), value: circleColor)</span><br><span class="line">          </span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;heart.fill&quot;</span>)</span><br><span class="line">                .foregroundStyle(heartColor <span class="operator">?</span>  .red : .white)</span><br><span class="line">                .font(.system(size: <span class="number">80</span>))</span><br><span class="line">                .animation(.spring(duration: <span class="number">1.0</span>, bounce: <span class="number">1</span>,blendDuration: <span class="number">3</span>), value: heartColor)</span><br><span class="line">                .scaleEffect(heartSize <span class="operator">?</span> <span class="number">0.7</span> : <span class="number">0.5</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        .onTapGesture &#123;</span><br><span class="line">            circleColor.toggle()</span><br><span class="line">            heartColor.toggle()</span><br><span class="line">            heartSize.toggle()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，针对<code>Image</code>的动画，我们将<code>animation</code>修饰器放在了<code>scaleEffect</code> 前面，那么当对应的状态值<code>heartColor</code>发生变化时这个动画效果就不会作用在<code>scaleEffect</code>上，即❤️的图标不会有尺寸变化的效果。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 进阶</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>withAnimation</tag>
+        <tag>Animation</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI 中的基础动画和过渡（二）</title>
     <url>/posts/a0094105.html</url>
     <content><![CDATA[<p>在上一篇文章中，我们已经介绍了 SwiftUI 中的<strong>隐式动画</strong>和<strong>显式动画</strong>。</p>
@@ -955,59 +1062,6 @@
 <p>在上面的代码中，我们通过两个状态变量控制<code>RoundedRectangle</code>的<code>frame</code>和<code>cornerRadius</code>来实现一个圆角矩形到圆的变换效果。</p>
 <p>效果如下：</p>
 <p><video width="30%" controls="controls" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310161058603.mp4"></video></p>
-]]></content>
-      <categories>
-        <category>SwiftUI 进阶</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>withAnimation</tag>
-        <tag>Animation</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI 中的基础动画和过渡（一）</title>
-    <url>/posts/b2c22197.html</url>
-    <content><![CDATA[<p>SwiftUI 给我们提供了两种动画的实现方式： <strong>隐式(implicit)动画</strong> 和<strong>显式(explicit)动画</strong>。这两种动画方式都可以让我们给视图添加动画和过渡。<strong>隐式动画</strong>通过修饰器<code>animation</code>给视图添加动画效果，<strong>显式动画</strong>则是使用<code>withAnimation</code>代码块的方式添加到视图。</p>
-<h3 id="隐式动画"><a href="#隐式动画" class="headerlink" title="隐式动画"></a>隐式动画</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> circleColor: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> heartColor: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> heartSize: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ZStack</span>() &#123;</span><br><span class="line">            <span class="type">Circle</span>()</span><br><span class="line">                .frame(width: <span class="number">150</span>, height: <span class="number">150</span>)</span><br><span class="line">                .foregroundStyle(circleColor <span class="operator">?</span>  <span class="type">Color</span>(.systemGray5) : .red)</span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;heart.fill&quot;</span>)</span><br><span class="line">                .foregroundStyle(heartColor <span class="operator">?</span>  .red : .white)</span><br><span class="line">                .font(.system(size: <span class="number">80</span>))</span><br><span class="line">                .scaleEffect(heartSize <span class="operator">?</span> <span class="number">1.0</span> : <span class="number">0.5</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        .onTapGesture &#123;</span><br><span class="line">            <span class="comment">// 每次点击之后，三个状态值都进行取反操作</span></span><br><span class="line">            circleColor.toggle()</span><br><span class="line">            heartColor.toggle()</span><br><span class="line">            heartSize.toggle()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们实现了：</p>
-<ol>
-<li>使用<code>@State</code>定义了三个状态变量，用来控制圆的颜色、❤️的颜色以及大小；</li>
-<li>使用<code>Circle</code>绘制了一个圆，然后在这个圆显示一个系统的图标，将二者使用<code>ZStack</code>进行组合；</li>
-<li>给<code>ZStack</code>添加 一个点击手势<code>onTapGesture</code>，每次点击都对三个状态值进行取反操作，即<code>toggle</code>；</li>
-<li>运用<strong>三目运算符</strong> 根据不同的状态值显式不同的颜色和大小。</li>
-</ol>
-<span id="more"></span>
-
-<p>具体效果如下：</p>
-<p><video width="20%" height="50%" controls="controls" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310141544030.mp4"> </video></p>
-<p>通过上面的效果我们会发现，每次点击之后对应视图的颜色和大小都会发生变化，但是这个变化是比较生硬的，这是因为我们没有给视图添加动画的原因。接着我们就分别给<code>Circle</code>和<code>Image</code>添加一个隐式的动画效果，即给每一个视图添加一个<code>animation</code>修饰器。</p>
-<p><code>Circle</code>的动画如下 ：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.animation(.easeInOut, value: circleColor)</span><br></pre></td></tr></table></figure>
-
-<p><code>Image</code>的动画如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.animation(.easeInOut, value: heartColor)</span><br></pre></td></tr></table></figure>
-
-<p>这里我们使用的<code>animation</code>修饰器需要两个参数，一个是动画类型，另一个是对应的一个动态变量的值。它的含义是当对应状态变量的值发生变化时，实现相关的动画效果。</p>
-<p>此时的点击切换效果如下：</p>
-<p><video width="20%" controls="controls" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310141554539.mp4"></video></p>
-<p>SwiftUI 中给我们提供了很多种的动画类型，包括各种的<code>ease</code>、<code>linear</code>、<code>spring</code>等。关于不同的<code>ease</code>动画，可以到<a href="https://easings.net/">Easing Functions Cheat Sheet (easings.net)</a> 查看。</p>
-<h3 id="显式动画"><a href="#显式动画" class="headerlink" title="显式动画"></a>显式动画</h3><p>上面的动画效果，我们同样可以使用<strong>显式动画</strong>来实现，在<code>onTapGesture</code>中将三个状态值的取反操作包裹在一个<code>withAnimation</code>代码块中，即：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">withAnimation &#123;</span><br><span class="line">                circleColor.toggle()</span><br><span class="line">                heartColor.toggle()</span><br><span class="line">                heartSize.toggle()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时点击，视图已经有了一个默认的动画效果。当然，我们也可以去定义动画的类型：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">withAnimation(.spring(duration: <span class="number">1.2</span>, bounce: <span class="number">1</span>, blendDuration: <span class="number">3</span>) &#123;</span><br><span class="line">               circleColor.toggle()</span><br><span class="line">               heartColor.toggle()</span><br><span class="line">               heartSize.toggle()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<p><video width="20%" controls="controls" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310141628100.mp4"> </video></p>
-<p>在显式动画中，我们能很好的控制视图的动画效果。例如，如果我们不希望给❤️图标的大小变化添加任何的动画效果，只需要把<code>heartSize.toggle()</code>这行代码移到<code>withAnimation</code>代码块外面即可。如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">withAnimation(.spring(duration: <span class="number">1.2</span>, bounce: <span class="number">1</span>, blendDuration: <span class="number">3</span>) &#123;</span><br><span class="line">                circleColor.toggle()</span><br><span class="line">                heartColor.toggle()</span><br><span class="line">            &#125;</span><br><span class="line">heartSize.toggle()</span><br></pre></td></tr></table></figure>
-
-<p>如果我们想要在<strong>隐式动画</strong> 中实现和上面同样的效果，我们可以通过重新排序修饰器的方式来进行。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> circleColor: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> heartColor: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> heartSize: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ZStack</span>() &#123;</span><br><span class="line">            <span class="type">Circle</span>()</span><br><span class="line">                .frame(width: <span class="number">150</span>, height: <span class="number">150</span>)</span><br><span class="line">                .foregroundStyle(circleColor <span class="operator">?</span>  <span class="type">Color</span>(.systemGray5) : .red)</span><br><span class="line">                .animation(.spring(duration: <span class="number">1.0</span>, bounce: <span class="number">1</span>,blendDuration: <span class="number">3</span>), value: circleColor)</span><br><span class="line">          </span><br><span class="line">            <span class="type">Image</span>(systemName: <span class="string">&quot;heart.fill&quot;</span>)</span><br><span class="line">                .foregroundStyle(heartColor <span class="operator">?</span>  .red : .white)</span><br><span class="line">                .font(.system(size: <span class="number">80</span>))</span><br><span class="line">                .animation(.spring(duration: <span class="number">1.0</span>, bounce: <span class="number">1</span>,blendDuration: <span class="number">3</span>), value: heartColor)</span><br><span class="line">                .scaleEffect(heartSize <span class="operator">?</span> <span class="number">0.7</span> : <span class="number">0.5</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        .onTapGesture &#123;</span><br><span class="line">            circleColor.toggle()</span><br><span class="line">            heartColor.toggle()</span><br><span class="line">            heartSize.toggle()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，针对<code>Image</code>的动画，我们将<code>animation</code>修饰器放在了<code>scaleEffect</code> 前面，那么当对应的状态值<code>heartColor</code>发生变化时这个动画效果就不会作用在<code>scaleEffect</code>上，即❤️的图标不会有尺寸变化的效果。</p>
 ]]></content>
       <categories>
         <category>SwiftUI 进阶</category>
@@ -1173,38 +1227,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI 控件之 ColorPicker</title>
-    <url>/posts/d1bc9d76.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，除了常见的<strong>Picker</strong>和<strong>DatePicker</strong> ，还有一个<strong>ColorPicker（颜色选择器）</strong>，它在我们需要进行颜色选择时非常有用。</p>
-<h3 id="创建一个颜色选择器"><a href="#创建一个颜色选择器" class="headerlink" title="创建一个颜色选择器"></a>创建一个颜色选择器</h3><p>首先，使用<code>@State</code>创建一个<code>Color</code>类型的变量作为<code>ColorPicker</code>选中绑定值：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">var</span> selectedOptions:<span class="type">Color</span> <span class="operator">=</span> .red</span><br></pre></td></tr></table></figure>
-
-<p>创建<code>ColorPicker</code>：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ColorPicker</span>(selection: <span class="variable">$selectedOptions</span>, label: &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;选择你最喜欢的颜色&quot;</span>)</span><br><span class="line">           &#125;)</span><br></pre></td></tr></table></figure>
-
-<p>运行项目，点击的效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309261444511.png" style="zoom:20%"/>
-
-<span id="more"></span>
-
-<p>默认情况下，<strong>ColorPicker</strong>也支持颜色的透明度选择，如果不想用户选择颜色的透明度，可以将<code>ColorPicker</code>的参数<code>supportsOpacity</code>设置为<code>false</code>即可。如：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ColorPicker</span>(selection: <span class="variable">$selectedOptions</span>, supportsOpacity: <span class="literal">false</span>, label: &#123;</span><br><span class="line">               <span class="type">Text</span>(<span class="string">&quot;选择你最喜欢的颜色&quot;</span>)</span><br><span class="line">           &#125;)</span><br></pre></td></tr></table></figure>
-
-<p>此时的效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309261450028.png" style="zoom:20%"/>
-
-<p><strong>ColorPicker</strong>并不支持我们过多的进行自定义，很多场景下，我们使用它的默认样式即可。</p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>ColorPicker</tag>
-        <tag>Picker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SwiftUI 控件之 Button(二)</title>
     <url>/posts/c45d65f5.html</url>
     <content><![CDATA[<h3 id="使用渐变色作为按钮的背景颜色"><a href="#使用渐变色作为按钮的背景颜色" class="headerlink" title="使用渐变色作为按钮的背景颜色"></a>使用渐变色作为按钮的背景颜色</h3><p>在 SwiftUI 中，我们不仅仅能使用一个明确的颜色作为按钮的背景色，也可以使用<strong>渐变色</strong>作为按钮的背景色。</p>
@@ -1263,6 +1285,38 @@
         <tag>Button</tag>
         <tag>Gradient</tag>
         <tag>Modifier</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI 控件之 ColorPicker</title>
+    <url>/posts/d1bc9d76.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，除了常见的<strong>Picker</strong>和<strong>DatePicker</strong> ，还有一个<strong>ColorPicker（颜色选择器）</strong>，它在我们需要进行颜色选择时非常有用。</p>
+<h3 id="创建一个颜色选择器"><a href="#创建一个颜色选择器" class="headerlink" title="创建一个颜色选择器"></a>创建一个颜色选择器</h3><p>首先，使用<code>@State</code>创建一个<code>Color</code>类型的变量作为<code>ColorPicker</code>选中绑定值：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">var</span> selectedOptions:<span class="type">Color</span> <span class="operator">=</span> .red</span><br></pre></td></tr></table></figure>
+
+<p>创建<code>ColorPicker</code>：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ColorPicker</span>(selection: <span class="variable">$selectedOptions</span>, label: &#123;</span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;选择你最喜欢的颜色&quot;</span>)</span><br><span class="line">           &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>运行项目，点击的效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309261444511.png" style="zoom:20%"/>
+
+<span id="more"></span>
+
+<p>默认情况下，<strong>ColorPicker</strong>也支持颜色的透明度选择，如果不想用户选择颜色的透明度，可以将<code>ColorPicker</code>的参数<code>supportsOpacity</code>设置为<code>false</code>即可。如：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ColorPicker</span>(selection: <span class="variable">$selectedOptions</span>, supportsOpacity: <span class="literal">false</span>, label: &#123;</span><br><span class="line">               <span class="type">Text</span>(<span class="string">&quot;选择你最喜欢的颜色&quot;</span>)</span><br><span class="line">           &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>此时的效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309261450028.png" style="zoom:20%"/>
+
+<p><strong>ColorPicker</strong>并不支持我们过多的进行自定义，很多场景下，我们使用它的默认样式即可。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>ColorPicker</tag>
+        <tag>Picker</tag>
       </tags>
   </entry>
   <entry>
@@ -1337,56 +1391,6 @@
         <tag>DatePicker</tag>
         <tag>MultiDatePicker</tag>
         <tag>Range</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI 控件之 ScrollView(一)</title>
-    <url>/posts/35d3a19e.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>ScrollView</strong> 是一个可滚动的视图。</p>
-<h4 id="创建一个-ScrollView"><a href="#创建一个-ScrollView" class="headerlink" title="创建一个 ScrollView"></a>创建一个 ScrollView</h4><p>当我们使用<code>ForEach</code> 循环创建超出一整个屏幕的内容时：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">      <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">          <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们使用<code>VStack</code>和<code>ForEach</code> 创建了 100 个<code>Text</code>，此时要显示的内容已经超出了一个屏幕所能显示的内容，我们无法看到超出屏幕范围的内容。为了解决这个问题，我们就可以在最外层嵌套一个<code>ScrollView</code>，让整个视图变成滚动显示的。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span> &#123;</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时，我们就可以通过上下滚动的方式查看所有的<code>Text</code> 了。</p>
-<span id="more"></span>
-
-<h4 id="ScrollView的相关配置"><a href="#ScrollView的相关配置" class="headerlink" title="ScrollView的相关配置"></a>ScrollView的相关配置</h4><h5 id="控制-ScrollView-的滚动位置"><a href="#控制-ScrollView-的滚动位置" class="headerlink" title="控制 ScrollView 的滚动位置"></a>控制 ScrollView 的滚动位置</h5><p>可以通过<code>defaultScrollAnchor</code> 修饰器配置<code>ScrollView</code>的开始滚动的起始位置，它支持以下几个位置：</p>
-<ul>
-<li><code>top</code> : 从顶部开始滚动；</li>
-<li><code>bottom</code> : 从底部开始滚动；</li>
-<li><code>center</code>： 从中间位置开始滚动；</li>
-<li><code>leading</code>: 从左侧开始滚动；</li>
-<li><code>trailing</code>： 从右侧开始滚动；</li>
-<li><code>topLeading</code>：从左上开始滚动；</li>
-<li><code>topTrailing</code>：从右上开始滚动；</li>
-<li><code>bottomLeading</code>：从左下开始滚动；</li>
-<li><code>bottomTrailing</code>：从右下开始滚动。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.defaultScrollAnchor(.center)</span><br></pre></td></tr></table></figure>
-
-<h5 id="控制-ScrollView-滚动的方向"><a href="#控制-ScrollView-滚动的方向" class="headerlink" title="控制 ScrollView 滚动的方向"></a>控制 ScrollView 滚动的方向</h5><p><strong>ScrollView</strong> 支持水平<code>horizontal</code>和垂直<code>vertical</code>方向的滚动。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span>(.vertical) &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="控制-ScrollView-滚动指示器的显示-隐藏"><a href="#控制-ScrollView-滚动指示器的显示-隐藏" class="headerlink" title="控制 ScrollView 滚动指示器的显示&#x2F;隐藏"></a>控制 ScrollView 滚动指示器的显示&#x2F;隐藏</h5><p><strong>ScrollView</strong> 滚动的时候，视图边缘会有一个滚动的指示器。可以使用<code>scrollIndicators</code> 修饰器来控制它的显示或者隐藏。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>hidden</code>: 表示隐藏；</li>
-<li><code>visible</code>: 表示显示；</li>
-<li><code>never</code>：和<code>hidden</code> 一致；</li>
-</ul>
-<p>指定水平或垂直方向上的显示或者隐藏：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden, axes: [.horizontal])</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>ScrollView</tag>
       </tags>
   </entry>
   <entry>
@@ -1482,45 +1486,53 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI中的状态管理和绑定</title>
-    <url>/posts/72b6a6d3.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>状态管理</strong>是一个非常重要的概念。假设我们有一个播放音乐的 app，当我们点击播放按钮▶️后，按钮的状态从暂停状态⏸️切换到了播放状态。这里我们可以理解为播放的状态从<strong>一个状态</strong>转移到了<strong>另一个状态</strong>，当然，在实际的应用中，我们可能存在<strong>很多个状态</strong>，当<strong>状态发生变化</strong>时，app 需要根据状态切换到对应用户界面，即 UI。</p>
-<p>SwiftUI内置了状态管理的方式，它使用<code>@State</code><strong>属性包装器</strong>去修饰一个变量，这个状态变量会被 SwiftUI 自动存储到应用内，当这个变量的值发生变化时，SwiftUI 会自动重新计算和更新视图，即更新 UI。</p>
-<h3 id="State的基本使用"><a href="#State的基本使用" class="headerlink" title="@State的基本使用"></a>@State的基本使用</h3><p>首先，我们来看一下下面的代码：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> playStatus: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span> <span class="comment">// 当为 true 表示正在播放</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Button</span>(action: &#123;</span><br><span class="line">                playStatus.toggle() <span class="comment">// 布尔值取反</span></span><br><span class="line">            &#125;, label: &#123;</span><br><span class="line">                <span class="type">Image</span>(systemName: playStatus <span class="operator">?</span> <span class="string">&quot;stop.circle.fill&quot;</span> : <span class="string">&quot;play.circle.fill&quot;</span> )</span><br><span class="line">                    .resizable()</span><br><span class="line">                    .frame(width: <span class="number">80</span>, height: <span class="number">80</span>)</span><br><span class="line">                    .foregroundStyle(playStatus <span class="operator">?</span> .red : .green)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>SwiftUI 控件之 ScrollView(一)</title>
+    <url>/posts/35d3a19e.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>ScrollView</strong> 是一个可滚动的视图。</p>
+<h4 id="创建一个-ScrollView"><a href="#创建一个-ScrollView" class="headerlink" title="创建一个 ScrollView"></a>创建一个 ScrollView</h4><p>当我们使用<code>ForEach</code> 循环创建超出一整个屏幕的内容时：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">      <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">          <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
+<p>在上面的代码中，我们使用<code>VStack</code>和<code>ForEach</code> 创建了 100 个<code>Text</code>，此时要显示的内容已经超出了一个屏幕所能显示的内容，我们无法看到超出屏幕范围的内容。为了解决这个问题，我们就可以在最外层嵌套一个<code>ScrollView</code>，让整个视图变成滚动显示的。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span> &#123;</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们就可以通过上下滚动的方式查看所有的<code>Text</code> 了。</p>
 <span id="more"></span>
 
-<p>上面的代码中有以下的几个步骤：</p>
-<ol>
-<li>使用<code>@State</code>修饰了 一个名为<code>playStatus</code>的变量，这个变量用来管理后面视图中的状态，这个状态变量是一个<code>Bool</code>类型，所以这个变量只有<code>true</code>和<code>false</code>两种状态；</li>
-<li>在视图部分，有一个<code>Button</code>，按钮根据<code>playStatus</code>状态值的不同显示不用的颜色和按钮图片；</li>
-<li>在点击按钮的时候，切换<code>playStatus</code>的状态，即有 <strong>true-&gt;false或者 false-&gt;true</strong>。</li>
-</ol>
-<p>效果如下：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310081036991.mp4" width="20%"></video></p>
-<h3 id="状态值和视图进行双向绑定"><a href="#状态值和视图进行双向绑定" class="headerlink" title="状态值和视图进行双向绑定"></a>状态值和视图进行双向绑定</h3><p>现在，我们想创建一个计数的按钮，每当按钮被点击一次，按钮上的文字次数都加一。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> counter: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Button</span>(action: &#123;</span><br><span class="line">                counter <span class="operator">+=</span> <span class="number">1</span> <span class="comment">// 每点击一次，counter + 1</span></span><br><span class="line">            &#125;, label: &#123;</span><br><span class="line">                <span class="type">Circle</span>()</span><br><span class="line">                    .fill(.red)</span><br><span class="line">                    .frame(width: <span class="number">120</span>,height: <span class="number">120</span>)</span><br><span class="line">                    .shadow(radius: <span class="number">8</span>)</span><br><span class="line">                    .overlay &#123;</span><br><span class="line">                        <span class="type">Text</span>(<span class="string">&quot;<span class="subst">\(counter)</span>&quot;</span>)</span><br><span class="line">                            .font(.largeTitle)</span><br><span class="line">                            .foregroundStyle(.white)</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="ScrollView的相关配置"><a href="#ScrollView的相关配置" class="headerlink" title="ScrollView的相关配置"></a>ScrollView的相关配置</h4><h5 id="控制-ScrollView-的滚动位置"><a href="#控制-ScrollView-的滚动位置" class="headerlink" title="控制 ScrollView 的滚动位置"></a>控制 ScrollView 的滚动位置</h5><p>可以通过<code>defaultScrollAnchor</code> 修饰器配置<code>ScrollView</code>的开始滚动的起始位置，它支持以下几个位置：</p>
+<ul>
+<li><code>top</code> : 从顶部开始滚动；</li>
+<li><code>bottom</code> : 从底部开始滚动；</li>
+<li><code>center</code>： 从中间位置开始滚动；</li>
+<li><code>leading</code>: 从左侧开始滚动；</li>
+<li><code>trailing</code>： 从右侧开始滚动；</li>
+<li><code>topLeading</code>：从左上开始滚动；</li>
+<li><code>topTrailing</code>：从右上开始滚动；</li>
+<li><code>bottomLeading</code>：从左下开始滚动；</li>
+<li><code>bottomTrailing</code>：从右下开始滚动。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.defaultScrollAnchor(.center)</span><br></pre></td></tr></table></figure>
 
-<p>效果如下：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310081050156.mp4" width="20%"></video></p>
-<p>这里我们设想一下，如果我们需要创建多个相同的<code>Button</code>，那么我们应该如何操作呢？在这种情况下，我们都会专门定义一个<strong>子视图</strong>，如果是定义一个子视图，那么就需要父视图的状态值传递给到子视图，这是就需要使用到<code>@Binding</code>属性包装器。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">CounterButton</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Binding</span> <span class="keyword">var</span> counter: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">Button</span>(action: &#123;</span><br><span class="line">            counter <span class="operator">+=</span> <span class="number">1</span> <span class="comment">// 每点击一次，counter + 1</span></span><br><span class="line">        &#125;, label: &#123;</span><br><span class="line">            <span class="type">Circle</span>()</span><br><span class="line">                .fill(.red)</span><br><span class="line">                .frame(width: <span class="number">120</span>,height: <span class="number">120</span>)</span><br><span class="line">                .shadow(radius: <span class="number">8</span>)</span><br><span class="line">                .overlay &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;<span class="subst">\(counter)</span>&quot;</span>)</span><br><span class="line">                        .font(.largeTitle)</span><br><span class="line">                        .foregroundStyle(.white)</span><br><span class="line">                &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="控制-ScrollView-滚动的方向"><a href="#控制-ScrollView-滚动的方向" class="headerlink" title="控制 ScrollView 滚动的方向"></a>控制 ScrollView 滚动的方向</h5><p><strong>ScrollView</strong> 支持水平<code>horizontal</code>和垂直<code>vertical</code>方向的滚动。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span>(.vertical) &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在上面的代码中，同样地需要在子视图中定义一个变量，用来接收从父视图传过来的，因为我们这里要接收的是从父视图传过来的使用<code>@State</code>定义的变量，所以子视图中的变量就需要使用<code>@Binding</code>进行修饰。</p>
-<p>接着就是在父视图中使用这个子视图：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">CounterButton</span>(counter: <span class="variable">$counter</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="控制-ScrollView-滚动指示器的显示-隐藏"><a href="#控制-ScrollView-滚动指示器的显示-隐藏" class="headerlink" title="控制 ScrollView 滚动指示器的显示&#x2F;隐藏"></a>控制 ScrollView 滚动指示器的显示&#x2F;隐藏</h5><p><strong>ScrollView</strong> 滚动的时候，视图边缘会有一个滚动的指示器。可以使用<code>scrollIndicators</code> 修饰器来控制它的显示或者隐藏。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden)</span><br></pre></td></tr></table></figure>
 
-<p>此时的效果和之前的是一样的，但是这里如果我们想要重复定义多个类似的<code>Button</code>只需要使用<code>CounterButton</code>这个子视图就好。</p>
-<p>另外就是，这里的<span style="color:red"><strong>$</strong></span>符号是 SwiftUI 的一种语法格式，它表示<strong>让使用@State定义的变量<code>counter</code>和子视图<code>CounterButton</code>进行一个双向绑定。即，当这个值发生变化时，子视图同步重新进行计算和渲染。</strong></p>
+<ul>
+<li><code>hidden</code>: 表示隐藏；</li>
+<li><code>visible</code>: 表示显示；</li>
+<li><code>never</code>：和<code>hidden</code> 一致；</li>
+</ul>
+<p>指定水平或垂直方向上的显示或者隐藏：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden, axes: [.horizontal])</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>SwiftUI 基础</category>
       </categories>
       <tags>
         <tag>SwiftUI</tag>
-        <tag>State</tag>
-        <tag>Binding</tag>
+        <tag>ScrollView</tag>
       </tags>
   </entry>
   <entry>
@@ -1645,6 +1657,48 @@
         <tag>StateObject</tag>
         <tag>ObserableObject</tag>
         <tag>ObservedObject</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI中的状态管理和绑定</title>
+    <url>/posts/72b6a6d3.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>状态管理</strong>是一个非常重要的概念。假设我们有一个播放音乐的 app，当我们点击播放按钮▶️后，按钮的状态从暂停状态⏸️切换到了播放状态。这里我们可以理解为播放的状态从<strong>一个状态</strong>转移到了<strong>另一个状态</strong>，当然，在实际的应用中，我们可能存在<strong>很多个状态</strong>，当<strong>状态发生变化</strong>时，app 需要根据状态切换到对应用户界面，即 UI。</p>
+<p>SwiftUI内置了状态管理的方式，它使用<code>@State</code><strong>属性包装器</strong>去修饰一个变量，这个状态变量会被 SwiftUI 自动存储到应用内，当这个变量的值发生变化时，SwiftUI 会自动重新计算和更新视图，即更新 UI。</p>
+<h3 id="State的基本使用"><a href="#State的基本使用" class="headerlink" title="@State的基本使用"></a>@State的基本使用</h3><p>首先，我们来看一下下面的代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> playStatus: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span> <span class="comment">// 当为 true 表示正在播放</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Button</span>(action: &#123;</span><br><span class="line">                playStatus.toggle() <span class="comment">// 布尔值取反</span></span><br><span class="line">            &#125;, label: &#123;</span><br><span class="line">                <span class="type">Image</span>(systemName: playStatus <span class="operator">?</span> <span class="string">&quot;stop.circle.fill&quot;</span> : <span class="string">&quot;play.circle.fill&quot;</span> )</span><br><span class="line">                    .resizable()</span><br><span class="line">                    .frame(width: <span class="number">80</span>, height: <span class="number">80</span>)</span><br><span class="line">                    .foregroundStyle(playStatus <span class="operator">?</span> .red : .green)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>上面的代码中有以下的几个步骤：</p>
+<ol>
+<li>使用<code>@State</code>修饰了 一个名为<code>playStatus</code>的变量，这个变量用来管理后面视图中的状态，这个状态变量是一个<code>Bool</code>类型，所以这个变量只有<code>true</code>和<code>false</code>两种状态；</li>
+<li>在视图部分，有一个<code>Button</code>，按钮根据<code>playStatus</code>状态值的不同显示不用的颜色和按钮图片；</li>
+<li>在点击按钮的时候，切换<code>playStatus</code>的状态，即有 <strong>true-&gt;false或者 false-&gt;true</strong>。</li>
+</ol>
+<p>效果如下：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310081036991.mp4" width="20%"></video></p>
+<h3 id="状态值和视图进行双向绑定"><a href="#状态值和视图进行双向绑定" class="headerlink" title="状态值和视图进行双向绑定"></a>状态值和视图进行双向绑定</h3><p>现在，我们想创建一个计数的按钮，每当按钮被点击一次，按钮上的文字次数都加一。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">var</span> counter: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span> &#123;</span><br><span class="line">            <span class="type">Button</span>(action: &#123;</span><br><span class="line">                counter <span class="operator">+=</span> <span class="number">1</span> <span class="comment">// 每点击一次，counter + 1</span></span><br><span class="line">            &#125;, label: &#123;</span><br><span class="line">                <span class="type">Circle</span>()</span><br><span class="line">                    .fill(.red)</span><br><span class="line">                    .frame(width: <span class="number">120</span>,height: <span class="number">120</span>)</span><br><span class="line">                    .shadow(radius: <span class="number">8</span>)</span><br><span class="line">                    .overlay &#123;</span><br><span class="line">                        <span class="type">Text</span>(<span class="string">&quot;<span class="subst">\(counter)</span>&quot;</span>)</span><br><span class="line">                            .font(.largeTitle)</span><br><span class="line">                            .foregroundStyle(.white)</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202310081050156.mp4" width="20%"></video></p>
+<p>这里我们设想一下，如果我们需要创建多个相同的<code>Button</code>，那么我们应该如何操作呢？在这种情况下，我们都会专门定义一个<strong>子视图</strong>，如果是定义一个子视图，那么就需要父视图的状态值传递给到子视图，这是就需要使用到<code>@Binding</code>属性包装器。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">CounterButton</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Binding</span> <span class="keyword">var</span> counter: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">Button</span>(action: &#123;</span><br><span class="line">            counter <span class="operator">+=</span> <span class="number">1</span> <span class="comment">// 每点击一次，counter + 1</span></span><br><span class="line">        &#125;, label: &#123;</span><br><span class="line">            <span class="type">Circle</span>()</span><br><span class="line">                .fill(.red)</span><br><span class="line">                .frame(width: <span class="number">120</span>,height: <span class="number">120</span>)</span><br><span class="line">                .shadow(radius: <span class="number">8</span>)</span><br><span class="line">                .overlay &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;<span class="subst">\(counter)</span>&quot;</span>)</span><br><span class="line">                        .font(.largeTitle)</span><br><span class="line">                        .foregroundStyle(.white)</span><br><span class="line">                &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，同样地需要在子视图中定义一个变量，用来接收从父视图传过来的，因为我们这里要接收的是从父视图传过来的使用<code>@State</code>定义的变量，所以子视图中的变量就需要使用<code>@Binding</code>进行修饰。</p>
+<p>接着就是在父视图中使用这个子视图：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">CounterButton</span>(counter: <span class="variable">$counter</span>)</span><br></pre></td></tr></table></figure>
+
+<p>此时的效果和之前的是一样的，但是这里如果我们想要重复定义多个类似的<code>Button</code>只需要使用<code>CounterButton</code>这个子视图就好。</p>
+<p>另外就是，这里的<span style="color:red"><strong>$</strong></span>符号是 SwiftUI 的一种语法格式，它表示<strong>让使用@State定义的变量<code>counter</code>和子视图<code>CounterButton</code>进行一个双向绑定。即，当这个值发生变化时，子视图同步重新进行计算和渲染。</strong></p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>State</tag>
+        <tag>Binding</tag>
       </tags>
   </entry>
   <entry>
@@ -2144,42 +2198,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI控件之 Label</title>
-    <url>/posts/8bd109ea.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>Label</strong> 用来展示一个文本和图标（icon）。</p>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>使用<strong>Assets</strong> 中的图片作为<strong>Label</strong> 的图标：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Label(&quot;avatar&quot;, image: &quot;avatar&quot;)</span><br></pre></td></tr></table></figure>
-
-<p>使用<strong>SF Symbols</strong> 中的图标作为<strong>Label</strong> 的图标：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="设置不同的Label样式"><a href="#设置不同的Label样式" class="headerlink" title="设置不同的Label样式"></a>设置不同的<strong>Label</strong>样式</h4><p>可以使用<code>labelStyle</code> 修饰器来定义 Label 的样式：</p>
-<ul>
-<li><code>iconOnly</code> : 只显示图标；</li>
-<li><code>titleAndIcon</code>: 显示文字和图标，默认样式；</li>
-<li><code>titleOnly</code> ： 只显示文字；</li>
-<li><code>automatic</code>：自动。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br><span class="line">   .labelStyle(.automatic)</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h4 id="使用一个-View作为-Label-的图标"><a href="#使用一个-View作为-Label-的图标" class="headerlink" title="使用一个 View作为 Label 的图标"></a>使用一个 View作为 Label 的图标</h4><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span> &#123;</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Felix&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">        .foregroundStyle(.primary)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Zhao&quot;</span>)</span><br><span class="line">        .font(.subheadline)</span><br><span class="line">        .foregroundStyle(.secondary)</span><br><span class="line">    </span><br><span class="line">&#125; icon: &#123;</span><br><span class="line">    <span class="type">Circle</span>()</span><br><span class="line">        .fill(.red)</span><br><span class="line">        .frame(width: <span class="number">44</span>, height: <span class="number">44</span>)</span><br><span class="line">        .overlay(<span class="type">Text</span>(<span class="string">&quot;F&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的Label 中，我们使用两个不同样式的<code>Text</code> 作为<strong>Label</strong> 要显示的文字内容；使用一个<code>Circle</code> 作为<strong>Label</strong>的自定义图标视图。</p>
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131405868.png"/>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>Label</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SwiftUI控件NavigationStack进阶</title>
     <url>/posts/307cc34b.html</url>
     <content><![CDATA[<p>在SwiftUI中，如果我们想要给app添加一个到导航栏，可以使用<strong>NavigationStack</strong>控件，需要注意的是<strong>NavigationStack是iOS 16之后增加的，旨在替代原来的NavigationView，所以如果你的app 运行在iOS 16之前的版本需要使用NavigationView</strong>。</p>
@@ -2286,6 +2304,82 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI控件之 Label</title>
+    <url>/posts/8bd109ea.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>Label</strong> 用来展示一个文本和图标（icon）。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>使用<strong>Assets</strong> 中的图片作为<strong>Label</strong> 的图标：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Label(&quot;avatar&quot;, image: &quot;avatar&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>使用<strong>SF Symbols</strong> 中的图标作为<strong>Label</strong> 的图标：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置不同的Label样式"><a href="#设置不同的Label样式" class="headerlink" title="设置不同的Label样式"></a>设置不同的<strong>Label</strong>样式</h4><p>可以使用<code>labelStyle</code> 修饰器来定义 Label 的样式：</p>
+<ul>
+<li><code>iconOnly</code> : 只显示图标；</li>
+<li><code>titleAndIcon</code>: 显示文字和图标，默认样式；</li>
+<li><code>titleOnly</code> ： 只显示文字；</li>
+<li><code>automatic</code>：自动。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;apple&quot;</span>, systemImage: <span class="string">&quot;apple.logo&quot;</span>)</span><br><span class="line">   .labelStyle(.automatic)</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h4 id="使用一个-View作为-Label-的图标"><a href="#使用一个-View作为-Label-的图标" class="headerlink" title="使用一个 View作为 Label 的图标"></a>使用一个 View作为 Label 的图标</h4><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">Label</span> &#123;</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Felix&quot;</span>)</span><br><span class="line">        .font(.body)</span><br><span class="line">        .foregroundStyle(.primary)</span><br><span class="line">    <span class="type">Text</span>(<span class="string">&quot;Zhao&quot;</span>)</span><br><span class="line">        .font(.subheadline)</span><br><span class="line">        .foregroundStyle(.secondary)</span><br><span class="line">    </span><br><span class="line">&#125; icon: &#123;</span><br><span class="line">    <span class="type">Circle</span>()</span><br><span class="line">        .fill(.red)</span><br><span class="line">        .frame(width: <span class="number">44</span>, height: <span class="number">44</span>)</span><br><span class="line">        .overlay(<span class="type">Text</span>(<span class="string">&quot;F&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的Label 中，我们使用两个不同样式的<code>Text</code> 作为<strong>Label</strong> 要显示的文字内容；使用一个<code>Circle</code> 作为<strong>Label</strong>的自定义图标视图。</p>
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131405868.png"/>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>Label</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI控件之 List（一）</title>
+    <url>/posts/57a1224a.html</url>
+    <content><![CDATA[<p>在很多 app 中，我们经常能看到上下滚动的列表，在 SwiftUI 中，我们可以使用<strong>List</strong> 实现这样的功能。</p>
+<h4 id="创建一个列表"><a href="#创建一个列表" class="headerlink" title="创建一个列表"></a>创建一个列表</h4><p>要实现一个列表，我们需要先创建一个<strong>数组</strong>类型的数据源：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> books: [<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;西游记&quot;</span>, <span class="string">&quot;红楼梦&quot;</span>, <span class="string">&quot;三国演义&quot;</span>, <span class="string">&quot;水浒传&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>ForEach</code> 遍历数组，将元素显示到 <code>List</code>中：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span> &#123;</span><br><span class="line">    <span class="type">ForEach</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">         <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 除了上面的这种方式，我们还可以直接将数据元给到<code>List</code>，然它进行循环创建列表：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里我们注意到，不管是我们使用哪种方式，我们都需要设置一个<code>id</code>的参数，这是因为<code>List</code> 要求每一行的元素都要有一个<span style="color:red"><strong>唯一</strong></span>的id，以便我们后续对<strong>List</strong> 进行编辑操作。这里我们是直接将循环出来的元素对象本身作为id 给它。</p>
+<p><span style="color:red"><strong>注意，这在数据源中元素不会出现重复的情况下是可行，但是如果存在重复相同的元素，就会出现编辑异常的情况。</strong></span></p>
+<span id="more"></span>
+
+<h4 id="不同的-listStyle"><a href="#不同的-listStyle" class="headerlink" title="不同的 listStyle"></a>不同的 <code>listStyle</code></h4><p>我们可以通过 <code>listStyle</code> 修饰器来定义<strong>List</strong> 不同的风格样式，<code>insetGrouped</code>、<code>inset</code>、<code>grouped</code>、<code>plain</code>、<code>sidebar</code>、<code>automatic</code>。</p>
+<p>注意，在不同的系统中样式显示也不一致。例如<code>sidebar</code> 样式在 iPadOS 中显示为侧边栏样式，在 iOS 中则为默认的样式。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.listStyle(.automatic)</span><br></pre></td></tr></table></figure>
+
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309121039437.png"/>
+
+<h4 id="List-分组和设置-footer-、-header"><a href="#List-分组和设置-footer-、-header" class="headerlink" title="List 分组和设置  footer 、 header"></a>List 分组和设置  footer 、 header</h4><p>如果我们想要实现 List 分组的效果，可以使用 <strong>Section</strong> ，然后<strong>Section</strong> 的构造方法分别给每个分组设置<strong>header</strong> 和<strong>footer</strong>。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span> &#123;</span><br><span class="line">    <span class="type">Section</span> &#123;</span><br><span class="line">        <span class="type">ForEach</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; header: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;四大名著&quot;</span>)</span><br><span class="line">            .bold()</span><br><span class="line">    &#125; footer: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;推荐阅读书籍&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">Section</span> &#123;</span><br><span class="line">        <span class="type">ForEach</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; header: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;四大名著&quot;</span>)</span><br><span class="line">            .bold()</span><br><span class="line">    &#125; footer: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;推荐阅读书籍&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309121055074.png" style="zoom:40%"/>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>List</tag>
+        <tag>Identifier</tag>
+        <tag>ForEach</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI控件之 List（二）</title>
     <url>/posts/37193cc1.html</url>
     <content><![CDATA[<h4 id="创建-List"><a href="#创建-List" class="headerlink" title="创建 List"></a>创建 List</h4><p>在之前的<strong>List</strong> 使用中，我们是直接使用<code>ForEach</code> 循环遍历一个数组来实现的，在遍历的时候我们把<code>self</code> 作为<strong>List</strong>中必须的<strong>ID</strong>。接下来，我们通过自定义一个数据对象同时让它实现<code>Identifiable</code>。</p>
@@ -2385,46 +2479,6 @@
         <tag>SwiftUI</tag>
         <tag>NavigationStack</tag>
         <tag>NavigationLink</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI控件之 ScrollView(二)</title>
-    <url>/posts/ff84e235.html</url>
-    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
-<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<p>在上面的示例代码中，实现了一下几个步骤：</p>
-<ol>
-<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
-<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
-<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
-<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
-</ol>
-<p>效果如下：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
-<h3 id="实现滚动到指定索引的位置"><a href="#实现滚动到指定索引的位置" class="headerlink" title="实现滚动到指定索引的位置"></a>实现滚动到指定索引的位置</h3><p>创建一个数据结构：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">NameModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">let</span> index: <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>生成一些测试使用的数据源：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"><span class="keyword">var</span> nameDatas:[<span class="type">NameModel</span>] &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        (<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>).map &#123;</span><br><span class="line">            <span class="type">NameModel</span>(name: <span class="string">&quot;我是-<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>, index: <span class="variable">$0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>界面布局：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">           <span class="type">ScrollView</span> &#123;</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   withAnimation &#123;</span><br><span class="line">                       proxy.scrollTo(nameDatas[scrollToIndex].index)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;滚动到索引为<span class="subst">\(scrollToIndex)</span>的地方&quot;</span>)</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="type">ForEach</span>(nameDatas) &#123; data <span class="keyword">in</span></span><br><span class="line">                   <span class="type">Text</span>(data.name)</span><br><span class="line">                       .padding(<span class="number">4</span>)</span><br><span class="line">                       .id(data.index)</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时的效果为当我们点击按钮后，<strong>ScrollView</strong>将滚动到子视图 ID为 70 的位置：</p>
-<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309181236721.mp4" width="30%" height="50%" controls="controls"></video></p>
-<p><span style="color:red"><strong>注意：</strong></span>这里目前依然存在一个问题，当我们使用数据模型的<code>id</code>属性作为<strong>ScrollView</strong>子视图的ID 时，即 <code>.id(data.id)</code>，无法实现类似的效果。</p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>ScrollView</tag>
-        <tag>ScrollViewReader</tag>
       </tags>
   </entry>
   <entry>
@@ -2538,6 +2592,85 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI控件之 ScrollView(二)</title>
+    <url>/posts/ff84e235.html</url>
+    <content><![CDATA[<h3 id="实现快速滚动到顶部或底部的效果"><a href="#实现快速滚动到顶部或底部的效果" class="headerlink" title="实现快速滚动到顶部或底部的效果"></a>实现快速滚动到顶部或底部的效果</h3><p>在很多的<strong>ScrollView</strong> 的应用中，我们经常见到点击“回到顶部”按钮实现快速回到顶部的效果。</p>
+<p>在 SwiftUI中，如果我们想要实现这样的效果，我们可以使用<strong>ScrollViewRader</strong>和<strong>ScrollView</strong>来实现。<strong>ScrollViewRader</strong>可以让我们通过编程的方式实现滚动到一个已知的子视图的位置。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ContentView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> topID</span><br><span class="line">    <span class="meta">@Namespace</span> <span class="keyword">var</span> bottomID</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">            <span class="type">ScrollView</span> &#123;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span> &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(bottomID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到底部&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                .id(topID)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 滚动视图</span></span><br><span class="line">                <span class="type">VStack</span>(spacing: <span class="number">0.1</span>) &#123;</span><br><span class="line">                    <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123;i <span class="keyword">in</span></span><br><span class="line">                        color(fraction: <span class="type">Double</span>(i) <span class="operator">/</span> <span class="number">100</span>)</span><br><span class="line">                            .frame(height: <span class="number">32</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 顶部的按钮</span></span><br><span class="line">                <span class="type">Button</span>(action: &#123;</span><br><span class="line">                    withAnimation &#123;</span><br><span class="line">                        proxy.scrollTo(topID)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, label: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;滚动到顶部&quot;</span>)</span><br><span class="line">                    </span><br><span class="line">                &#125;)</span><br><span class="line">                .id(bottomID)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建颜色</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">color</span>(<span class="params">fraction</span>: <span class="type">Double</span>) -&gt; <span class="type">Color</span> &#123;</span><br><span class="line">        <span class="type">Color</span>(red: fraction, green: <span class="number">1</span> <span class="operator">-</span> fraction, blue: <span class="number">0.5</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>在上面的示例代码中，实现了一下几个步骤：</p>
+<ol>
+<li>在<code>ScrollView</code>外面嵌套了一层<code>ScrollViewReader</code>；</li>
+<li><code>ScrollView</code>的子视图包括顶部按钮、 100 个渐变颜色子视图和底部按钮是三个部分；</li>
+<li>使用<code>@NameSpace</code>创建了<code>topID</code> 和<code>bottomID</code> 两个变量，然后将它们分别给到顶部和底部按钮；</li>
+<li>利用<code>ScrollViewRader</code> 提供的<code>proxy</code> 在点击两个按钮的时候滚动到指定的 ID 的子视图位置。</li>
+</ol>
+<p>效果如下：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309180948602.mp4" width="30%" height="50%" controls="controls"></video></p>
+<h3 id="实现滚动到指定索引的位置"><a href="#实现滚动到指定索引的位置" class="headerlink" title="实现滚动到指定索引的位置"></a>实现滚动到指定索引的位置</h3><p>创建一个数据结构：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">NameModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">let</span> index: <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成一些测试使用的数据源：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"><span class="keyword">var</span> nameDatas:[<span class="type">NameModel</span>] &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        (<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>).map &#123;</span><br><span class="line">            <span class="type">NameModel</span>(name: <span class="string">&quot;我是-<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>, index: <span class="variable">$0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>界面布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollViewReader</span> &#123; proxy <span class="keyword">in</span></span><br><span class="line">           <span class="type">ScrollView</span> &#123;</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   withAnimation &#123;</span><br><span class="line">                       proxy.scrollTo(nameDatas[scrollToIndex].index)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;滚动到索引为<span class="subst">\(scrollToIndex)</span>的地方&quot;</span>)</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="type">ForEach</span>(nameDatas) &#123; data <span class="keyword">in</span></span><br><span class="line">                   <span class="type">Text</span>(data.name)</span><br><span class="line">                       .padding(<span class="number">4</span>)</span><br><span class="line">                       .id(data.index)</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时的效果为当我们点击按钮后，<strong>ScrollView</strong>将滚动到子视图 ID为 70 的位置：</p>
+<p><video src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309181236721.mp4" width="30%" height="50%" controls="controls"></video></p>
+<p><span style="color:red"><strong>注意：</strong></span>这里目前依然存在一个问题，当我们使用数据模型的<code>id</code>属性作为<strong>ScrollView</strong>子视图的ID 时，即 <code>.id(data.id)</code>，无法实现类似的效果。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>ScrollView</tag>
+        <tag>ScrollViewReader</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI控件之 TextField</title>
+    <url>/posts/edbc1019.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>TextField</strong> 用来展示和接收用户编辑的文本内容。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>在创建一个<strong>TextField</strong>之前，需要先定义一个<strong>响应式</strong>类型的状态变量：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> userName:<span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>在创建<strong>TextField</strong> 时，使用<code>$userName</code> 的形式绑定这个状态变量：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br></pre></td></tr></table></figure>
+
+<p>当<code>userName</code> 这个变量和<strong>TextField</strong> 绑定后，当我们在输入框中输入或者删除内容时，<code>userName</code> 对应的值也会跟着发生变化。</p>
+<span id="more"></span>
+
+<h4 id="TextField-的不同风格"><a href="#TextField-的不同风格" class="headerlink" title="TextField 的不同风格"></a>TextField 的不同风格</h4><p>使用<code>textFieldStyle</code> 修饰器来定义<strong>TextField</strong>的不同风格：</p>
+<ul>
+<li><code>roundedBorder</code>： 圆角边框样式；</li>
+<li><code>plain</code> ： 默认的无边框样式；</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">    <span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br><span class="line">        .textFieldStyle(.roundedBorder)</span><br><span class="line">    </span><br><span class="line">    <span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br><span class="line">        .textFieldStyle(.plain)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131432602.png"/>
+
+<h4 id="SecureField"><a href="#SecureField" class="headerlink" title="SecureField"></a>SecureField</h4><p>除了常见的<strong>TextField</strong> ，还可以使用<strong>SecureField</strong> 来获取一些隐私数据的输入，例如密码。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">SecureField</span>(<span class="string">&quot;Password&quot;</span>,text: <span class="variable">$password</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用安全输入框时，当用户输入类似于密码之类的隐私数据时，会以**<code>····</code>** 形式呈现，从而起到保护隐私数据的作用。</p>
+<h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="https://developer.apple.com/documentation/swiftui/textfield">TextField | Apple Developer Documentation</a></p>
+<p><a href="https://developer.apple.com/documentation/swiftui/securefield">SecureField | Apple Developer Documentation</a></p>
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>TextField</tag>
+        <tag>SecureField</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift中的函数</title>
     <url>/posts/66bf2022.html</url>
     <content><![CDATA[<h3 id="认识函数"><a href="#认识函数" class="headerlink" title="认识函数"></a>认识函数</h3><p>函数是一段独立的代码块，用来执行一些特定的操作。我们可以通过给函数一个名字来定义它的功能，当我们需要执行这段代码块的时候通过函数的名字来进行调用。</p>
@@ -2608,45 +2741,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI控件之 TextField</title>
-    <url>/posts/edbc1019.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>TextField</strong> 用来展示和接收用户编辑的文本内容。</p>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>在创建一个<strong>TextField</strong>之前，需要先定义一个<strong>响应式</strong>类型的状态变量：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> userName:<span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>在创建<strong>TextField</strong> 时，使用<code>$userName</code> 的形式绑定这个状态变量：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br></pre></td></tr></table></figure>
-
-<p>当<code>userName</code> 这个变量和<strong>TextField</strong> 绑定后，当我们在输入框中输入或者删除内容时，<code>userName</code> 对应的值也会跟着发生变化。</p>
-<span id="more"></span>
-
-<h4 id="TextField-的不同风格"><a href="#TextField-的不同风格" class="headerlink" title="TextField 的不同风格"></a>TextField 的不同风格</h4><p>使用<code>textFieldStyle</code> 修饰器来定义<strong>TextField</strong>的不同风格：</p>
-<ul>
-<li><code>roundedBorder</code>： 圆角边框样式；</li>
-<li><code>plain</code> ： 默认的无边框样式；</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span>(spacing: <span class="number">20</span>) &#123;</span><br><span class="line">    <span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br><span class="line">        .textFieldStyle(.roundedBorder)</span><br><span class="line">    </span><br><span class="line">    <span class="type">TextField</span>(<span class="string">&quot;User Name&quot;</span>,text: <span class="variable">$userName</span>)</span><br><span class="line">        .textFieldStyle(.plain)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309131432602.png"/>
-
-<h4 id="SecureField"><a href="#SecureField" class="headerlink" title="SecureField"></a>SecureField</h4><p>除了常见的<strong>TextField</strong> ，还可以使用<strong>SecureField</strong> 来获取一些隐私数据的输入，例如密码。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">SecureField</span>(<span class="string">&quot;Password&quot;</span>,text: <span class="variable">$password</span>)</span><br></pre></td></tr></table></figure>
-
-<p>使用安全输入框时，当用户输入类似于密码之类的隐私数据时，会以**<code>····</code>** 形式呈现，从而起到保护隐私数据的作用。</p>
-<h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="https://developer.apple.com/documentation/swiftui/textfield">TextField | Apple Developer Documentation</a></p>
-<p><a href="https://developer.apple.com/documentation/swiftui/securefield">SecureField | Apple Developer Documentation</a></p>
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>TextField</tag>
-        <tag>SecureField</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Swift中的条件语句</title>
     <url>/posts/964c101d.html</url>
     <content><![CDATA[<p>Swift提供了<strong>if</strong>和<strong>switch</strong>两种条件语句，<code>if</code>语句用来判断简单的条件，<code>switch</code>语句适合复杂的条件。</p>
@@ -2685,46 +2779,6 @@
       <tags>
         <tag>Swift</tag>
         <tag>条件语句</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI控件之 List（一）</title>
-    <url>/posts/57a1224a.html</url>
-    <content><![CDATA[<p>在很多 app 中，我们经常能看到上下滚动的列表，在 SwiftUI 中，我们可以使用<strong>List</strong> 实现这样的功能。</p>
-<h4 id="创建一个列表"><a href="#创建一个列表" class="headerlink" title="创建一个列表"></a>创建一个列表</h4><p>要实现一个列表，我们需要先创建一个<strong>数组</strong>类型的数据源：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> books: [<span class="type">String</span>] <span class="operator">=</span> [<span class="string">&quot;西游记&quot;</span>, <span class="string">&quot;红楼梦&quot;</span>, <span class="string">&quot;三国演义&quot;</span>, <span class="string">&quot;水浒传&quot;</span>]</span><br></pre></td></tr></table></figure>
-
-<p>使用 <code>ForEach</code> 遍历数组，将元素显示到 <code>List</code>中：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span> &#123;</span><br><span class="line">    <span class="type">ForEach</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">         <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 除了上面的这种方式，我们还可以直接将数据元给到<code>List</code>，然它进行循环创建列表：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这里我们注意到，不管是我们使用哪种方式，我们都需要设置一个<code>id</code>的参数，这是因为<code>List</code> 要求每一行的元素都要有一个<span style="color:red"><strong>唯一</strong></span>的id，以便我们后续对<strong>List</strong> 进行编辑操作。这里我们是直接将循环出来的元素对象本身作为id 给它。</p>
-<p><span style="color:red"><strong>注意，这在数据源中元素不会出现重复的情况下是可行，但是如果存在重复相同的元素，就会出现编辑异常的情况。</strong></span></p>
-<span id="more"></span>
-
-<h4 id="不同的-listStyle"><a href="#不同的-listStyle" class="headerlink" title="不同的 listStyle"></a>不同的 <code>listStyle</code></h4><p>我们可以通过 <code>listStyle</code> 修饰器来定义<strong>List</strong> 不同的风格样式，<code>insetGrouped</code>、<code>inset</code>、<code>grouped</code>、<code>plain</code>、<code>sidebar</code>、<code>automatic</code>。</p>
-<p>注意，在不同的系统中样式显示也不一致。例如<code>sidebar</code> 样式在 iPadOS 中显示为侧边栏样式，在 iOS 中则为默认的样式。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.listStyle(.automatic)</span><br></pre></td></tr></table></figure>
-
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309121039437.png"/>
-
-<h4 id="List-分组和设置-footer-、-header"><a href="#List-分组和设置-footer-、-header" class="headerlink" title="List 分组和设置  footer 、 header"></a>List 分组和设置  footer 、 header</h4><p>如果我们想要实现 List 分组的效果，可以使用 <strong>Section</strong> ，然后<strong>Section</strong> 的构造方法分别给每个分组设置<strong>header</strong> 和<strong>footer</strong>。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">List</span> &#123;</span><br><span class="line">    <span class="type">Section</span> &#123;</span><br><span class="line">        <span class="type">ForEach</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; header: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;四大名著&quot;</span>)</span><br><span class="line">            .bold()</span><br><span class="line">    &#125; footer: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;推荐阅读书籍&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">Section</span> &#123;</span><br><span class="line">        <span class="type">ForEach</span>(books, id: \.<span class="keyword">self</span>) &#123; book <span class="keyword">in</span></span><br><span class="line">            <span class="type">Text</span>(<span class="string">&quot;《<span class="subst">\(book)</span>》&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; header: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;四大名著&quot;</span>)</span><br><span class="line">            .bold()</span><br><span class="line">    &#125; footer: &#123;</span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;推荐阅读书籍&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果如下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202309121055074.png" style="zoom:40%"/>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>List</tag>
-        <tag>Identifier</tag>
-        <tag>ForEach</tag>
       </tags>
   </entry>
   <entry>
