@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SceneKit基础之实现一个太阳系场景(二)</title>
+    <url>/posts/75fc57c3.html</url>
+    <content><![CDATA[<p>在上一篇文章中，我们已经通过<strong>Scene Editor</strong>实现了场景的布局。接下来我们将通过代码的方式来给节点添加图片材质、场景背景以及切换相机的视角。</p>
+<h3 id="定义模型和实现切换"><a href="#定义模型和实现切换" class="headerlink" title="定义模型和实现切换"></a>定义模型和实现切换</h3><p>定义一个名为<strong>Planet</strong>的枚举用来管理节点数据：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Planet</span>: <span class="title class_">String</span>, <span class="title class_">CaseIterable</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> mercury</span><br><span class="line">    <span class="keyword">case</span> venus</span><br><span class="line">    <span class="keyword">case</span> earth</span><br><span class="line">    <span class="keyword">case</span> mars</span><br><span class="line">    <span class="keyword">case</span> saturn</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> name:<span class="type">String</span> &#123;</span><br><span class="line">        <span class="comment">// 名字为首字母大写</span></span><br><span class="line">        rawValue.prefix(<span class="number">1</span>).capitalized <span class="operator">+</span> rawValue.dropFirst()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>定义一个名<strong>ViewModel</strong>的类用来管理场景中选中的节点以及节点的切换事件：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ViewModel</span>: <span class="title class_">NSObject</span>,<span class="title class_">ObservableObject</span> &#123;</span><br><span class="line">    <span class="meta">@Published</span> <span class="keyword">var</span> selectedPlanet: <span class="type">Planet</span>?  <span class="comment">// 当前选中的节点</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 当前选中的节点名称</span></span><br><span class="line">    <span class="keyword">var</span> title:<span class="type">String</span> &#123;</span><br><span class="line">        selectedPlanet<span class="operator">?</span>.name <span class="operator">??</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 选择下一个</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">selectedNextPlanet</span>() &#123;</span><br><span class="line">        changeSelection(offset: <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 选择上一个</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">selectedPreviousPlanet</span>() &#123;</span><br><span class="line">        changeSelection(offset: <span class="operator">-</span><span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 清空选择</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">clearSelection</span>() &#123;</span><br><span class="line">        selectedPlanet <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 节点改变</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">changeSelection</span>(<span class="params">offset</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> selectedPlanet <span class="operator">=</span> selectedPlanet, <span class="keyword">let</span> index <span class="operator">=</span> <span class="type">Planet</span>.allCases.firstIndex(of: selectedPlanet) <span class="keyword">else</span> &#123;</span><br><span class="line">            selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases.first</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> newIndex <span class="operator">=</span> index <span class="operator">+</span> offset</span><br><span class="line">        <span class="keyword">if</span> newIndex <span class="operator">&lt;</span> <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">self</span>.selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases.last</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> newIndex <span class="operator">&lt;</span> <span class="type">Planet</span>.allCases.count &#123;</span><br><span class="line">            <span class="keyword">self</span>.selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases[newIndex]</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">self</span>.selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases.first</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>回到<strong>ContentView</strong>文件中，实例化一个<strong>ViewModel</strong>的对象：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ObservedObject</span> <span class="keyword">var</span> viewModel <span class="operator">=</span> <span class="type">ViewModel</span>()</span><br></pre></td></tr></table></figure>
+
+<p>然后在 <code>body</code>部分实现界面的完全布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ZStack</span> &#123;</span><br><span class="line">           <span class="type">SceneView</span>(scene: scene,</span><br><span class="line">                     pointOfView:setupCamera(planet: viewModel.selectedPlanet),</span><br><span class="line">                     options: [.allowsCameraControl, .autoenablesDefaultLighting])</span><br><span class="line">           .background(.secondary)</span><br><span class="line">           </span><br><span class="line">           <span class="type">VStack</span> &#123;</span><br><span class="line">               <span class="type">Spacer</span>()</span><br><span class="line">               <span class="type">HStack</span> &#123;</span><br><span class="line">                   <span class="type">HStack</span> &#123;</span><br><span class="line">                       <span class="type">HStack</span> &#123;</span><br><span class="line">                           <span class="type">Button</span>(action: &#123;</span><br><span class="line">                               viewModel.selectedPreviousPlanet()</span><br><span class="line">                           &#125;, label: &#123;</span><br><span class="line">                               <span class="type">Image</span>(systemName: <span class="string">&quot;arrow.backward.circle.fill&quot;</span>)</span><br><span class="line">                           &#125;)</span><br><span class="line">                           <span class="type">Button</span>(action: &#123;</span><br><span class="line">                               viewModel.selectedPreviousPlanet()</span><br><span class="line">                           &#125;, label: &#123;</span><br><span class="line">                               <span class="type">Image</span>(systemName: <span class="string">&quot;arrow.forward.circle.fill&quot;</span>)</span><br><span class="line">                           &#125;)</span><br><span class="line">                       &#125;</span><br><span class="line">                       <span class="type">Spacer</span>()</span><br><span class="line">                       <span class="type">Text</span>(viewModel.title)</span><br><span class="line">                           .foregroundStyle(.black)</span><br><span class="line">                       <span class="type">Spacer</span>()</span><br><span class="line">                       <span class="comment">// 不为空时显示清除按钮</span></span><br><span class="line">                       <span class="keyword">if</span> viewModel.selectedPlanet <span class="operator">!=</span> <span class="literal">nil</span> &#123;</span><br><span class="line">                           <span class="type">Button</span>(action: &#123;</span><br><span class="line">                               viewModel.clearSelection()</span><br><span class="line">                           &#125;, label: &#123;</span><br><span class="line">                               <span class="type">Image</span>(systemName: <span class="string">&quot;xmark.circle.fill&quot;</span>)</span><br><span class="line">                           &#125;)</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               .padding(<span class="number">8</span>)</span><br><span class="line">               .background(.white)</span><br><span class="line">               .clipShape(<span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">14</span>))</span><br><span class="line">               .padding(<span class="number">20</span>)</span><br><span class="line">           &#125;</span><br><span class="line">           </span><br><span class="line">       &#125;</span><br><span class="line">       .ignoresSafeArea(.all)</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，<code>SceneView</code>多了一个<code>pointOfView</code>参数，它是一个<code>SCNNode</code>类型，它表示的是当前场景渲染时的<strong>视角点</strong>。我们可以通过切换视角点来切换当前场景中可见的内容。<code>setupCamera</code>函数的实现如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 根据选中的节点，改变相机的视点</span></span><br><span class="line">   <span class="keyword">func</span> <span class="title function_">setupCamera</span>(<span class="params">planet</span>: <span class="type">Planet</span>?) -&gt; <span class="type">SCNNode</span>? &#123;</span><br><span class="line">       <span class="comment">// 获取场景中的相机节点</span></span><br><span class="line">       <span class="keyword">let</span> cameraNode <span class="operator">=</span> scene<span class="operator">?</span>.rootNode.childNode(withName: <span class="string">&quot;camera&quot;</span>, recursively: <span class="literal">false</span>)</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">if</span> <span class="keyword">let</span> planet <span class="operator">=</span> planet,  <span class="keyword">let</span> planetNode <span class="operator">=</span> scene<span class="operator">?</span>.rootNode.childNode(withName: planet.rawValue, recursively: <span class="literal">false</span>) &#123;</span><br><span class="line">           <span class="keyword">let</span> constraint <span class="operator">=</span> <span class="type">SCNLookAtConstraint</span>(target: planetNode)</span><br><span class="line">           cameraNode<span class="operator">?</span>.constraints <span class="operator">=</span> [constraint]</span><br><span class="line">           <span class="keyword">let</span> globalPosition <span class="operator">=</span> planetNode.convertPosition(<span class="type">SCNVector3</span>(<span class="number">50</span>, <span class="number">10</span>, <span class="number">0</span>), to: <span class="literal">nil</span>)</span><br><span class="line">           <span class="keyword">let</span> move <span class="operator">=</span> <span class="type">SCNAction</span>.move(to: globalPosition, duration: <span class="number">1.0</span>)</span><br><span class="line">           cameraNode<span class="operator">?</span>.runAction(move)</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> cameraNode</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>它的实现如下：</p>
+<ol>
+<li>根据节点名<code>camera</code>获取相机节点<code>cameraNode</code>；</li>
+<li>根据传进来的<code>planet</code>的<code>rawValue</code>获取当前选中的节点<code>planetNode</code>；</li>
+<li>然后设置<code>cameraNode</code>的<code>constraints</code>；</li>
+<li>给<code>cameraNode</code>添加一个移动的<code>action</code>；</li>
+<li>然后新的相机节点<code>cameraNode</code>作为场景的<code>pointOfView</code>。</li>
+</ol>
+<h3 id="给星球节点添加图片材质"><a href="#给星球节点添加图片材质" class="headerlink" title="给星球节点添加图片材质"></a>给星球节点添加图片材质</h3><p>将准备好的星球图片素材拖入到<strong>Assets</strong>素材文件夹下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311221022305.png" style="zoom:20%"/>
+
+<p>同理，拖入准备好的场景背景素材添加到这个文件夹下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311221056208.png" style="zoom:20%"/>
+
+<p><strong>注意</strong>，这里的场景背景图片需要放入六张图片。因为给 3D 场景背景添加背景图片需要同时设置 6 个方向，即 XYZ 三个轴的正负方向。</p>
+<p>接着定义一个名为<code>applyTextures</code>的方法来添加材质和背景：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 给场景添加材质</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">applyTextures</span>(<span class="params">to</span> <span class="params">scene</span>: <span class="type">SCNScene</span>?) &#123;</span><br><span class="line">      <span class="keyword">guard</span> <span class="keyword">let</span> scene <span class="operator">=</span> scene <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">      <span class="comment">// 给每个星球添加图片材质</span></span><br><span class="line">      <span class="keyword">for</span> planet <span class="keyword">in</span> <span class="type">Planet</span>.allCases &#123;</span><br><span class="line">          <span class="keyword">let</span> identifier <span class="operator">=</span> planet.rawValue</span><br><span class="line">          <span class="keyword">let</span> node <span class="operator">=</span> scene.rootNode.childNode(withName: identifier, recursively: <span class="literal">false</span>)</span><br><span class="line">          <span class="keyword">let</span> texture <span class="operator">=</span> <span class="type">UIImage</span>(named: identifier)</span><br><span class="line">          node<span class="operator">?</span>.geometry<span class="operator">?</span>.firstMaterial<span class="operator">?</span>.diffuse.contents <span class="operator">=</span> texture</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 给整个场景添加背景材质</span></span><br><span class="line">      <span class="keyword">let</span> skyboxImages <span class="operator">=</span> (<span class="number">1</span><span class="operator">...</span><span class="number">6</span>).map &#123; <span class="type">UIImage</span>(named: <span class="string">&quot;skybox<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>) &#125;</span><br><span class="line">      scene.background.contents <span class="operator">=</span> skyboxImages</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>给节点添加材质通过设置节点的<code>geometry?.firstMaterial</code>或者<code>geometry?.materials</code>。前者是只添加一个材质；后者添加多个材质。</p>
+<p>给场景添加添加背景通过设置场景的<code>background.contents</code>。</p>
+<p>最后，别忘了在<code>makeScene</code>方法中调用这个方法。</p>
+]]></content>
+      <categories>
+        <category>SceneKit 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>SCNScene</tag>
+        <tag>SCNLight</tag>
+        <tag>SCNNode</tag>
+        <tag>SceneKit</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SceneKit之在SwiftUI中使用SceneKit</title>
     <url>/posts/54d45a15.html</url>
     <content><![CDATA[<blockquote>
@@ -77,60 +131,6 @@
         <tag>SceneKit</tag>
         <tag>Reality Converter</tag>
         <tag>USDZ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SceneKit基础之实现一个太阳系场景(二)</title>
-    <url>/posts/75fc57c3.html</url>
-    <content><![CDATA[<p>在上一篇文章中，我们已经通过<strong>Scene Editor</strong>实现了场景的布局。接下来我们将通过代码的方式来给节点添加图片材质、场景背景以及切换相机的视角。</p>
-<h3 id="定义模型和实现切换"><a href="#定义模型和实现切换" class="headerlink" title="定义模型和实现切换"></a>定义模型和实现切换</h3><p>定义一个名为<strong>Planet</strong>的枚举用来管理节点数据：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Planet</span>: <span class="title class_">String</span>, <span class="title class_">CaseIterable</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> mercury</span><br><span class="line">    <span class="keyword">case</span> venus</span><br><span class="line">    <span class="keyword">case</span> earth</span><br><span class="line">    <span class="keyword">case</span> mars</span><br><span class="line">    <span class="keyword">case</span> saturn</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> name:<span class="type">String</span> &#123;</span><br><span class="line">        <span class="comment">// 名字为首字母大写</span></span><br><span class="line">        rawValue.prefix(<span class="number">1</span>).capitalized <span class="operator">+</span> rawValue.dropFirst()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<p>定义一个名<strong>ViewModel</strong>的类用来管理场景中选中的节点以及节点的切换事件：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ViewModel</span>: <span class="title class_">NSObject</span>,<span class="title class_">ObservableObject</span> &#123;</span><br><span class="line">    <span class="meta">@Published</span> <span class="keyword">var</span> selectedPlanet: <span class="type">Planet</span>?  <span class="comment">// 当前选中的节点</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 当前选中的节点名称</span></span><br><span class="line">    <span class="keyword">var</span> title:<span class="type">String</span> &#123;</span><br><span class="line">        selectedPlanet<span class="operator">?</span>.name <span class="operator">??</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 选择下一个</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">selectedNextPlanet</span>() &#123;</span><br><span class="line">        changeSelection(offset: <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 选择上一个</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">selectedPreviousPlanet</span>() &#123;</span><br><span class="line">        changeSelection(offset: <span class="operator">-</span><span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 清空选择</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">clearSelection</span>() &#123;</span><br><span class="line">        selectedPlanet <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 节点改变</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">changeSelection</span>(<span class="params">offset</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> selectedPlanet <span class="operator">=</span> selectedPlanet, <span class="keyword">let</span> index <span class="operator">=</span> <span class="type">Planet</span>.allCases.firstIndex(of: selectedPlanet) <span class="keyword">else</span> &#123;</span><br><span class="line">            selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases.first</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> newIndex <span class="operator">=</span> index <span class="operator">+</span> offset</span><br><span class="line">        <span class="keyword">if</span> newIndex <span class="operator">&lt;</span> <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">self</span>.selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases.last</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> newIndex <span class="operator">&lt;</span> <span class="type">Planet</span>.allCases.count &#123;</span><br><span class="line">            <span class="keyword">self</span>.selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases[newIndex]</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">self</span>.selectedPlanet <span class="operator">=</span> <span class="type">Planet</span>.allCases.first</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>回到<strong>ContentView</strong>文件中，实例化一个<strong>ViewModel</strong>的对象：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ObservedObject</span> <span class="keyword">var</span> viewModel <span class="operator">=</span> <span class="type">ViewModel</span>()</span><br></pre></td></tr></table></figure>
-
-<p>然后在 <code>body</code>部分实现界面的完全布局：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ZStack</span> &#123;</span><br><span class="line">           <span class="type">SceneView</span>(scene: scene,</span><br><span class="line">                     pointOfView:setupCamera(planet: viewModel.selectedPlanet),</span><br><span class="line">                     options: [.allowsCameraControl, .autoenablesDefaultLighting])</span><br><span class="line">           .background(.secondary)</span><br><span class="line">           </span><br><span class="line">           <span class="type">VStack</span> &#123;</span><br><span class="line">               <span class="type">Spacer</span>()</span><br><span class="line">               <span class="type">HStack</span> &#123;</span><br><span class="line">                   <span class="type">HStack</span> &#123;</span><br><span class="line">                       <span class="type">HStack</span> &#123;</span><br><span class="line">                           <span class="type">Button</span>(action: &#123;</span><br><span class="line">                               viewModel.selectedPreviousPlanet()</span><br><span class="line">                           &#125;, label: &#123;</span><br><span class="line">                               <span class="type">Image</span>(systemName: <span class="string">&quot;arrow.backward.circle.fill&quot;</span>)</span><br><span class="line">                           &#125;)</span><br><span class="line">                           <span class="type">Button</span>(action: &#123;</span><br><span class="line">                               viewModel.selectedPreviousPlanet()</span><br><span class="line">                           &#125;, label: &#123;</span><br><span class="line">                               <span class="type">Image</span>(systemName: <span class="string">&quot;arrow.forward.circle.fill&quot;</span>)</span><br><span class="line">                           &#125;)</span><br><span class="line">                       &#125;</span><br><span class="line">                       <span class="type">Spacer</span>()</span><br><span class="line">                       <span class="type">Text</span>(viewModel.title)</span><br><span class="line">                           .foregroundStyle(.black)</span><br><span class="line">                       <span class="type">Spacer</span>()</span><br><span class="line">                       <span class="comment">// 不为空时显示清除按钮</span></span><br><span class="line">                       <span class="keyword">if</span> viewModel.selectedPlanet <span class="operator">!=</span> <span class="literal">nil</span> &#123;</span><br><span class="line">                           <span class="type">Button</span>(action: &#123;</span><br><span class="line">                               viewModel.clearSelection()</span><br><span class="line">                           &#125;, label: &#123;</span><br><span class="line">                               <span class="type">Image</span>(systemName: <span class="string">&quot;xmark.circle.fill&quot;</span>)</span><br><span class="line">                           &#125;)</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               .padding(<span class="number">8</span>)</span><br><span class="line">               .background(.white)</span><br><span class="line">               .clipShape(<span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">14</span>))</span><br><span class="line">               .padding(<span class="number">20</span>)</span><br><span class="line">           &#125;</span><br><span class="line">           </span><br><span class="line">       &#125;</span><br><span class="line">       .ignoresSafeArea(.all)</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，<code>SceneView</code>多了一个<code>pointOfView</code>参数，它是一个<code>SCNNode</code>类型，它表示的是当前场景渲染时的<strong>视角点</strong>。我们可以通过切换视角点来切换当前场景中可见的内容。<code>setupCamera</code>函数的实现如下：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 根据选中的节点，改变相机的视点</span></span><br><span class="line">   <span class="keyword">func</span> <span class="title function_">setupCamera</span>(<span class="params">planet</span>: <span class="type">Planet</span>?) -&gt; <span class="type">SCNNode</span>? &#123;</span><br><span class="line">       <span class="comment">// 获取场景中的相机节点</span></span><br><span class="line">       <span class="keyword">let</span> cameraNode <span class="operator">=</span> scene<span class="operator">?</span>.rootNode.childNode(withName: <span class="string">&quot;camera&quot;</span>, recursively: <span class="literal">false</span>)</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">if</span> <span class="keyword">let</span> planet <span class="operator">=</span> planet,  <span class="keyword">let</span> planetNode <span class="operator">=</span> scene<span class="operator">?</span>.rootNode.childNode(withName: planet.rawValue, recursively: <span class="literal">false</span>) &#123;</span><br><span class="line">           <span class="keyword">let</span> constraint <span class="operator">=</span> <span class="type">SCNLookAtConstraint</span>(target: planetNode)</span><br><span class="line">           cameraNode<span class="operator">?</span>.constraints <span class="operator">=</span> [constraint]</span><br><span class="line">           <span class="keyword">let</span> globalPosition <span class="operator">=</span> planetNode.convertPosition(<span class="type">SCNVector3</span>(<span class="number">50</span>, <span class="number">10</span>, <span class="number">0</span>), to: <span class="literal">nil</span>)</span><br><span class="line">           <span class="keyword">let</span> move <span class="operator">=</span> <span class="type">SCNAction</span>.move(to: globalPosition, duration: <span class="number">1.0</span>)</span><br><span class="line">           cameraNode<span class="operator">?</span>.runAction(move)</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> cameraNode</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>它的实现如下：</p>
-<ol>
-<li>根据节点名<code>camera</code>获取相机节点<code>cameraNode</code>；</li>
-<li>根据传进来的<code>planet</code>的<code>rawValue</code>获取当前选中的节点<code>planetNode</code>；</li>
-<li>然后设置<code>cameraNode</code>的<code>constraints</code>；</li>
-<li>给<code>cameraNode</code>添加一个移动的<code>action</code>；</li>
-<li>然后新的相机节点<code>cameraNode</code>作为场景的<code>pointOfView</code>。</li>
-</ol>
-<h3 id="给星球节点添加图片材质"><a href="#给星球节点添加图片材质" class="headerlink" title="给星球节点添加图片材质"></a>给星球节点添加图片材质</h3><p>将准备好的星球图片素材拖入到<strong>Assets</strong>素材文件夹下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311221022305.png" style="zoom:20%"/>
-
-<p>同理，拖入准备好的场景背景素材添加到这个文件夹下：</p>
-<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311221056208.png" style="zoom:20%"/>
-
-<p><strong>注意</strong>，这里的场景背景图片需要放入六张图片。因为给 3D 场景背景添加背景图片需要同时设置 6 个方向，即 XYZ 三个轴的正负方向。</p>
-<p>接着定义一个名为<code>applyTextures</code>的方法来添加材质和背景：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 给场景添加材质</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">applyTextures</span>(<span class="params">to</span> <span class="params">scene</span>: <span class="type">SCNScene</span>?) &#123;</span><br><span class="line">      <span class="keyword">guard</span> <span class="keyword">let</span> scene <span class="operator">=</span> scene <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">      <span class="comment">// 给每个星球添加图片材质</span></span><br><span class="line">      <span class="keyword">for</span> planet <span class="keyword">in</span> <span class="type">Planet</span>.allCases &#123;</span><br><span class="line">          <span class="keyword">let</span> identifier <span class="operator">=</span> planet.rawValue</span><br><span class="line">          <span class="keyword">let</span> node <span class="operator">=</span> scene.rootNode.childNode(withName: identifier, recursively: <span class="literal">false</span>)</span><br><span class="line">          <span class="keyword">let</span> texture <span class="operator">=</span> <span class="type">UIImage</span>(named: identifier)</span><br><span class="line">          node<span class="operator">?</span>.geometry<span class="operator">?</span>.firstMaterial<span class="operator">?</span>.diffuse.contents <span class="operator">=</span> texture</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 给整个场景添加背景材质</span></span><br><span class="line">      <span class="keyword">let</span> skyboxImages <span class="operator">=</span> (<span class="number">1</span><span class="operator">...</span><span class="number">6</span>).map &#123; <span class="type">UIImage</span>(named: <span class="string">&quot;skybox<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>) &#125;</span><br><span class="line">      scene.background.contents <span class="operator">=</span> skyboxImages</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>给节点添加材质通过设置节点的<code>geometry?.firstMaterial</code>或者<code>geometry?.materials</code>。前者是只添加一个材质；后者添加多个材质。</p>
-<p>给场景添加添加背景通过设置场景的<code>background.contents</code>。</p>
-<p>最后，别忘了在<code>makeScene</code>方法中调用这个方法。</p>
-]]></content>
-      <categories>
-        <category>SceneKit 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>SceneKit</tag>
-        <tag>SCNScene</tag>
-        <tag>SCNLight</tag>
-        <tag>SCNNode</tag>
       </tags>
   </entry>
   <entry>
@@ -268,10 +268,10 @@
       </categories>
       <tags>
         <tag>SwiftUI</tag>
-        <tag>SceneKit</tag>
         <tag>SCNScene</tag>
         <tag>SCNLight</tag>
         <tag>SCNNode</tag>
+        <tag>SceneKit</tag>
       </tags>
   </entry>
   <entry>
@@ -1486,56 +1486,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI 控件之 ScrollView(一)</title>
-    <url>/posts/35d3a19e.html</url>
-    <content><![CDATA[<p>在 SwiftUI 中，<strong>ScrollView</strong> 是一个可滚动的视图。</p>
-<h4 id="创建一个-ScrollView"><a href="#创建一个-ScrollView" class="headerlink" title="创建一个 ScrollView"></a>创建一个 ScrollView</h4><p>当我们使用<code>ForEach</code> 循环创建超出一整个屏幕的内容时：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">      <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">          <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们使用<code>VStack</code>和<code>ForEach</code> 创建了 100 个<code>Text</code>，此时要显示的内容已经超出了一个屏幕所能显示的内容，我们无法看到超出屏幕范围的内容。为了解决这个问题，我们就可以在最外层嵌套一个<code>ScrollView</code>，让整个视图变成滚动显示的。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span> &#123;</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时，我们就可以通过上下滚动的方式查看所有的<code>Text</code> 了。</p>
-<span id="more"></span>
-
-<h4 id="ScrollView的相关配置"><a href="#ScrollView的相关配置" class="headerlink" title="ScrollView的相关配置"></a>ScrollView的相关配置</h4><h5 id="控制-ScrollView-的滚动位置"><a href="#控制-ScrollView-的滚动位置" class="headerlink" title="控制 ScrollView 的滚动位置"></a>控制 ScrollView 的滚动位置</h5><p>可以通过<code>defaultScrollAnchor</code> 修饰器配置<code>ScrollView</code>的开始滚动的起始位置，它支持以下几个位置：</p>
-<ul>
-<li><code>top</code> : 从顶部开始滚动；</li>
-<li><code>bottom</code> : 从底部开始滚动；</li>
-<li><code>center</code>： 从中间位置开始滚动；</li>
-<li><code>leading</code>: 从左侧开始滚动；</li>
-<li><code>trailing</code>： 从右侧开始滚动；</li>
-<li><code>topLeading</code>：从左上开始滚动；</li>
-<li><code>topTrailing</code>：从右上开始滚动；</li>
-<li><code>bottomLeading</code>：从左下开始滚动；</li>
-<li><code>bottomTrailing</code>：从右下开始滚动。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.defaultScrollAnchor(.center)</span><br></pre></td></tr></table></figure>
-
-<h5 id="控制-ScrollView-滚动的方向"><a href="#控制-ScrollView-滚动的方向" class="headerlink" title="控制 ScrollView 滚动的方向"></a>控制 ScrollView 滚动的方向</h5><p><strong>ScrollView</strong> 支持水平<code>horizontal</code>和垂直<code>vertical</code>方向的滚动。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span>(.vertical) &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="控制-ScrollView-滚动指示器的显示-隐藏"><a href="#控制-ScrollView-滚动指示器的显示-隐藏" class="headerlink" title="控制 ScrollView 滚动指示器的显示&#x2F;隐藏"></a>控制 ScrollView 滚动指示器的显示&#x2F;隐藏</h5><p><strong>ScrollView</strong> 滚动的时候，视图边缘会有一个滚动的指示器。可以使用<code>scrollIndicators</code> 修饰器来控制它的显示或者隐藏。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>hidden</code>: 表示隐藏；</li>
-<li><code>visible</code>: 表示显示；</li>
-<li><code>never</code>：和<code>hidden</code> 一致；</li>
-</ul>
-<p>指定水平或垂直方向上的显示或者隐藏：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden, axes: [.horizontal])</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 基础</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>ScrollView</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SwiftUI中的基础动画和过渡（三）</title>
     <url>/posts/9d6e228c.html</url>
     <content><![CDATA[<p>在之前关于<strong>隐式动画</strong>和<strong>显式动画</strong>的文章中，我们都是将动画添加给一个已经存在的视图。在 SwiftUI，它允许我们去定义一个视图的出现和移除，这被叫做<strong>过渡（Transitions）</strong>。</p>
@@ -1585,6 +1535,56 @@
         <tag>SwiftUI</tag>
         <tag>withAnimation</tag>
         <tag>Animation</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI 控件之 ScrollView(一)</title>
+    <url>/posts/35d3a19e.html</url>
+    <content><![CDATA[<p>在 SwiftUI 中，<strong>ScrollView</strong> 是一个可滚动的视图。</p>
+<h4 id="创建一个-ScrollView"><a href="#创建一个-ScrollView" class="headerlink" title="创建一个 ScrollView"></a>创建一个 ScrollView</h4><p>当我们使用<code>ForEach</code> 循环创建超出一整个屏幕的内容时：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">      <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">          <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们使用<code>VStack</code>和<code>ForEach</code> 创建了 100 个<code>Text</code>，此时要显示的内容已经超出了一个屏幕所能显示的内容，我们无法看到超出屏幕范围的内容。为了解决这个问题，我们就可以在最外层嵌套一个<code>ScrollView</code>，让整个视图变成滚动显示的。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span> &#123;</span><br><span class="line">            <span class="type">VStack</span> &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="number">0</span><span class="operator">..&lt;</span><span class="number">100</span>) &#123; index <span class="keyword">in</span></span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;当前行<span class="subst">\(index)</span>&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们就可以通过上下滚动的方式查看所有的<code>Text</code> 了。</p>
+<span id="more"></span>
+
+<h4 id="ScrollView的相关配置"><a href="#ScrollView的相关配置" class="headerlink" title="ScrollView的相关配置"></a>ScrollView的相关配置</h4><h5 id="控制-ScrollView-的滚动位置"><a href="#控制-ScrollView-的滚动位置" class="headerlink" title="控制 ScrollView 的滚动位置"></a>控制 ScrollView 的滚动位置</h5><p>可以通过<code>defaultScrollAnchor</code> 修饰器配置<code>ScrollView</code>的开始滚动的起始位置，它支持以下几个位置：</p>
+<ul>
+<li><code>top</code> : 从顶部开始滚动；</li>
+<li><code>bottom</code> : 从底部开始滚动；</li>
+<li><code>center</code>： 从中间位置开始滚动；</li>
+<li><code>leading</code>: 从左侧开始滚动；</li>
+<li><code>trailing</code>： 从右侧开始滚动；</li>
+<li><code>topLeading</code>：从左上开始滚动；</li>
+<li><code>topTrailing</code>：从右上开始滚动；</li>
+<li><code>bottomLeading</code>：从左下开始滚动；</li>
+<li><code>bottomTrailing</code>：从右下开始滚动。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.defaultScrollAnchor(.center)</span><br></pre></td></tr></table></figure>
+
+<h5 id="控制-ScrollView-滚动的方向"><a href="#控制-ScrollView-滚动的方向" class="headerlink" title="控制 ScrollView 滚动的方向"></a>控制 ScrollView 滚动的方向</h5><p><strong>ScrollView</strong> 支持水平<code>horizontal</code>和垂直<code>vertical</code>方向的滚动。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ScrollView</span>(.vertical) &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="控制-ScrollView-滚动指示器的显示-隐藏"><a href="#控制-ScrollView-滚动指示器的显示-隐藏" class="headerlink" title="控制 ScrollView 滚动指示器的显示&#x2F;隐藏"></a>控制 ScrollView 滚动指示器的显示&#x2F;隐藏</h5><p><strong>ScrollView</strong> 滚动的时候，视图边缘会有一个滚动的指示器。可以使用<code>scrollIndicators</code> 修饰器来控制它的显示或者隐藏。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>hidden</code>: 表示隐藏；</li>
+<li><code>visible</code>: 表示显示；</li>
+<li><code>never</code>：和<code>hidden</code> 一致；</li>
+</ul>
+<p>指定水平或垂直方向上的显示或者隐藏：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scrollIndicators(.hidden, axes: [.horizontal])</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 基础</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>ScrollView</tag>
       </tags>
   </entry>
   <entry>
@@ -1883,6 +1883,123 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI之实现App Store的Hero动画</title>
+    <url>/posts/cce56264.html</url>
+    <content><![CDATA[<p>最终实现的效果如下：</p>
+<p><video width="30%" controls="controls" src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311280835667.mp4"></video></p>
+<span id="more"></span>
+
+<h3 id="创建头部视图"><a href="#创建头部视图" class="headerlink" title="创建头部视图"></a>创建头部视图</h3><p>定义一个名为<code>HeaderView.swift</code>的文件，在这个文件里面编写头部视图的代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">HeaderView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">VStack</span>(spacing: <span class="number">30</span>, content: &#123;</span><br><span class="line">            <span class="type">HStack</span>(alignment: .top ,content: &#123;</span><br><span class="line">                <span class="type">VStack</span>(alignment: .leading ,spacing: <span class="number">8</span>, content: &#123;</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;Today&quot;</span>)</span><br><span class="line">                        .font(.title.bold())</span><br><span class="line">                    <span class="type">Text</span>(<span class="string">&quot;26 November&quot;</span>)</span><br><span class="line">                        .font(.callout.bold())</span><br><span class="line">                        .opacity(<span class="number">0.8</span>)</span><br><span class="line">                &#125;)</span><br><span class="line">                .frame(maxWidth: .infinity, alignment: .leading)</span><br><span class="line">                <span class="type">Image</span>(<span class="string">&quot;post1&quot;</span>)</span><br><span class="line">                    .resizable()</span><br><span class="line">                    .scaledToFill()</span><br><span class="line">                    .frame(width: <span class="number">40</span>, height: <span class="number">40</span>)</span><br><span class="line">                    .clipShape(<span class="type">Circle</span>())</span><br><span class="line">            &#125;)</span><br><span class="line">            .padding(.horizontal)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="通过-ViewBuilder定义一个函数用来实现一个-CardView"><a href="#通过-ViewBuilder定义一个函数用来实现一个-CardView" class="headerlink" title="通过@ViewBuilder定义一个函数用来实现一个 CardView"></a>通过@ViewBuilder定义一个函数用来实现一个 CardView</h3><p>首先，定义一个模型数据用来统一管理卡片数据：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">CardModel</span>: <span class="title class_">Identifiable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">var</span> appName:<span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> appDescription:<span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> appLogo: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> bannerTitle: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> platformTitle: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> artwork:<span class="type">String</span></span><br><span class="line">  	<span class="keyword">var</span> color: <span class="type">Color</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义<code>CardView</code>函数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ViewBuilder</span></span><br><span class="line">   <span class="keyword">func</span> <span class="title function_">CardView</span>(<span class="params">item</span>: <span class="type">CardModel</span>) -&gt; <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">VStack</span>(alignment: .leading, spacing:<span class="number">0</span>, content: &#123;</span><br><span class="line">           <span class="type">ZStack</span>(alignment: .topLeading, content: &#123;</span><br><span class="line">               <span class="type">GeometryReader</span>(content: &#123; geometry <span class="keyword">in</span></span><br><span class="line">                   <span class="keyword">let</span> size <span class="operator">=</span> geometry.size</span><br><span class="line">                   <span class="type">Image</span>(item.artwork)</span><br><span class="line">                       .resizable()</span><br><span class="line">                       .aspectRatio(contentMode: .fill)</span><br><span class="line">                       .frame(width: size.width, height: size.height)</span><br><span class="line">                       .clipped()</span><br><span class="line">                   </span><br><span class="line">                   <span class="type">VStack</span>(alignment: .leading, content: &#123;</span><br><span class="line">                       <span class="type">Spacer</span>()</span><br><span class="line">                       <span class="type">Text</span>(item.platformTitle)</span><br><span class="line">                           .font(.callout.bold())</span><br><span class="line">                       <span class="type">Text</span>(item.bannerTitle)</span><br><span class="line">                           .font(.title.bold())</span><br><span class="line">                       <span class="type">Text</span>(item.appDescription)</span><br><span class="line">                           .font(.title3.bold())</span><br><span class="line">                   &#125;)</span><br><span class="line">                   .frame(maxWidth: .infinity, alignment: .leading)</span><br><span class="line">                   .padding()</span><br><span class="line">                   .foregroundStyle(.white)</span><br><span class="line">                   .background(<span class="type">LinearGradient</span>(colors: [<span class="type">Color</span>.clear, item.color.opacity(<span class="number">0.8</span>)], startPoint: .top, endPoint: .bottom)) <span class="comment">// 设置渐变背景</span></span><br><span class="line">               &#125;)</span><br><span class="line">               .frame(height: <span class="number">400</span>)</span><br><span class="line">               <span class="comment">//.clipShape(.rect(cornerRadius: 20))</span></span><br><span class="line">               .clipShape(.rect(topLeadingRadius: <span class="number">20</span>, topTrailingRadius: <span class="number">20</span>)) <span class="comment">// 设置上边两个角的圆角</span></span><br><span class="line">           &#125;)</span><br><span class="line">           <span class="type">HStack</span>(spacing: <span class="number">12</span>, content: &#123;</span><br><span class="line">               <span class="type">Image</span>(item.appLogo)</span><br><span class="line">                   .resizable()</span><br><span class="line">                   .aspectRatio(contentMode: .fill)</span><br><span class="line">                   .frame(width: <span class="number">50</span>, height: <span class="number">50</span>)</span><br><span class="line">                   .clipShape(.rect(cornerRadius: <span class="number">15</span>))</span><br><span class="line">               <span class="type">VStack</span>( alignment: .leading, spacing: <span class="number">4</span>, content: &#123;</span><br><span class="line">                   <span class="type">Text</span>(item.platformTitle)</span><br><span class="line">                       .font(.caption.bold())</span><br><span class="line">                   <span class="type">Text</span>(item.bannerTitle)</span><br><span class="line">                       .font(.title3.bold())</span><br><span class="line">                   <span class="type">Text</span>(item.appDescription)</span><br><span class="line">                       .font(.caption.bold())</span><br><span class="line">               &#125;)</span><br><span class="line">               .foregroundStyle(.white)</span><br><span class="line">               </span><br><span class="line">               <span class="type">Spacer</span>()</span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   </span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">Text</span>(<span class="string">&quot;GET&quot;</span>)</span><br><span class="line">                       .fontWeight(.bold)</span><br><span class="line">                       .foregroundStyle(.blue)</span><br><span class="line">                       .padding(.vertical, <span class="number">8</span>)</span><br><span class="line">                       .padding(.horizontal, <span class="number">20</span>)</span><br><span class="line">                       .background &#123;</span><br><span class="line">                           <span class="type">Capsule</span>()</span><br><span class="line">                               .fill(.ultraThinMaterial)</span><br><span class="line">                       &#125;</span><br><span class="line">               &#125;)</span><br><span class="line">           &#125;)</span><br><span class="line">           .padding()</span><br><span class="line">           .background(item.color)</span><br><span class="line">           .clipShape(.rect(bottomLeadingRadius: <span class="number">20</span>, bottomTrailingRadius: <span class="number">20</span>))</span><br><span class="line">       &#125;)</span><br><span class="line">       .padding(.horizontal)</span><br><span class="line">       .padding(.bottom)</span><br><span class="line">      </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="在-ContentView-页面将HeaderView和CardView进行组合"><a href="#在-ContentView-页面将HeaderView和CardView进行组合" class="headerlink" title="在 ContentView 页面将HeaderView和CardView进行组合"></a>在 ContentView 页面将<code>HeaderView</code>和<code>CardView</code>进行组合</h3><p>首先，定义一个元素类型为<code>CardModel</code>的数组：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> cardItems: [<span class="type">CardModel</span>] <span class="operator">=</span> [</span><br><span class="line">    <span class="type">CardModel</span>(appName: <span class="string">&quot;Hello Kitty Island Adventure&quot;</span>, appDescription: <span class="string">&quot;Island Advanture awaits&quot;</span>, appLogo: <span class="string">&quot;logo1&quot;</span>, bannerTitle: <span class="string">&quot;Adventure with Hello Kitty!&quot;</span>, platformTitle: <span class="string">&quot;Apple Arcade&quot;</span>, artwork: <span class="string">&quot;post1&quot;</span>, color: <span class="type">Color</span>.pink),</span><br><span class="line">    <span class="type">CardModel</span>(appName: <span class="string">&quot;Lies of P&quot;</span>, appDescription: <span class="string">&quot;Deception Shatters Innocence&quot;</span>, appLogo: <span class="string">&quot;logo2&quot;</span>, bannerTitle: <span class="string">&quot;Lies of P&quot;</span>, platformTitle: <span class="string">&quot;Apple Arcade&quot;</span>, artwork: <span class="string">&quot;post2&quot;</span>, color: <span class="type">Color</span>.black),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>接着，就是在<code>ContentView</code>的<code>body</code>部分进行布局：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollView</span>(showsIndicators: <span class="literal">false</span>, content: &#123;</span><br><span class="line">           <span class="comment">// 头部</span></span><br><span class="line">           <span class="type">HeaderView</span>()</span><br><span class="line">           <span class="type">ForEach</span>(cardItems) &#123; item <span class="keyword">in</span></span><br><span class="line">               <span class="type">CardView</span>(item: item)</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;)</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时的效果如下：</p>
+<img data-src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202311280837429.png" style="zoom:20%"/>
+
+
+
+<h3 id="自定义一个按钮样式"><a href="#自定义一个按钮样式" class="headerlink" title="自定义一个按钮样式"></a>自定义一个按钮样式</h3><p>首先将<code>CardView</code>作为<code>Button</code>的<code>label</code>部分进行包裹，让它可以被进行点击：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">ForEach</span>(cardItems) &#123; item <span class="keyword">in</span></span><br><span class="line">               <span class="type">Button</span>(action: &#123;</span><br><span class="line">                   </span><br><span class="line">               &#125;, label: &#123;</span><br><span class="line">                   <span class="type">CardView</span>(item: item)</span><br><span class="line">                       .multilineTextAlignment(.leading)</span><br><span class="line">               &#125;)</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着就是通过实现<code>ButtonStyle</code>实现一个新的按钮样式：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ScaleButtonStyle</span>: <span class="title class_">ButtonStyle</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">makeBody</span>(<span class="params">configuration</span>: <span class="type">Configuration</span>) -&gt; <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        configuration.label</span><br><span class="line">            .scaleEffect(configuration.isPressed <span class="operator">?</span> <span class="number">0.94</span> : <span class="number">1</span>) <span class="comment">// 添加点击之后的缩放效果</span></span><br><span class="line">            .animation(.easeInOut, value: configuration.isPressed) </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后将<code>CardView</code>外层的<code>button</code>添加这个风格：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.buttonStyle(<span class="type">ScaleButtonStyle</span>())</span><br></pre></td></tr></table></figure>
+
+<p>此时，当我们再次点击任意一个<code>CardView</code>后将会有一个缩放的效果。</p>
+<h3 id="显示详情页"><a href="#显示详情页" class="headerlink" title="显示详情页"></a>显示详情页</h3><p>首先，删除添加到<code>CardView</code>中<code>ZStack</code>的下面两个修饰器：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.padding(.horizontal)</span><br><span class="line">.padding(.bottom)</span><br></pre></td></tr></table></figure>
+
+<p>在头部定义两个状态变量：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">var</span> currentModel: <span class="type">CardModel</span>?</span><br><span class="line"><span class="meta">@State</span> <span class="keyword">var</span> showDetail: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span> </span><br></pre></td></tr></table></figure>
+
+<p>给<code>CardView</code>添加一个<code>scaleEffect</code>修饰器：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.scaleEffect(currentModel<span class="operator">?</span>.id <span class="operator">==</span> item.id <span class="operator">&amp;&amp;</span> showDetail <span class="operator">?</span> <span class="number">1.0</span> : <span class="number">0.90</span>) </span><br></pre></td></tr></table></figure>
+
+<p>在按钮的<code>action</code>部分使用<code>withAnimation</code>添加动画：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">withAnimation(.interactiveSpring(response: <span class="number">0.6</span>, dampingFraction: <span class="number">0.7</span>, blendDuration: <span class="number">0.7</span>)) &#123;</span><br><span class="line">                        currentModel <span class="operator">=</span> item</span><br><span class="line">                        showDetail <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>给<code>ScrollView</code>添加一个<code>overlay</code>，然后在里面显示详情页面。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.overlay &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> currentModel <span class="operator">=</span> currentModel, showDetail  &#123;</span><br><span class="line">                 <span class="type">DetailView</span>(item: currentModel)</span><br><span class="line">                    .ignoresSafeArea(edges: [.top]) <span class="comment">// 忽略顶部的安全区</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>DetailView</code>依然使用函数的方式实现：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ViewBuilder</span></span><br><span class="line">   <span class="keyword">func</span> <span class="title function_">DetailView</span>(<span class="params">item</span>: <span class="type">CardModel</span>) -&gt; <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">       <span class="type">ScrollView</span>(.vertical, showsIndicators: <span class="literal">false</span>) &#123;</span><br><span class="line">           <span class="type">VStack</span> &#123;</span><br><span class="line">               <span class="type">CardView</span>(item: item)</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       .transition(.identity)</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在头部定义一个<code>Namespace</code>的变量：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Namespace</span> <span class="keyword">var</span> animation</span><br></pre></td></tr></table></figure>
+
+<p>将这个变量给到<code>CardView</code>：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.matchedGeometryEffect(id: item.id, in: animation)</span><br></pre></td></tr></table></figure>
+
+<p>此时点击<code>CardView</code>的话已经能看到一个简单的动画效果了。</p>
+<p>新增一个状态变量用来记录当前是否是详情页面：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">var</span> isAniamtionView: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>当<code>DetailView</code>页面出现的时候将这个值赋值为<code>true</code>，即：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.onAppear &#123;</span><br><span class="line">            withAnimation(.interactiveSpring(response: <span class="number">0.6</span>, dampingFraction: <span class="number">0.7</span>, blendDuration: <span class="number">0.7</span>)) &#123;</span><br><span class="line">                isAniamtionView <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外就是隐藏其他的<code>CardView</code>和取消底部的圆角，即给<code>ForEach</code>的 <code>Button</code>添加<code>opacity</code>修饰器：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.opacity(showDetail <span class="operator">?</span> (currentModel<span class="operator">?</span>.id <span class="operator">==</span>  item.id <span class="operator">?</span> <span class="number">1</span> : <span class="number">0</span>) : <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>CardView</code>的<code>clipShape</code>修饰器：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.clipShape(.rect(bottomLeadingRadius: isAniamtionView <span class="operator">?</span>  <span class="number">0</span> : <span class="number">20</span> , bottomTrailingRadius: isAniamtionView <span class="operator">?</span> <span class="number">0</span> : <span class="number">20</span>))</span><br></pre></td></tr></table></figure>
+
+<p>在<code>DetailView</code>的右上角添加一个关闭的按钮，点击后关闭详情页。这里可以使用添加一个<code>overlay</code>来实现：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.overlay(alignment: .topTrailing ,content: &#123;</span><br><span class="line">            <span class="type">Button</span>(action: &#123;</span><br><span class="line">                withAnimation(.interactiveSpring(response: <span class="number">0.6</span>, dampingFraction: <span class="number">0.7</span>, blendDuration: <span class="number">0.7</span>)) &#123;</span><br><span class="line">                    isAniamtionView <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                withAnimation(.interactiveSpring(response: <span class="number">0.6</span>, dampingFraction: <span class="number">0.7</span>, blendDuration: <span class="number">0.7</span>).delay(<span class="number">0.05</span>)) &#123;</span><br><span class="line">                    currentModel <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">                    showDetail <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, label: &#123;</span><br><span class="line">                <span class="type">Image</span>(systemName: <span class="string">&quot;xmark.circle.fill&quot;</span>)</span><br><span class="line">                    .font(.title)</span><br><span class="line">                    .foregroundStyle(.white)</span><br><span class="line">                    .padding(.trailing, <span class="number">12</span>)</span><br><span class="line">              			.padding(.top, <span class="number">36</span>)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>接着，给<code>DetailView</code>的详情页面添加内容介绍。在<code>DeatilView</code>的<code>CardView</code>下面添加介绍和分享按钮：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">VStack</span>(spacing: <span class="number">25</span>, content: &#123;</span><br><span class="line">                    <span class="type">Text</span>(dummyText)</span><br><span class="line">                        .multilineTextAlignment(.leading)</span><br><span class="line">                        .lineSpacing(<span class="number">10</span>)</span><br><span class="line">                        .padding(.bottom, <span class="number">20</span>)</span><br><span class="line">                        .padding(.horizontal, <span class="number">10</span>)</span><br><span class="line">                    </span><br><span class="line">                    <span class="type">Divider</span>()</span><br><span class="line">                    <span class="type">Button</span>(action: &#123;</span><br><span class="line">                        </span><br><span class="line">                    &#125;, label: &#123;</span><br><span class="line">                        <span class="type">Label</span>(</span><br><span class="line">                            title: &#123; <span class="type">Text</span>(<span class="string">&quot;Share Story&quot;</span>) &#125;,</span><br><span class="line">                            icon: &#123; <span class="type">Image</span>(systemName: <span class="string">&quot;suqare.and.arrow.up.fill&quot;</span>) &#125;</span><br><span class="line">                        )</span><br><span class="line">                        .foregroundStyle(.black)</span><br><span class="line">                        .padding(.vertical, <span class="number">5</span>)</span><br><span class="line">                        .padding(.horizontal, <span class="number">25</span>)</span><br><span class="line">                        .background&#123;</span><br><span class="line">                            <span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">10</span>, style: .continuous)</span><br><span class="line">                                .fill(.ultraThinMaterial)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>到此基本的动画效果就完成了，后续可以给介绍的文字也添加动画。</p>
+]]></content>
+      <categories>
+        <category>SwiftUI 进阶</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>withAnimation</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI之绘制自定义形状</title>
+    <url>/posts/8c78197a.html</url>
+    <content><![CDATA[<p>在之前一片文章中，我们介绍了 SwiftUI 中内置的一些图形形状。在一些特殊的工能需求下，我们需要自定义去绘制一些形状，例如五角星⭐️，多边形。</p>
+<h3 id="自定义路径"><a href="#自定义路径" class="headerlink" title="自定义路径"></a>自定义路径</h3><p>在 SwiftUI 中可以使用 <span style="color:red"><code>Shape</code></span>协议自定义路径。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 自定义一个结构体，实现 Shape 协议</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DrawRectangleShape</span>: <span class="title class_">Shape</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">path</span>(<span class="params">in</span> <span class="params">rect</span>: <span class="type">CGRect</span>) -&gt; <span class="type">Path</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> path <span class="operator">=</span> <span class="type">Path</span>()</span><br><span class="line">        path.addRect(rect)</span><br><span class="line">        <span class="keyword">return</span> path</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们自定义了一个实现 <code>Shape</code> 协议的结构体类型，在这个自定义的结构体中我们需要实现一个 <code>path(in:)</code>的协议方法，这个方法要求我们返回一个 <code>Path</code>对象，即我们要绘制的形状路径。</p>
+ <span id="more"></span>
+
+<p>在上面的这个例子中，我们直接将传进来的 <code>rect</code> 添加到绘制的路径中。具体表现为下面的代码绘制的是一个红色矩形：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以及下面的代码绘制结果看起来像是一根红色的线，因为绘制的图像的形状高度为 1。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>SwiftUI 进阶</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+        <tag>自定义形状</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI之形状绘制</title>
     <url>/posts/69def74.html</url>
     <content><![CDATA[<p>在 SwiftUI 中，可以使用内置的形状或者根据路径自定义形状。</p>
@@ -1917,31 +2034,6 @@
       <tags>
         <tag>SwiftUI</tag>
         <tag>形状</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI之绘制自定义形状</title>
-    <url>/posts/8c78197a.html</url>
-    <content><![CDATA[<p>在之前一片文章中，我们介绍了 SwiftUI 中内置的一些图形形状。在一些特殊的工能需求下，我们需要自定义去绘制一些形状，例如五角星⭐️，多边形。</p>
-<h3 id="自定义路径"><a href="#自定义路径" class="headerlink" title="自定义路径"></a>自定义路径</h3><p>在 SwiftUI 中可以使用 <span style="color:red"><code>Shape</code></span>协议自定义路径。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 自定义一个结构体，实现 Shape 协议</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">DrawRectangleShape</span>: <span class="title class_">Shape</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">path</span>(<span class="params">in</span> <span class="params">rect</span>: <span class="type">CGRect</span>) -&gt; <span class="type">Path</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> path <span class="operator">=</span> <span class="type">Path</span>()</span><br><span class="line">        path.addRect(rect)</span><br><span class="line">        <span class="keyword">return</span> path</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的代码中，我们自定义了一个实现 <code>Shape</code> 协议的结构体类型，在这个自定义的结构体中我们需要实现一个 <code>path(in:)</code>的协议方法，这个方法要求我们返回一个 <code>Path</code>对象，即我们要绘制的形状路径。</p>
- <span id="more"></span>
-
-<p>在上面的这个例子中，我们直接将传进来的 <code>rect</code> 添加到绘制的路径中。具体表现为下面的代码绘制的是一个红色矩形：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
-
-<p>以及下面的代码绘制结果看起来像是一根红色的线，因为绘制的图像的形状高度为 1。</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">DrawRectangleShape</span>()</span><br><span class="line">            .fill(.red)</span><br><span class="line">            .frame(width: <span class="number">200</span>, height: <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>SwiftUI 进阶</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-        <tag>自定义形状</tag>
       </tags>
   </entry>
   <entry>
