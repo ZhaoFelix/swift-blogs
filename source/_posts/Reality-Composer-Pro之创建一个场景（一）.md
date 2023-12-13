@@ -22,6 +22,8 @@ categories: [Reality Composer Pro]
 
 <img src="https://swift-blogs.oss-cn-shanghai.aliyuncs.com/202312071419118.png" style="zoom:30%"/>
 
+<!--more-->
+
 ### 使用 Reality Composer Pro 创建项目或者场景
 
 打开**Reality Composer Pro **后，有三个操作选项，分别是：
